@@ -9,7 +9,7 @@ commands:
   apk:
   playdemo:
     description: play demo of player in this parkour
-    usage: /playdemo <player>
+    usage: /playdemo [nick]/"best" [slowmode]
   showlasttry:
     description: plays demo of last try in parkour
     usage: /showlasttry
