@@ -21,13 +21,7 @@ public class PlayDemoCommand implements CommandExecutor {
         String bestPlayerName = args[0];
         int slowMotion = 1;
 
-        if (args.length == 1) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"skin set " + player.getName() +" "+ bestPlayerName);
-            ParkourPlugin.positionSaver.playDemo(player,ParkourPlugin.positionSaver.getDemo(Bukkit.getOfflinePlayer(bestPlayerName),
-                    parkour), slowMotion);
-        }
-
-        if (args.length == 2 ) {
+        if (args.length > 1){
             slowMotion = Integer.parseInt(args[1]);
             if (slowMotion > 5){
                 player.sendMessage("Za duże spowolnienie!");
@@ -35,9 +29,9 @@ public class PlayDemoCommand implements CommandExecutor {
             }
         }
         if (parkour == null) return false;
-        if (args[0].equals("best")) {
+        if (args[0].equals("best")){
             File path = new File(parkour.folderName + File.separator + "demos");
-            if (path.listFiles() == null) {
+            if (path.listFiles() == null){
                 player.sendMessage("Brak żadnych demek graczy, bądź pierwszy!");
                 return true;
             }
@@ -57,9 +51,11 @@ public class PlayDemoCommand implements CommandExecutor {
 
         } else if (!new File(parkour.folderName + File.separator + "demos"+File.separator + args[0] + ".txt").exists()) {
             player.sendMessage("Brak zapisanego przejścia tego gracza");
-            return false;
+            return true;
         }
-
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"skin set " + player.getName() +" "+ bestPlayerName);
+        ParkourPlugin.positionSaver.playDemo(player,ParkourPlugin.positionSaver.getDemo(Bukkit.getOfflinePlayer(bestPlayerName),
+                parkour), slowMotion);
         return true;
     }
 }
