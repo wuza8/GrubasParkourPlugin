@@ -29,50 +29,17 @@ public class UnderPlayerBlockWatcher implements Listener {
             return newList;
         }
     }
-    private boolean isBlockSwimable(Block block){
-        return block.getType() == Material.LAVA || block.getType() == Material.WATER;
-    }
+
 
     @EventHandler
     public void onAnyPlayerMove(PlayerMoveEvent event){
         Location location = event.getTo();
-        Location locationUnder = location.clone().add(0,-0.6,0);
-        int deltaX = 0;
-        int deltaZ = 0;
-
-        if (((int)(location.getX() - 0.3)) < ((int)location.getX())) deltaX = -1;
-        else if(((int)(location.getX() + 0.3)) > ((int)location.getX())) deltaX = 1;
-
-        if (((int)(location.getZ() - 0.3)) < ((int)location.getZ())) deltaZ = -1;
-        else if(((int)(location.getZ() + 0.3)) > ((int)location.getZ())) deltaZ = 1;
-
-        List<Block> blockList = new ArrayList<>();
-
-        if (locationUnder.getBlock().isPassable()) { //---------
-            if (deltaZ != 0) /// 1
-                blockList.add(locationUnder.clone().add(0, 0, deltaZ).getBlock());
-            if (deltaX != 0) /// 2
-                blockList.add(locationUnder.clone().add(deltaX, 0, 0).getBlock());
-            if (deltaX != 0 && deltaZ != 0) /// 3
-                blockList.add(locationUnder.clone().add(deltaX, 0, deltaZ).getBlock());
-        }
-        blockList.add(locationUnder.getBlock()); //---------
+        List<Material> materialList = SpecialBlockFinder.getCollidingBlockMaterials(location);
         
         for(OnNewBlockPlayerStandObserver observer : getPlayerObservers(event.getPlayer())){
-            observer.playerStandOnNewBlock(blockList);
+            observer.playerStandOnNewBlock(materialList);
         }
     }
-    private List<Block> constructBlockList(boolean swimable, Location location, int deltaX, int deltaZ){
-        List<Block> blockList = new ArrayList<>();
-        Location locationUnder;
-        if(!swimable) locationUnder = location.clone().add(0,-0.6,0);
-        else locationUnder = location;
-
-
-
-        return null;
-    }
-
 
 
 }

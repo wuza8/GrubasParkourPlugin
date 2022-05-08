@@ -40,7 +40,11 @@ public class ParkourPlugin extends JavaPlugin {
         plugin = this;
         uuidList.loadList();
         uuidList.loadPlayerNames();
+
+        long time = System.currentTimeMillis();
         parkourSet.loadParkours(parkourSet.parkoursFolder);
+        System.out.println("ładowanie wszystkich parkourów zajęło "+ (System.currentTimeMillis()-time) + "ms");
+
         lobby.loadLobbyLocation(lobby.directory);
         lobby.runTeleportToLobbyAllTask();
         CommandExecutorSetter.setExecutors(this);

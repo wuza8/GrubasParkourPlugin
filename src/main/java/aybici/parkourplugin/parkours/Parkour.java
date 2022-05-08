@@ -216,7 +216,7 @@ public class Parkour{
         }
     }
     public void loadParkour(String directory) {
-        Bukkit.getLogger().info(directory);
+        //Bukkit.getLogger().info(directory);
         if (!new File(directory + dataFileNameInsideFolder).exists()){
             getLogger().info("Missing file: " + directory + dataFileNameInsideFolder);
             return;
@@ -228,12 +228,12 @@ public class Parkour{
             reader.close();
             fileReader.close();
 
-            //getLogger().info("wczytano parkour:\n      pkName = " + name + "\n      location = " + location.toString()
-            //        + "\n      backBlocks = " + backBlocks);
+//            getLogger().info("wczytano parkour:\n      pkName = " + name + "\n      location = " + location.toString()
+//                    + "\n      backBlocks = " + backBlocks);
 
             File topListFile = new File(directory + topList.fileNameInsideFolder);
             if (topListFile.exists()) {
-                //getLogger().info("Wczytywanie topek...");
+//                getLogger().info("Wczytywanie topek...");
                 topList.loadTopListString(directory);
             }
         } catch(IOException a){

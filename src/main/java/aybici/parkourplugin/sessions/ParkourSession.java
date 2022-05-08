@@ -162,13 +162,8 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     }
 
     @Override
-    public void playerStandOnNewBlock(List<Block> blockList) {
+    public void playerStandOnNewBlock(List<Material> materialList) {
         if (parkourPlayerOn == null) return;
-        List<Material> materialList = new ArrayList<>();
-        for (Block block : blockList){
-            if (!materialList.contains(block.getType()))
-            materialList.add(block.getType());
-        }
 
         if(materialList.contains(Material.LIME_WOOL)) {
             try {
