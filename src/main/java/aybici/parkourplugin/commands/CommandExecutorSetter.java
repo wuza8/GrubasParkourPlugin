@@ -82,6 +82,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "desc",
+                "[append]",
+                "sets or append description of parkour",
+                new DescriptionCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "addcp",
                 "",
                 "adds next checkpoint in player location",

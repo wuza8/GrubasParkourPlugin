@@ -11,10 +11,11 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-public class PlayDemoCommand implements CommandExecutor {
+public class PlayDemoCommand extends OnParkourCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
+        if (!isPlayerOnParkour(player)) return true;
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
 
         if (args.length == 0) return false;

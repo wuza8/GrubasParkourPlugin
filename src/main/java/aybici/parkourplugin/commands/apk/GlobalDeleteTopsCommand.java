@@ -3,18 +3,14 @@ package aybici.parkourplugin.commands.apk;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.Parkour;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class GlobalDeleteTopsCommand implements CommandExecutor {
+public class GlobalDeleteTopsCommand extends AdminParkourCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
-        if (!sender.hasPermission(ParkourPlugin.permissionSet.apkPermission)) {
-            sender.sendMessage(ChatColor.RED + "Nie masz dostępu do komend admin-parkour!");
-            return true;
-        }
+        if (!SenderHasPermission(sender)) return true;
         if (true){
             sender.sendMessage("nie ma opcji");
             return false;

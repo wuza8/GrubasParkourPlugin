@@ -4,7 +4,6 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.TopLine;
 import aybici.parkourplugin.parkours.TopList;
 import aybici.parkourplugin.sessions.ParkourSession;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,16 +13,14 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.List;
 
-public class DeleteTopsCommand implements CommandExecutor {
+public class DeleteTopsCommand extends AdminParkourCommand implements CommandExecutor  {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
         Player player = (Player) sender;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
 
-        if (!player.hasPermission(ParkourPlugin.permissionSet.apkPermission)) {
-            player.sendMessage(ChatColor.RED + "Nie masz dostępu do komend admin-parkour!");
-            return true;
-        }
+        if (!SenderHasPermission(sender)) return true;
+        if (!isPlayerOnParkour(player)) return true;
         /*if(!(player.getName().equals("rycerz125") || player.getName().equals("Parkourowiecc"))) {
             player.sendMessage("nei ma opcji");
             return true;

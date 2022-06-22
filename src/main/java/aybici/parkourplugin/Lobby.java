@@ -75,6 +75,10 @@ public class Lobby {
         player.setGameMode(GameMode.ADVENTURE);
     }
     public void runTeleportToLobbyAllTask(){
+        if (lobbyLocation == null){
+            getLogger().info("Proszę ustawić lobby komendą \"/setobby\"");
+            return;
+        }
         lobbyTask = new BukkitRunnable(){
             @Override
             public void run() {

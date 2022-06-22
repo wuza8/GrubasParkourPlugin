@@ -199,7 +199,7 @@ public class Parkour{
         writer.write(location.getZ()+"\n");
         writer.write(location.getYaw()+"\n");
         writer.write(location.getPitch()+"\n");
-        writer.write(location.getWorld().getName()+"\n");
+        writer.write(Objects.requireNonNull(location.getWorld()).getName()+"\n");
         writer.write(name+"\n");
         writer.write(category.toString()+"\n");
         writer.write(identifier+"\n");

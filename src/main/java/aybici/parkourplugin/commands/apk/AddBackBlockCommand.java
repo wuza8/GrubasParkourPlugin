@@ -1,25 +1,22 @@
 package aybici.parkourplugin.commands.apk;
 
-import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.ParkourPlugin;
-import org.bukkit.ChatColor;
+import aybici.parkourplugin.parkours.Parkour;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AddBackBlockCommand implements CommandExecutor {
+public class AddBackBlockCommand extends AdminParkourCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
+
+        if (!SenderHasPermission(sender)) return true;
+        if (!isPlayerOnParkour(player)) return true;
+
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
-
-        if (!player.hasPermission(ParkourPlugin.permissionSet.apkPermission)) {
-            player.sendMessage(ChatColor.RED + "Nie masz dostępu do komend admin-parkour!");
-            return true;
-        }
-
         if(parkour == null) {
             sender.sendMessage("You need to join parkour to use this command!");
             return false;

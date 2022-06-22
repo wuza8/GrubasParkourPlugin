@@ -1,6 +1,7 @@
 package aybici.parkourplugin.commands.times;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.commands.OnParkourCommand;
 import aybici.parkourplugin.parkours.DisplayingTimesState;
 import aybici.parkourplugin.parkours.SortTimesType;
 import aybici.parkourplugin.sessions.ParkourSession;
@@ -9,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PrintTimesCommand implements CommandExecutor {
+public class PrintTimesCommand extends OnParkourCommand implements CommandExecutor {
     private DisplayingTimesState displayingTimesState;
 
     public PrintTimesCommand(DisplayingTimesState displayingTimesState){
@@ -19,6 +20,7 @@ public class PrintTimesCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
         Player player = (Player) sender;
+        if (!isPlayerOnParkour(player)) return true;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         int page = 1;
         SortTimesType sortTimesType;

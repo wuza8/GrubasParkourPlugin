@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PkQuitCommand implements CommandExecutor {
+public class PkQuitCommand extends OnParkourCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
@@ -15,6 +15,7 @@ public class PkQuitCommand implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "Nie masz permisji, żeby wyjść z parkoura!");
             return true;
         }
+        if (!isPlayerOnParkour(player)) return true;
         player.sendMessage("Opuszczono parkour");
         ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
         ParkourPlugin.positionSaver.stop(player);
