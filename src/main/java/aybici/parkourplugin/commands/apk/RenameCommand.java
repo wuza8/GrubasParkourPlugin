@@ -17,10 +17,6 @@ public class RenameCommand extends AdminParkourCommand implements CommandExecuto
 
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
 
-        if (!player.hasPermission(ParkourPlugin.permissionSet.apkPermission)) {
-            player.sendMessage(ChatColor.RED + "Nie masz dostępu do komend admin-parkour!");
-            return true;
-        }
 
         if (args.length != 1) return false;
         parkour.setName(args[0]);

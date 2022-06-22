@@ -83,8 +83,8 @@ public class CommandExecutorSetter {
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "desc",
-                "[append]",
-                "sets or append description of parkour",
+                "[append] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] []",
+                "sets or appends description of parkour",
                 new DescriptionCommand()
         ));
 

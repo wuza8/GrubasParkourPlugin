@@ -48,6 +48,10 @@ public class Parkour{
     public String getDescription(){
         return description;
     }
+    public void setDescription(String description){
+        this.description = description;
+        saveParkour(folderName + dataFileNameInsideFolder);
+    }
     public FailSet getFailSetObject(){
         return failSet;
     }

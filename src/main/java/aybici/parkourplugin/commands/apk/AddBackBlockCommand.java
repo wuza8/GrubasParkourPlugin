@@ -17,10 +17,6 @@ public class AddBackBlockCommand extends AdminParkourCommand implements CommandE
         if (!isPlayerOnParkour(player)) return true;
 
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
-        if(parkour == null) {
-            sender.sendMessage("You need to join parkour to use this command!");
-            return false;
-        }
 
         for(String materialName : args){
             try {
