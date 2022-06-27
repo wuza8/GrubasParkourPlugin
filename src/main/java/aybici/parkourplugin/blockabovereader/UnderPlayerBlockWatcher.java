@@ -37,7 +37,7 @@ public class UnderPlayerBlockWatcher implements Listener {
         List<Material> materialList = SpecialBlockFinder.getCollidingBlockMaterials(location);
         
         for(OnNewBlockPlayerStandObserver observer : getPlayerObservers(event.getPlayer())){
-            observer.playerStandOnNewBlock(materialList);
+            observer.playerStandOnNewBlock(materialList, event);
         }
     }
 

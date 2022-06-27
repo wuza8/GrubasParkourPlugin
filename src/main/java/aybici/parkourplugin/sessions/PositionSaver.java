@@ -1,7 +1,8 @@
-package aybici.parkourplugin;
+package aybici.parkourplugin.sessions;
 
+import aybici.parkourplugin.FileCreator;
+import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.Parkour;
-import aybici.parkourplugin.sessions.PlayerTimer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PositionSaver implements Listener {
-    public HashMap<Player, List<LocationWithTime> > playerDemosHashMap = new HashMap<>();
+    public static HashMap<Player, List<LocationWithTime> > playerDemosHashMap = new HashMap<>();
     private HashMap<Player, Boolean> doSaving = new HashMap<>();
     private BukkitTask playTask;
     private HashMap<Player, Boolean> playerWatchingHash = new HashMap<>();
@@ -32,10 +33,15 @@ public class PositionSaver implements Listener {
         playerWatchingHash.put(player,value);
     }
     public void start(Player player){
-        playerDemosHashMap.remove(player);
-        doSaving.remove(player);
-        playerDemosHashMap.put(player, new ArrayList<>());
-        doSaving.put(player, true);
+        List<LocationWithTime> newPlayerDemo = new ArrayList<>(playerDemosHashMap.get(player).subList(0,2)); // chcemy wziac 2 pierwsze
+        playerDemosHashMap.replace(player, newPlayerDemo);
+        doSaving.replace(player, true);
+    }
+    public void stop(Player player, Location endLocation){
+        if (!doSaving.containsKey(player)) return; //nie powinno wystapic
+        if (playerDemosHashMap.get(player) != null)
+            playerDemosHashMap.get(player).add(new LocationWithTime(System.currentTimeMillis(),endLocation));
+        doSaving.replace(player, false);
     }
     public void stop(Player player){
         if (!doSaving.containsKey(player)) return; //nie powinno wystapic
@@ -64,9 +70,20 @@ public class PositionSaver implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
-        if (!doSaving.containsKey(player)) return;
+        if (!doSaving.containsKey(player)) doSaving.put(player, false);
         if (doSaving.get(player)){
-            playerDemosHashMap.get(player).add(new LocationWithTime(System.currentTimeMillis(),player.getLocation()));
+            playerDemosHashMap.get(player).add(new LocationWithTime(System.currentTimeMillis(),event.getTo()));
+        } else if (ParkourPlugin.parkourSessionSet.getSession(player).isPlayerOnParkour()) {
+            if (!playerDemosHashMap.containsKey(player)) {
+                List<LocationWithTime> newPlayerDemo = new ArrayList<>();
+                newPlayerDemo.add(null);
+                newPlayerDemo.add(null);
+                playerDemosHashMap.put(player, newPlayerDemo);
+            };
+            long currentTime = System.currentTimeMillis();
+            /// ktorejs z tych pozycji nie zxapisuje, pomija ją
+            playerDemosHashMap.get(player).set(0, new LocationWithTime(currentTime-50, event.getFrom()));
+            playerDemosHashMap.get(player).set(1, new LocationWithTime(currentTime, event.getTo()));
         }
     }
     public void playDemo(Player player, List<LocationWithTime> locationList, int slowMotion){
@@ -162,16 +179,12 @@ public class PositionSaver implements Listener {
         return sortLocationList(locationList);
     }
 
-    private class LocationWithTime{
-        public Location location;
-        public Long time;
-        public LocationWithTime(Long time, Location location){
-            this.location = location;
-            this.time = time;
-        }
-    }
+
     private List<LocationWithTime> sortLocationList(List<LocationWithTime> locationList){
         locationList.sort(Comparator.comparing(o -> o.time));
+        return locationList;
+    }
+    public static List<LocationWithTime> correctTimeSignature(List<LocationWithTime> locationList){
         return locationList;
     }
 }

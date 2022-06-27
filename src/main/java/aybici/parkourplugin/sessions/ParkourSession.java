@@ -10,11 +10,10 @@ import aybici.parkourplugin.parkours.SortTimesType;
 import aybici.parkourplugin.parkours.TopLine;
 import aybici.parkourplugin.parkours.fails.Fail;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -87,7 +86,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
     }
 
-    public void onPlayerStandOnRedWool(){
+    public void onPlayerStandOnRedWool(Location endLocation){
         if(!playerGameplayState.equals(PlayerGameplayState.PARKOURING)) return;
         if(checkpoint.isPlaced()) return;
         if(!staticCheckpoint.playerEnteredAllCheckpoints()){
@@ -98,8 +97,9 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             return;
         }
 
-
-        long playerTime = playerTimer.actualTime();
+        ParkourPlugin.positionSaver.stop(player, endLocation);
+        long playerTime = playerTimer.calculateAccurateTime(); //***********************************************
+        //long playerTime = playerTimer.actualTime();
 
         PlayerEndsParkourEvent event = new PlayerEndsParkourEvent(player, parkourPlayerOn, playerTime);
         Bukkit.getServer().getPluginManager().callEvent(event);
@@ -107,7 +107,6 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
         if(!event.isCancelled()) {
             playerTimer.resetTimer();
-            ParkourPlugin.positionSaver.stop(player);
             player.sendMessage(ChatColor.GREEN + "Your time: " + ParkourPlugin.topListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
@@ -162,7 +161,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     }
 
     @Override
-    public void playerStandOnNewBlock(List<Material> materialList) {
+    public void playerStandOnNewBlock(List<Material> materialList, PlayerMoveEvent event) {
         if (parkourPlayerOn == null) return;
 
         if(materialList.contains(Material.LIME_WOOL)) {
@@ -173,7 +172,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             }
         }
         else if(materialList.contains(Material.RED_WOOL))
-            onPlayerStandOnRedWool();
+            onPlayerStandOnRedWool(event.getTo());
         else if(parkourPlayerOn.hasAnyBackBlock(materialList) || player.getLocation().getY() < 0) {
             onPlayerFails();
         }
