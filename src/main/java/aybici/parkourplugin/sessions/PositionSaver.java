@@ -79,17 +79,26 @@ public class PositionSaver implements Listener {
                 newPlayerDemo.add(null);
                 newPlayerDemo.add(null);
                 playerDemosHashMap.put(player, newPlayerDemo);
-            };
+            }
             long currentTime = System.currentTimeMillis();
-            /// ktorejs z tych pozycji nie zxapisuje, pomija ją
             playerDemosHashMap.get(player).set(0, new LocationWithTime(currentTime-50, event.getFrom()));
             playerDemosHashMap.get(player).set(1, new LocationWithTime(currentTime, event.getTo()));
+        }
+    }
+
+    private void fixNewDemos(List<LocationWithTime> locationList){
+        if(locationList.get(0).time > 1656366480000L){
+            locationList.remove(locationList.size()-1);
+            locationList.remove(0);
+            locationList.remove(0);
         }
     }
     public void playDemo(Player player, List<LocationWithTime> locationList, int slowMotion){
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         if (locationList.size() > 0)
             ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
+
+        fixNewDemos(locationList);
         locationList = interpolateList(locationList, slowMotion);
 
         //Entity entity = locationList.get(0).location.getWorld().spawnEntity(locationList.get(0).location, EntityType.ZOMBIE);
@@ -139,8 +148,7 @@ public class PositionSaver implements Listener {
         World world = location1.location.getWorld();
         long time = location1.time + (location2.time - location1.time)*element/slowMotion;
         Location location = new Location(world,x,y,z,yaw,pitch);
-        LocationWithTime interpolatedLocation = new LocationWithTime(time,location);
-        return interpolatedLocation;
+        return new LocationWithTime(time,location);
     }
     public List<LocationWithTime> getDemo(OfflinePlayer player, Parkour parkour){
         List<LocationWithTime> locationList = null;
@@ -184,7 +192,11 @@ public class PositionSaver implements Listener {
         locationList.sort(Comparator.comparing(o -> o.time));
         return locationList;
     }
-    public static List<LocationWithTime> correctTimeSignature(List<LocationWithTime> locationList){
-        return locationList;
+    public static void correctTimeSignature(List<LocationWithTime> locationList){
+        locationList.get(1).time = locationList.get(2).time - 50L;
+        long roundedTickTimeBasedOnMillis = Math.round((locationList.get(locationList.size()-1).time - locationList.get(2).time)/50d);
+        long correctedEndTime = locationList.get(2).time + roundedTickTimeBasedOnMillis*50;
+        locationList.get(locationList.size()-1).time = correctedEndTime;
+        locationList.get(locationList.size()-2).time = correctedEndTime - 50L;
     }
 }

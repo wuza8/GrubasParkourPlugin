@@ -1,6 +1,7 @@
 package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.sessions.PositionSaver;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,7 @@ public class ShowLastTryCommand extends OnParkourCommand implements CommandExecu
                 return false;
             }
         }
-        ParkourPlugin.positionSaver.playDemo(player,ParkourPlugin.positionSaver.playerDemosHashMap.get(player), slowMotion);
+        ParkourPlugin.positionSaver.playDemo(player, PositionSaver.playerDemosHashMap.get(player), slowMotion);
         return true;
     }
 }

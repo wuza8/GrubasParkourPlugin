@@ -43,18 +43,27 @@ public class PlayerTimer{
     }
 
     public long calculateAccurateTime(){
-
-        List<LocationWithTime> playerDemo = PositionSaver.correctTimeSignature(PositionSaver.playerDemosHashMap.get(player));
+        List<LocationWithTime> playerDemo = PositionSaver.playerDemosHashMap.get(player);
+        PositionSaver.correctTimeSignature(playerDemo);
         int size = playerDemo.size();
         LocationWithTime beforeStartLocation = playerDemo.get(1);
         LocationWithTime startLocation = playerDemo.get(2);
         LocationWithTime beforeEndLocation = playerDemo.get(size-2);
         LocationWithTime endLocation = playerDemo.get(size-1);
 
+        long numberOfPositionsFromStartToEnd = playerDemo.size() - 2;
+        long timeInTicksBasedOnMillis = (endLocation.time - startLocation.time)/50;
+
+        long lagTime = 0L;
+        if (numberOfPositionsFromStartToEnd - 1 > timeInTicksBasedOnMillis) {
+            lagTime = (numberOfPositionsFromStartToEnd - 1 - timeInTicksBasedOnMillis)*50;
+            //System.out.println("Uwaga pomiar czasu zbyt maly, róznica w tickach: " + (numberOfPositionsFromStartToEnd - 1 - timeInTicksBasedOnMillis));
+        }
+
         LocationWithTime startEdgeLocation = getWoolEdgeLocation(beforeStartLocation, startLocation, Material.LIME_WOOL);
         LocationWithTime endEdgeLocation = getWoolEdgeLocation(beforeEndLocation, endLocation, Material.RED_WOOL);
 
-        return endEdgeLocation.time - startEdgeLocation.time;
+        return endEdgeLocation.time - startEdgeLocation.time + lagTime;
     }
 
     public void resetTimer() {
