@@ -16,4 +16,4 @@ This is a plugin for parkour mini game.
 * And morę
 
 ### Support Version
-1.16 - 1.7.1
+1.16 - 1.17.1
