@@ -11,9 +11,9 @@ This is a plugin for parkour mini game.
 * PlayDemo (Replay)
 * BackBlocks (with edge blocker)
 * Categories Menu (EASY, MEDIUM, HARD, EXTREME, EVENT, NO_CATEGORY, KZ, DROPPER)
-* Stick with teleport behind mapa
+* Stick with teleport behind maps
 * Blocked McDown bots
-* And morę
+* And more
 
 ### Support Version
 1.16 - 1.17.1
