@@ -1,4 +1,19 @@
-# GrubasParkourPlugin
-parkour plugin for grubaskraft server and not only
-If you want to download compliable and usable code just switsch to branch temporary_no_spring_realize
-It is latest and the most functional realize
+### GrubasKraftPlugin
+Authors:
+* rycerz125
+* wuza8
+---
+### About
+This is a plugin for parkour mini game.
+
+### Feature
+* Parkour Game
+* PlayDemo (Replay)
+* BackBlocks (with edge blocker)
+* Categories Menu (EASY, MEDIUM, HARD, EXTREME, EVENT, NO_CATEGORY, KZ, DROPPER)
+* Stick with teleport behind mapa
+* Blocked McDown bots
+* And morę
+
+### Support Version
+1.16 - 1.7.1
