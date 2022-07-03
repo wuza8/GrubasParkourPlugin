@@ -2,7 +2,7 @@ package aybici.parkourplugin.sessions;
 
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
-import aybici.parkourplugin.parkours.Parkour;
+import aybici.parkourplugin.parkours.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,12 +32,12 @@ public class PositionSaver implements Listener {
         playerWatchingHash.remove(player);
         playerWatchingHash.put(player,value);
     }
-    public void start(Player player){
+    public void start(Player player){ // start saving position
         List<LocationWithTime> newPlayerDemo = new ArrayList<>(playerDemosHashMap.get(player).subList(0,2)); // chcemy wziac 2 pierwsze
         playerDemosHashMap.replace(player, newPlayerDemo);
         doSaving.replace(player, true);
     }
-    public void stop(Player player, Location endLocation){
+    public void stop(Player player, Location endLocation){ // stop saving position
         if (!doSaving.containsKey(player)) return; //nie powinno wystapic
         if (playerDemosHashMap.get(player) != null)
             playerDemosHashMap.get(player).add(new LocationWithTime(System.currentTimeMillis(),endLocation));
@@ -198,5 +198,16 @@ public class PositionSaver implements Listener {
         long correctedEndTime = locationList.get(2).time + roundedTickTimeBasedOnMillis*50;
         locationList.get(locationList.size()-1).time = correctedEndTime;
         locationList.get(locationList.size()-2).time = correctedEndTime - 50L;
+    }
+    public static OfflinePlayer getBestDemoPlayer(Parkour parkour){
+        File path = new File(parkour.folderName + File.separator + "demos");
+        List<TopLine> topList = TopListDisplay.getTopListToSort(parkour.getTopListObject().getTopList(), DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, null);
+        topList = TopListDisplay.sortTopList(topList, SortTimesType.TIME);
+        String pathName = parkour.folderName + File.separator + "demos"+File.separator;
+        for(int i = 0; i < topList.size(); i++){
+            if (new File (pathName + topList.get(i).player.getName() + ".txt").exists())
+                return topList.get(i).player;
+        }
+        return null;
     }
 }

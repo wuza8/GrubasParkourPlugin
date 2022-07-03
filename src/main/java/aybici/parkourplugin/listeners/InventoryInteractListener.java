@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
-public class InteractListener implements Listener {
+public class InventoryInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(final PlayerInteractEvent event){

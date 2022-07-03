@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class TopListDisplay {
 
-    public List<TopLine> getNotLaggedTimes(List<TopLine> topList){
+    public static List<TopLine> getNotLaggedTimes(List<TopLine> topList){
         List<TopLine> notLaggedTimes = new ArrayList<>();
         for (TopLine topLine : topList){
             if (!topLine.isLagged()) notLaggedTimes.add(topLine);
@@ -22,7 +22,7 @@ public class TopListDisplay {
         return notLaggedTimes;
     }
 
-    public TopLine getBestTime(List<TopLine> topList){
+    public static TopLine getBestTime(List<TopLine> topList){
         TopLine bestTimeLine = new TopLine();
         for (TopLine topLine : topList){
             if(topLine.playerTime < bestTimeLine.playerTime) bestTimeLine = topLine;
@@ -34,7 +34,7 @@ public class TopListDisplay {
         return null;
     }
 
-    public List<TopLine> getAllTimesOfPlayer(OfflinePlayer player, List<TopLine> topList){
+    public static List<TopLine> getAllTimesOfPlayer(OfflinePlayer player, List<TopLine> topList){
         List<TopLine> allLinesOfPlayer = new ArrayList<>();
         for (TopLine topLine : topList){
             if (topLine.player.getUniqueId().equals(player.getUniqueId())) allLinesOfPlayer.add(topLine);
@@ -42,7 +42,7 @@ public class TopListDisplay {
         return allLinesOfPlayer;
     }
 
-    public TopLine getBestTimeOfPlayer(OfflinePlayer player, List<TopLine> topList){
+    public static TopLine getBestTimeOfPlayer(OfflinePlayer player, List<TopLine> topList){
         TopLine bestTimeLine = new TopLine();
 
         for (TopLine topLine : getNotLaggedTimes(getAllTimesOfPlayer(player, topList))){
@@ -54,7 +54,7 @@ public class TopListDisplay {
         return null;
     }
 
-    public List<OfflinePlayer> getAllPlayersOfTop(List<TopLine> topList){
+    public static List<OfflinePlayer> getAllPlayersOfTop(List<TopLine> topList){
         List<UUID> playerUUIDs = new ArrayList<>();
         for (TopLine topLine : topList){
             if (!playerUUIDs.contains(topLine.player.getUniqueId()))
@@ -67,7 +67,7 @@ public class TopListDisplay {
         return players;
     }
 
-    public String timeToString(long playerTime){
+    public static String timeToString(long playerTime){
         short hours, minutes, seconds, millis;
 
         millis = (short)(playerTime%1000);
@@ -98,7 +98,7 @@ public class TopListDisplay {
                 + separateMinutesSeconds + zeroBeforeSeconds + seconds + ":" + zerosBeforeMillis + millis;
     }
 
-    public void displayTimesOnScoreboard(Player player, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
+    public static void displayTimesOnScoreboard(Player player, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         /*Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST); //czyszczenie glownego scoreboarda
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
@@ -129,7 +129,7 @@ public class TopListDisplay {
 
         player.setScoreboard(scoreboard);
     }
-    public void displayScoreboardToOtherPlayers(Parkour parkour, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
+    public static void displayScoreboardToOtherPlayers(Parkour parkour, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
         for (Player player : Bukkit.getOnlinePlayers()){
             Parkour parkourLocal = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
             if (parkourLocal != null)
@@ -138,7 +138,7 @@ public class TopListDisplay {
         }
     }
 
-    private boolean printAlreadySortedTopList(Player player, List<TopLine> sortedTopList, int pageNumber, String info){
+    private static boolean printAlreadySortedTopList(Player player, List<TopLine> sortedTopList, int pageNumber, String info){
         if (pageNumber <= 0) {
             player.sendMessage(ChatColor.RED + "Numer strony musi być dodatni!");
             return false;
@@ -163,7 +163,7 @@ public class TopListDisplay {
                 player.sendMessage(sortedTopList.get(index).toString());
         return true;
     }
-    private List<TopLine> getTopListToSort(List<TopLine> topList, DisplayingTimesState displayingTimesState, Player player){
+    public static List<TopLine> getTopListToSort(List<TopLine> topList, DisplayingTimesState displayingTimesState, Player player){
         List<TopLine> topLinesToSort = new ArrayList<>();
         switch (displayingTimesState){
             case ALL_PLAYERS_ALL_TIMES:
@@ -185,7 +185,7 @@ public class TopListDisplay {
         }
         return topLinesToSort;
     }
-    private List<TopLine> sortTopList(List<TopLine> topList, SortTimesType sortTimesType){
+    public static List<TopLine> sortTopList(List<TopLine> topList, SortTimesType sortTimesType){
         List<TopLine> topLinesToDisplay = new ArrayList<>();
         switch (sortTimesType){
             case DATE:
@@ -220,7 +220,7 @@ public class TopListDisplay {
         return topLinesToDisplay;
     }
 
-    public boolean printTopList(Player player, List<TopLine> topList, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType, int page){
+    public static boolean printTopList(Player player, List<TopLine> topList, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType, int page){
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);
         List<TopLine> topLinesToDisplay = sortTopList(topLinesToSort, sortTimesType);
         String info1 = null;

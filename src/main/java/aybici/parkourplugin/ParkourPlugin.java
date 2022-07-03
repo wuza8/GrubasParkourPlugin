@@ -3,7 +3,7 @@ package aybici.parkourplugin;
 import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
 import aybici.parkourplugin.commands.CommandExecutorSetter;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
-import aybici.parkourplugin.listeners.InteractListener;
+import aybici.parkourplugin.listeners.InventoryInteractListener;
 import aybici.parkourplugin.listeners.JoinListener;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourSet;
@@ -53,7 +53,7 @@ public class ParkourPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerAndEnvironmentListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(positionSaver, this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InventoryInteractListener(), this);
         //saveBinEinTimes();
     }
 
