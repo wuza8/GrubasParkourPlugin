@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.bukkit.Bukkit.getLogger;
-
 public class TopList {
 
     private List<TopLine> topList = new ArrayList<>();
@@ -40,7 +38,7 @@ public class TopList {
 
     public int removeAllTimesOfPlayer(OfflinePlayer player){
         int removes = 0;
-        for (TopLine topLine : ParkourPlugin.topListDisplay.getAllTimesOfPlayer(player, topList)){
+        for (TopLine topLine : TopListDisplay.getAllTimesOfPlayer(player, topList)){
             topList.remove(topLine);
             removes++;
         }

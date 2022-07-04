@@ -4,10 +4,7 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.blockabovereader.OnNewBlockPlayerStandObserver;
 import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.events.PlayerStartsParkourEvent;
-import aybici.parkourplugin.parkours.DisplayingTimesState;
-import aybici.parkourplugin.parkours.Parkour;
-import aybici.parkourplugin.parkours.SortTimesType;
-import aybici.parkourplugin.parkours.TopLine;
+import aybici.parkourplugin.parkours.*;
 import aybici.parkourplugin.parkours.fails.Fail;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -98,8 +95,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
 
         ParkourPlugin.positionSaver.stop(player, endLocation);
-        long playerTime = playerTimer.calculateAccurateTime(); //***********************************************
-        //long playerTime = playerTimer.actualTime();
+        long playerTime = playerTimer.calculateAccurateTime();
 
         PlayerEndsParkourEvent event = new PlayerEndsParkourEvent(player, parkourPlayerOn, playerTime);
         Bukkit.getServer().getPluginManager().callEvent(event);
@@ -107,26 +103,26 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
         if(!event.isCancelled()) {
             playerTimer.resetTimer();
-            player.sendMessage(ChatColor.GREEN + "Your time: " + ParkourPlugin.topListDisplay.timeToString(playerTime));
+            player.sendMessage(ChatColor.GREEN + "Your time: " + TopListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
 
             if(startPing <= 180 && player.getPing() <= 180) {
-                TopLine previousBestTop = ParkourPlugin.topListDisplay.getBestTimeOfPlayer(player,parkourPlayerOn.getTopListObject().getTopList());
+                TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,parkourPlayerOn.getTopListObject().getTopList());
                 if (previousBestTop != null) {
                     if (playerTime < previousBestTop.playerTime)
                         ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
                 } else ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
 
-                if (ParkourPlugin.topListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()) != null) {//wyslwietlanie best time
-                    if (playerTime < ParkourPlugin.topListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()).playerTime)
+                if (TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()) != null) {//wyslwietlanie best time
+                    if (playerTime < TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()).playerTime)
                         displayBestTimeInfo(player, previousBestTop, playerTime);
                 } else displayBestTimeInfo(player, previousBestTop, playerTime);
 
             }
             parkourPlayerOn.getTopListObject().addTopLine(player, playerTime, startPing);
-            ParkourPlugin.topListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
-            ParkourPlugin.topListDisplay.displayScoreboardToOtherPlayers(parkourPlayerOn, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+            TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+            TopListDisplay.displayScoreboardToOtherPlayers(parkourPlayerOn, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
         }
     }
     public void onPlayerFails(){
@@ -149,13 +145,13 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
                 player.sendMessage("> " + ChatColor.AQUA + "Gracz " + bestPlayer.getName() + " ustanowił nowy rekord na mapie " +
                         ChatColor.WHITE + parkourPlayerOn.getName());
                 player.sendMessage("> " + ChatColor.AQUA + "Jego czas to: " + ChatColor.WHITE +
-                        ParkourPlugin.topListDisplay.timeToString(playerTime));
+                        TopListDisplay.timeToString(playerTime));
             }
         }
         bestPlayer.sendMessage("> "+ChatColor.AQUA+"Ustanowiłeś nowy rekord na mapie!");
         String timeDifferenceString;
         if (previousBestTop != null) {
-            timeDifferenceString = ParkourPlugin.topListDisplay.timeToString(previousBestTop.playerTime - playerTime);
+            timeDifferenceString = TopListDisplay.timeToString(previousBestTop.playerTime - playerTime);
             bestPlayer.sendMessage("> "+ChatColor.AQUA+"Pobiłeś swój rekord o: "+ ChatColor.WHITE + timeDifferenceString);
         }
     }

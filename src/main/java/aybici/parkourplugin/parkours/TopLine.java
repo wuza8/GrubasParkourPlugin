@@ -52,7 +52,7 @@ public class TopLine implements Cloneable {
         return (startPing > 180 || endPing > 180);
     }
     public String toScoreboardDisplay(){
-        String timeToString = ParkourPlugin.topListDisplay.timeToString(playerTime);
+        String timeToString = TopListDisplay.timeToString(playerTime);
         return ChatColor.AQUA + timeToString + ChatColor.DARK_GREEN + ", " + ChatColor.WHITE + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
     }
 
@@ -67,7 +67,7 @@ public class TopLine implements Cloneable {
         String color;
         if (isLagged()) color = "RED";
         else color = "WHITE";
-        String timeToString = ParkourPlugin.topListDisplay.timeToString(playerTime);
+        String timeToString = TopListDisplay.timeToString(playerTime);
         return ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()) + ", " +ChatColor.DARK_GREEN+ DateAndTime.getDateString(date)+
                 ChatColor.WHITE + ", " + ChatColor.valueOf(color) + timeToString;
     }

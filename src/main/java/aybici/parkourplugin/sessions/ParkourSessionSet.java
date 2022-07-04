@@ -1,10 +1,7 @@
 package aybici.parkourplugin.sessions;
 
 import aybici.parkourplugin.ParkourPlugin;
-import aybici.parkourplugin.parkours.DisplayingTimesState;
-import aybici.parkourplugin.parkours.Parkour;
-import aybici.parkourplugin.parkours.ParkourSet;
-import aybici.parkourplugin.parkours.SortTimesType;
+import aybici.parkourplugin.parkours.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -33,7 +30,7 @@ public class ParkourSessionSet {
                 + parkour.getCategory().toString().toLowerCase() + ChatColor.GOLD + " o ID = " + ChatColor.GRAY
                 + parkour.getIdentifier());
         player.sendMessage(ChatColor.BLUE + parkour.getDescription().replaceAll("#", "\n"));
-        ParkourPlugin.topListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+        TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
         player.playNote(player.getLocation(), Instrument.BANJO, Note.flat(1, Note.Tone.A));
     }
 

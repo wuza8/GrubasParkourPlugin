@@ -4,6 +4,7 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.commands.OnParkourCommand;
 import aybici.parkourplugin.parkours.DisplayingTimesState;
 import aybici.parkourplugin.parkours.SortTimesType;
+import aybici.parkourplugin.parkours.TopListDisplay;
 import aybici.parkourplugin.sessions.ParkourSession;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,7 +42,7 @@ public class PrintTimesCommand extends OnParkourCommand implements CommandExecut
         } else sortTimesType = SortTimesType.DATE;
         if (args.length == 2) page = Integer.parseInt(args[1]);
 
-        return ParkourPlugin.topListDisplay.printTopList(player,
+        return TopListDisplay.printTopList(player,
                 session.getParkour().getTopListObject().getTopList(), displayingTimesState, sortTimesType, page);
     }
 }
