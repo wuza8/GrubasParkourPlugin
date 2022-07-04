@@ -1,7 +1,10 @@
 package aybici.parkourplugin.events;
 
 import aybici.parkourplugin.ParkourPlugin;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.event.server.ServerCommandEvent;
 
 public class PlayerAndEnvironmentListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -31,9 +33,12 @@ public class PlayerAndEnvironmentListener implements Listener {
         player.setInvulnerable(true); // set player undamagable
         if (!event.getPlayer().hasPermission(ParkourPlugin.permissionSet.itemsPermission))
             player.setCanPickupItems(false);
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team add nocoll");     //off collisions
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team modify nocoll collisionRule never");
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team join nocoll " + player.getName());
+
+        //gdyby ktoś używał silnika, w którym nie da się wylączyć kolizji w configu (Bukkit, Spigot) - odkomentować
+        //Paper ma tę funkcję
+//        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team add nocoll");     //off collisions
+//        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team modify nocoll collisionRule never");
+//        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"team join nocoll " + player.getName());
         if (!ParkourPlugin.uuidList.contains(player.getUniqueId())) {
             ParkourPlugin.uuidList.addIdentifier(player.getUniqueId());
             player.sendMessage(ChatColor.GOLD + "Witamy po raz pierwszy na serwerze GrubasKraft!");
