@@ -22,13 +22,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings("deprecation")
 public class InventoryInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(final PlayerInteractEvent event){
         final Player player = event.getPlayer();
-        this.onBookClick(event, player);
+        this.onBookClick(player);
         this.onBlazeRodClick(event, player);
         this.onDemoQuitItemClick(player);
     }
@@ -38,21 +37,14 @@ public class InventoryInteractListener implements Listener {
     }
 
 
-    private void onBookClick(final Event event, final Player player){
-        if(((PlayerInteractEvent)event).getAction() == Action.RIGHT_CLICK_AIR){
-            if(player.getItemInHand().getType() == Material.BOOK){
-                player.openInventory(getMenuInventory());
-            }
-        }
-        if(((PlayerInteractEvent)event).getAction() == Action.RIGHT_CLICK_BLOCK){
-            if(player.getItemInHand().getType() == Material.BOOK){
-                player.openInventory(getMenuInventory());
-            }
+    private void onBookClick(final Player player){
+        if(player.getInventory().getItemInMainHand().getType() ==  Material.BOOK){
+            player.openInventory(getMenuInventory());
         }
     }
     private void onBlazeRodClick(final Event event,final Player player){
         PlayerInteractEvent playerInteractEvent = (PlayerInteractEvent) event;
-        if (player.getItemInHand().getType() != Material.BLAZE_ROD) {
+        if (player.getInventory().getItemInMainHand().getType() != Material.BLAZE_ROD) {
             return;
         }
 
