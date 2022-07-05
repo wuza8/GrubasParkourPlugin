@@ -5,6 +5,7 @@ import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourSet;
+import aybici.parkourplugin.sessions.PositionSaver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ public class InventoryInteractListener implements Listener {
         final Player player = event.getPlayer();
         this.onBookClick(event, player);
         this.onBlazeRodClick(event, player);
+        this.onDemoQuitItemClick(player);
     }
     @EventHandler
     public void onInventoryClickItem(InventoryClickEvent event) {
@@ -72,6 +74,11 @@ public class InventoryInteractListener implements Listener {
         }
         String command = "pk " + parkour2.getName();
         player.performCommand(command);
+    }
+    private void onDemoQuitItemClick(final Player player){
+        if(!PositionSaver.isPlayerWatching(player)) return;
+        if(player.getInventory().getItemInMainHand().getType() == Material.RED_DYE)
+            PositionSaver.setPlayerWatching(player, false);
     }
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 18);
@@ -141,7 +148,6 @@ public class InventoryInteractListener implements Listener {
     private void onInventoryInteract(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         if (event.getCurrentItem() == null) {
-            //Bukkit.getLogger().info("curert item is null");
             return;
         }
         Material material = event.getCurrentItem().getType();

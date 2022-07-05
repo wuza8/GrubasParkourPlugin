@@ -2,12 +2,14 @@ package aybici.parkourplugin.sessions;
 
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.parkours.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -21,14 +23,14 @@ import java.util.stream.Stream;
 
 public class PositionSaver implements Listener {
     public static HashMap<Player, List<LocationWithTime> > playerDemosHashMap = new HashMap<>();
-    private HashMap<Player, Boolean> doSaving = new HashMap<>();
+    private final HashMap<Player, Boolean> doSaving = new HashMap<>();
     private BukkitTask playTask;
-    private HashMap<Player, Boolean> playerWatchingHash = new HashMap<>();
-    public boolean isPlayerWatching(Player player){
+    private static final HashMap<Player, Boolean> playerWatchingHash = new HashMap<>();
+    public static boolean isPlayerWatching(Player player){
         if (!playerWatchingHash.containsKey(player)) return false;
         else return (playerWatchingHash.get(player));
     }
-    public void setPlayerWatching(Player player, boolean value){
+    public static void setPlayerWatching(Player player, boolean value){
         playerWatchingHash.remove(player);
         playerWatchingHash.put(player,value);
     }
@@ -107,6 +109,8 @@ public class PositionSaver implements Listener {
         setPlayerWatching(player,true);
         PlayerTimer playerTimer = new PlayerTimer(player,slowMotion);
         playerTimer.startTimer();
+        ItemStack previousItem = player.getInventory().getItem(8);
+        player.getInventory().setItem(8, new ItemBuilder(Material.RED_DYE).setName("Quit demo").toItemStack());
         List<LocationWithTime> finalLocationList = locationList;
         playTask = new BukkitRunnable(){
 
@@ -122,6 +126,7 @@ public class PositionSaver implements Listener {
                     else ParkourPlugin.lobby.teleportPlayerToLobby(player);
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"skin clear " + player.getName());
                     cancel();
+                    player.getInventory().setItem(8, previousItem);
                     setPlayerWatching(player,false);
                     playerTimer.resetTimer();
                 }
@@ -200,13 +205,12 @@ public class PositionSaver implements Listener {
         locationList.get(locationList.size()-2).time = correctedEndTime - 50L;
     }
     public static OfflinePlayer getBestDemoPlayer(Parkour parkour){
-        File path = new File(parkour.folderName + File.separator + "demos");
         List<TopLine> topList = TopListDisplay.getTopListToSort(parkour.getTopListObject().getTopList(), DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, null);
         topList = TopListDisplay.sortTopList(topList, SortTimesType.TIME);
         String pathName = parkour.folderName + File.separator + "demos"+File.separator;
-        for(int i = 0; i < topList.size(); i++){
-            if (new File (pathName + topList.get(i).player.getName() + ".txt").exists())
-                return topList.get(i).player;
+        for (TopLine topLine : topList) {
+            if (new File(pathName + topLine.player.getName() + ".txt").exists())
+                return topLine.player;
         }
         return null;
     }

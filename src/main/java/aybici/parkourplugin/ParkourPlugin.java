@@ -24,7 +24,6 @@ public class ParkourPlugin extends JavaPlugin {
     public static ParkourPlugin getInstance(){
         return plugin;
     }
-    //public static TopListDisplay topListDisplay = new TopListDisplay();
     public static UUIDList uuidList = new UUIDList();
     public static PermissionSet permissionSet = new PermissionSet();
     public static Lobby lobby = new Lobby();
