@@ -69,7 +69,7 @@ public class Lobby {
     }
     public void teleportPlayerToLobby(Player player){
         ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
-        ParkourPlugin.positionSaver.stop(player);
+        ParkourPlugin.positionSaver.stopSaving(player);
         ParkourPlugin.positionSaver.setPlayerWatching(player,false);
         player.teleport(ParkourPlugin.lobby.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);

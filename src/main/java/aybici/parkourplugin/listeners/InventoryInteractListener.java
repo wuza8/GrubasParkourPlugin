@@ -105,7 +105,7 @@ public class InventoryInteractListener implements Listener {
         return null;
     }
 
-    private Inventory getCategoryInventory(ParkourCategory category, int page){ //(ParkourCategory category, int page)
+    private Inventory getCategoryInventory(ParkourCategory category, int page){
         int SIZE = 54;
         Inventory inventory = Bukkit.getServer().createInventory(null, SIZE);
         ParkourSet parkourSet = ParkourPlugin.parkourSet;

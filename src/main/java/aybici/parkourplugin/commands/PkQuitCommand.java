@@ -18,7 +18,7 @@ public class PkQuitCommand extends OnParkourCommand implements CommandExecutor {
         if (!isPlayerOnParkour(player)) return true;
         player.sendMessage("Opuszczono parkour");
         ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
-        ParkourPlugin.positionSaver.stop(player);
+        ParkourPlugin.positionSaver.stopSaving(player);
         return true;
     }
 }

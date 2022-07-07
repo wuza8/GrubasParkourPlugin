@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public class PositionSaver implements Listener {
     public static HashMap<Player, List<LocationWithTime> > playerDemosHashMap = new HashMap<>();
-    private final HashMap<Player, Boolean> doSaving = new HashMap<>();
+    private static final HashMap<Player, Boolean> doSaving = new HashMap<>();
     private BukkitTask playTask;
     private static final HashMap<Player, Boolean> playerWatchingHash = new HashMap<>();
     public static boolean isPlayerWatching(Player player){
@@ -34,18 +34,18 @@ public class PositionSaver implements Listener {
         playerWatchingHash.remove(player);
         playerWatchingHash.put(player,value);
     }
-    public void start(Player player){ // start saving position
+    public void startSaving(Player player){
         List<LocationWithTime> newPlayerDemo = new ArrayList<>(playerDemosHashMap.get(player).subList(0,2)); // chcemy wziac 2 pierwsze
         playerDemosHashMap.replace(player, newPlayerDemo);
         doSaving.replace(player, true);
     }
-    public void stop(Player player, Location endLocation){ // stop saving position
+    public void stopSaving(Player player, Location endLocation){
         if (!doSaving.containsKey(player)) return; //nie powinno wystapic
         if (playerDemosHashMap.get(player) != null)
             playerDemosHashMap.get(player).add(new LocationWithTime(System.currentTimeMillis(),endLocation));
         doSaving.replace(player, false);
     }
-    public void stop(Player player){
+    public void stopSaving(Player player){
         if (!doSaving.containsKey(player)) return; //nie powinno wystapic
         doSaving.replace(player, false);
     }

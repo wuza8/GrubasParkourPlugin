@@ -61,7 +61,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         playerWasGivenAttention = false;
         staticCheckpoint = new StaticCheckpoint(this);
         staticCheckpoint.runSession();
-        ParkourPlugin.positionSaver.stop(player);
+        ParkourPlugin.positionSaver.stopSaving(player);
     }
 
     public boolean isPlayerOnParkour() {
@@ -73,13 +73,12 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
         PlayerStartsParkourEvent event = new PlayerStartsParkourEvent(player, parkourPlayerOn);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        player.sendMessage(ChatColor.AQUA + "Rozpoczęto parkour " + parkourPlayerOn.getName().replaceAll("_", " "));
 
         if(!event.isCancelled()) {
             playerGameplayState = PlayerGameplayState.PARKOURING;
             playerTimer.startTimer();
             startPing = player.getPing();
-            ParkourPlugin.positionSaver.start(player);
+            ParkourPlugin.positionSaver.startSaving(player);
         }
     }
 
@@ -94,7 +93,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             return;
         }
 
-        ParkourPlugin.positionSaver.stop(player, endLocation);
+        ParkourPlugin.positionSaver.stopSaving(player, endLocation);
         long playerTime = playerTimer.calculateAccurateTime();
 
         PlayerEndsParkourEvent event = new PlayerEndsParkourEvent(player, parkourPlayerOn, playerTime);
@@ -133,7 +132,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
         if (checkpoint.isPlaced()){
             staticCheckpoint.resetReachedCheckpoints();
-            ParkourPlugin.positionSaver.stop(player);
+            ParkourPlugin.positionSaver.stopSaving(player);
             player.teleport(checkpoint.getLocation());
         } else if (staticCheckpoint.placedCheckpointNumber == -1){
             teleportTo(parkourPlayerOn);
