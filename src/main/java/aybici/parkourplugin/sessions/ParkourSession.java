@@ -49,7 +49,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     }
 
     public void teleportTo(Parkour parkour){
-        ParkourPlugin.positionSaver.setPlayerWatching(player,false);
+        PositionSaver.setPlayerWatching(player,false);
         parkourPlayerOn = parkour;
         player.teleport(parkour.getLocation());
         playerGameplayState = PlayerGameplayState.ON_PARKOUR;

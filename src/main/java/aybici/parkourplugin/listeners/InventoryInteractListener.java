@@ -5,6 +5,7 @@ import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourSet;
+import aybici.parkourplugin.sessions.ParkourSession;
 import aybici.parkourplugin.sessions.PositionSaver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,9 +28,15 @@ public class InventoryInteractListener implements Listener {
     @EventHandler
     public void onInteract(final PlayerInteractEvent event){
         final Player player = event.getPlayer();
-        this.onBookClick(player);
-        this.onBlazeRodClick(event, player);
-        this.onDemoQuitItemClick(player);
+        Material materialInHand = player.getInventory().getItemInMainHand().getType();
+        if(materialInHand == Material.BOOK)
+            onBookClick(player);
+        else if(materialInHand == Material.BLAZE_ROD)
+            onBlazeRodClick(event, player);
+        else if(materialInHand == Material.RED_DYE)
+            onDemoQuitItemClick(player);
+        else if(materialInHand == Material.NETHER_STAR)
+            onResetItemClick(player);
     }
     @EventHandler
     public void onInventoryClickItem(InventoryClickEvent event) {
@@ -38,15 +45,10 @@ public class InventoryInteractListener implements Listener {
 
 
     private void onBookClick(final Player player){
-        if(player.getInventory().getItemInMainHand().getType() ==  Material.BOOK){
-            player.openInventory(getMenuInventory());
-        }
+        player.openInventory(getMenuInventory());
     }
     private void onBlazeRodClick(final Event event,final Player player){
         PlayerInteractEvent playerInteractEvent = (PlayerInteractEvent) event;
-        if (player.getInventory().getItemInMainHand().getType() != Material.BLAZE_ROD) {
-            return;
-        }
 
         if (player.hasCooldown(Material.BLAZE_ROD)){
             return;
@@ -68,9 +70,14 @@ public class InventoryInteractListener implements Listener {
         player.performCommand(command);
     }
     private void onDemoQuitItemClick(final Player player){
-        if(!PositionSaver.isPlayerWatching(player)) return;
-        if(player.getInventory().getItemInMainHand().getType() == Material.RED_DYE)
+        if(PositionSaver.isPlayerWatching(player))
             PositionSaver.setPlayerWatching(player, false);
+    }
+    private void onResetItemClick(final Player player){
+        ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
+        if(session.isPlayerOnParkour()){
+            session.teleportTo(session.getParkour());
+        }
     }
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 18);
