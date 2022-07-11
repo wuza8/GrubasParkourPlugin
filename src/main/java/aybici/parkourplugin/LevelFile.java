@@ -29,7 +29,7 @@ public class LevelFile {
         if(!p.getDataFolder().exists()) {
             p.getDataFolder().mkdir();
         }
-        File path = new File(p.getDataFolder() + File.separator + "/data");
+        File path = new File(p.getDataFolder() + File.separator + "data");
         rfile = new File(path, String.valueOf(File.separator + "level.yml"));
         if(!rfile.exists()) {
             try {

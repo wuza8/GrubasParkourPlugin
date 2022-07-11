@@ -2,13 +2,14 @@ package aybici.parkourplugin.users;
 
 import aybici.parkourplugin.LevelFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
     private String nick;
     private int level;
     private int exp;
-    public static List<User> users;
+    public static List<User> users = new ArrayList<>();
 
     public User(final String name){
         this.nick = name;
@@ -47,16 +48,32 @@ public class User {
         return this.nick;
     }
 
+    public static boolean containsUser(String name){
+        for (User user : users){
+            if(user.getNick().equals(name)) return true;
+        }
+        return false;
+    }
+
+    public static User getUserByName(String name){
+        for(User user : users){
+            if(user.getNick().equals(name)) return user;
+        }
+        return null;
+    }
+
     public static User createUser(String playerNick){
-        users.add(new User(playerNick));
+        User user = new User(playerNick);
+        users.add(user);
         LevelFile levelFile = LevelFile.getInstance();
+
         if(levelFile.getData().getConfigurationSection("Users." + playerNick ) == null){
-            levelFile.getData().createSection("Users." + new User(playerNick).getNick());
-            levelFile.getData().set("Users." + new User(playerNick).getNick() + ".Exp", Integer.valueOf(new User(playerNick).getExp()));
-            new User(playerNick).setLevel(1);
-            levelFile.getData().set("Users." + new User(playerNick).getNick() + ".Level", Integer.valueOf(new User(playerNick).getLevel()));
+            levelFile.getData().createSection("Users." + playerNick);
+            levelFile.getData().set("Users." + playerNick + ".Exp", user.getExp());
+            user.setLevel(1);
+            levelFile.getData().set("Users." + playerNick + ".Level", user.getLevel());
             levelFile.saveData();
         }
-        return new User(playerNick);
+        return user;
     }
 }

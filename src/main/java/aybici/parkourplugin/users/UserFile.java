@@ -12,9 +12,9 @@ public class UserFile {
         for(String string : levelFile.getData().getConfigurationSection("Users").getKeys(false)){
             if(levelFile.getData().getConfigurationSection("Users") == null)
                 return;
-            User.createUser(string);
-            new User(string).setExp(levelFile.getData().getInt("Users." + string + ".Exp"));
-            new User(string).setLevel(levelFile.getData().getInt("Users." + string + ".Level"));
+            User user = User.createUser(string);
+            user.setExp(levelFile.getData().getInt("Users." + string + ".Exp"));
+            user.setLevel(levelFile.getData().getInt("Users." + string + ".Level"));
         }
     }
 }

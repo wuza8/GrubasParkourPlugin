@@ -15,12 +15,9 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(final PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if(!player.hasPlayedBefore()) {
-            setItems(player);
+        setItems(player);
+        if (!User.containsUser(player.getName()))
             User.createUser(player.getName());
-        }
-        if(player.hasPlayedBefore())
-            setItems(player);
     }
 
     public static void setItems(Player player){

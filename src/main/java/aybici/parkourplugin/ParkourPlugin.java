@@ -11,7 +11,6 @@ import aybici.parkourplugin.sessions.ParkourSessionSet;
 import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.users.UserFile;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,8 +34,9 @@ public class ParkourPlugin extends JavaPlugin {
         plugin = this;
         uuidList.loadList();
         uuidList.loadPlayerNames();
+        levelFile.setup(this);
         UserFile.loadUsers();
-        levelFile.setup((Plugin)this);
+
 
         long time = System.currentTimeMillis();
         parkourSet.loadParkours(parkourSet.parkoursFolder);

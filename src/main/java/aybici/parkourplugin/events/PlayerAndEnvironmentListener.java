@@ -1,6 +1,7 @@
 package aybici.parkourplugin.events;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
