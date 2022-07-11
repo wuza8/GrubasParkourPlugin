@@ -3,6 +3,10 @@ main: aybici.parkourplugin.ParkourPlugin
 softdepend: [Multiverse-Core]
 version: 0.1
 api-version: 1.16
+authors:
+  - rycerz125
+  - wuza8
+  - MrKaratio1337
 commands:
   pklist:
   times:

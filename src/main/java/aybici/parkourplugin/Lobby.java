@@ -80,7 +80,6 @@ public class Lobby {
             return;
         }
         lobbyTask = new BukkitRunnable(){
-            @Override
             public void run() {
                 for(Player player : Bukkit.getOnlinePlayers()){
                     if (!player.hasPermission(ParkourPlugin.permissionSet.goingAwayFromLobby))

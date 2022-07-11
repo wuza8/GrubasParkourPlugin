@@ -37,6 +37,8 @@ public class InventoryInteractListener implements Listener {
             onDemoQuitItemClick(player);
         else if(materialInHand == Material.NETHER_STAR)
             onResetItemClick(player);
+        else if(materialInHand == Material.BLUE_BED)
+            onBedClick(player);
     }
     @EventHandler
     public void onInventoryClickItem(InventoryClickEvent event) {
@@ -78,6 +80,10 @@ public class InventoryInteractListener implements Listener {
         if(session.isPlayerOnParkour()){
             session.teleportTo(session.getParkour());
         }
+    }
+
+    private void onBedClick(final Player player){
+        player.chat("/cp");
     }
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 18);

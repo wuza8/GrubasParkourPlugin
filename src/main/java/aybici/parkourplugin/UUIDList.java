@@ -14,8 +14,8 @@ public class UUIDList {
     private final String directory = "dataBase"+File.separator + "uuidList.txt";
     private final String directory2 = "dataBase"+File.separator +"uuidHashset.txt";
     private final String directory3 = "dataBase"+File.separator +"playerNames.txt";
-    private List<UUID> identifiers = new ArrayList<>();
-    private HashMap<UUID,String> playersHashmap = new HashMap<>();
+    private List<UUID> identifiers = new ArrayList<UUID>();
+    private HashMap<UUID,String> playersHashmap = new HashMap<UUID,String>();
 
     public void addIdentifier(UUID identifier){
         identifiers.add(identifier);

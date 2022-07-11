@@ -3,13 +3,17 @@ package aybici.parkourplugin;
 import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
 import aybici.parkourplugin.commands.CommandExecutorSetter;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
+import aybici.parkourplugin.listeners.ChatListener;
 import aybici.parkourplugin.listeners.InventoryInteractListener;
 import aybici.parkourplugin.listeners.JoinListener;
 import aybici.parkourplugin.parkours.ParkourSet;
 import aybici.parkourplugin.sessions.ParkourSessionSet;
 import aybici.parkourplugin.sessions.PositionSaver;
+import aybici.parkourplugin.users.UserFile;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
@@ -21,18 +25,18 @@ public class ParkourPlugin extends JavaPlugin {
     public static final UnderPlayerBlockWatcher underPlayerBlockWatcher = new UnderPlayerBlockWatcher();
     public static PositionSaver positionSaver = new PositionSaver();
     private static ParkourPlugin plugin;
-    public static ParkourPlugin getInstance(){
-        return plugin;
-    }
     public static UUIDList uuidList = new UUIDList();
     public static PermissionSet permissionSet = new PermissionSet();
     public static Lobby lobby = new Lobby();
+    public LevelFile levelFile = LevelFile.getInstance();
 
     @Override
     public void onEnable() {
         plugin = this;
         uuidList.loadList();
         uuidList.loadPlayerNames();
+        UserFile.loadUsers();
+        levelFile.setup((Plugin)this);
 
         long time = System.currentTimeMillis();
         parkourSet.loadParkours(parkourSet.parkoursFolder);
@@ -41,11 +45,17 @@ public class ParkourPlugin extends JavaPlugin {
         lobby.loadLobbyLocation(lobby.directory);
         lobby.runTeleportToLobbyAllTask();
         CommandExecutorSetter.setExecutors(this);
-        Bukkit.getServer().getPluginManager().registerEvents(underPlayerBlockWatcher, this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerAndEnvironmentListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(positionSaver, this);
-        Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InventoryInteractListener(), this);
+        registerListeners();
+    }
+
+    private void registerListeners(){
+        final PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(underPlayerBlockWatcher, this);
+        pluginManager.registerEvents(new PlayerAndEnvironmentListener(), this);
+        pluginManager.registerEvents(positionSaver, this);
+        pluginManager.registerEvents(new JoinListener(), this);
+        pluginManager.registerEvents(new InventoryInteractListener(), this);
+        pluginManager.registerEvents(new ChatListener(), this);
     }
 
 
@@ -57,5 +67,9 @@ public class ParkourPlugin extends JavaPlugin {
     protected ParkourPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
     {
         super(loader, description, dataFolder, file);
+    }
+
+    public static ParkourPlugin getInstance(){
+        return plugin;
     }
 }
