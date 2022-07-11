@@ -11,10 +11,11 @@ public class LevelUtil {
     public static LevelFile levelFile = LevelFile.getInstance();
 
     public static void levelup(Player player){
-        while(new User(player.getName()).getNeedExp() < 1){
-            int level = new User(player.getName()).getLevel();
+        User user = User.getUserByName(player.getName());
+        while(user.getNeedExp() < 1){
+            int level = user.getLevel();
             ++level;
-            new User(player.getName()).setLevel(level);
+            user.setLevel(level);
             levelFile.getData().set("Users." + player.getName() + ".Level", level);
             levelFile.saveData();
             player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
