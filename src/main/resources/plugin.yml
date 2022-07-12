@@ -42,3 +42,4 @@ commands:
     description: Teleport to a parkour
     usage: /pk <pkname> (WARNING! replace " " to "_"); /pk <category> <ID>; try also /pklist;
   pkat:
+  level:

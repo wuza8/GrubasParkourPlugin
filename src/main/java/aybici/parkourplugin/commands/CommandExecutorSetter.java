@@ -175,6 +175,5 @@ public class CommandExecutorSetter {
         plugin.getCommand("apk").setExecutor(apkExecutor);
         plugin.getCommand("times").setExecutor(timesExecutor);
         plugin.getCommand("pklist").setExecutor(pklistExecutor);
-
     }
 }
