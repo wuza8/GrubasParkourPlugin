@@ -2,6 +2,7 @@ package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.users.User;
+import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,8 +17,8 @@ public class JoinListener implements Listener {
     public void onJoin(final PlayerJoinEvent event){
         Player player = event.getPlayer();
         setItems(player);
-        if (!User.containsUser(player.getName()))
-            User.createUser(player.getName());
+        if (!UserManager.containsUser(player.getName()))
+            UserManager.createUser(player.getName());
     }
 
     public static void setItems(Player player){
