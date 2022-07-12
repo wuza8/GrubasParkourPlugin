@@ -1,6 +1,7 @@
 package com.github.aybici;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,7 @@ public class SubcommandExecutor implements CommandExecutor {
         subcommand.setParentCommandName(commandName);
         executors.put(subcommand.getName(), subcommand);
         setDefaultExecutor((commandSender, command, s, strings) -> {
-            commandSender.sendMessage("Command list - "+commandName+" help");
+            commandSender.sendMessage(ChatColor.GOLD + "Command list - "+commandName+" help");
             return false;
         });
     }
