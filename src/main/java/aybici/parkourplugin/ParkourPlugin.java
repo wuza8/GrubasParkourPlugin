@@ -1,7 +1,7 @@
 package aybici.parkourplugin;
 
 import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
-import aybici.parkourplugin.commands.CommandExecutorSetter;
+import aybici.parkourplugin.commands.*;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
 import aybici.parkourplugin.listeners.ChatListener;
 import aybici.parkourplugin.listeners.InventoryInteractListener;

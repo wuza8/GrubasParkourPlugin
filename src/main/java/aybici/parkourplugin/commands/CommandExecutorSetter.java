@@ -26,6 +26,7 @@ public class CommandExecutorSetter {
         plugin.getCommand("cp").setExecutor(new CheckpointCommand());
         plugin.getCommand("showlasttry").setExecutor(new ShowLastTryCommand());
         plugin.getCommand("playdemo").setExecutor(new PlayDemoCommand());
+        plugin.getCommand("level").setExecutor(new LevelCommand());
 
         SubcommandExecutor apkExecutor = new SubcommandExecutor("apk");
         SubcommandExecutor timesExecutor = new SubcommandExecutor("times");
