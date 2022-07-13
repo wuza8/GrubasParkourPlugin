@@ -16,10 +16,9 @@ public class UserManager {
     }
 
     public static User getUserByName(String name){
-        for(User user : users){
-            if(user.getNick().equals(name))
+        for (User user : users)
+            if (user.getNick().equals(name))
                 return user;
-        }
         return null;
     }
 

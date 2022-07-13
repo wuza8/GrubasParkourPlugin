@@ -7,10 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class TopListDisplay {
 
@@ -191,15 +188,12 @@ public class TopListDisplay {
             case DATE:
                 //player.sendMessage(ChatColor.AQUA + "posortowane wg daty:");
                 topLinesToDisplay.addAll(topList);
+                topLinesToDisplay.sort(Comparator.comparing(topLine -> topLine.date));
                 break;
             case TIME:
                 //player.sendMessage(ChatColor.AQUA + "posortowane wg czasu:");
-                List<TopLine> topLinesCopy = new ArrayList<>(topList);
-                for (int i = 0; i < topList.size(); i++){
-                    TopLine bestTime = getBestTime(topLinesCopy);
-                    topLinesToDisplay.add(bestTime);
-                    topLinesCopy.remove(bestTime);
-                }
+                topLinesToDisplay.addAll(topList);
+                topLinesToDisplay.sort(Comparator.comparing(topLine -> topLine.playerTime));
                 break;
             case PLAYERS:
                 //player.sendMessage(ChatColor.AQUA + "posortowane alfabetycznie wg graczy:");

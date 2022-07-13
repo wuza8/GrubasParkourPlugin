@@ -1,10 +1,5 @@
 package aybici.parkourplugin.users;
 
-import aybici.parkourplugin.LevelFile;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
     private String nick;
     private int level;
@@ -15,13 +10,13 @@ public class User {
     }
 
     public int getNeedExp(){
-        final int multipler = 32;
+        final int multiplier = 32;
         int i = 1;
         int need = 0;
         int needexp = 0;
         while(i <= this.level){
             need = needexp;
-            needexp = i * multipler + need;
+            needexp = i * multiplier + need;
             i++;
         }
         return needexp - this.exp;
@@ -42,9 +37,17 @@ public class User {
     public void setExp(int exp){
         this.exp = exp;
     }
+    public void addExp(int exp){
+        this.exp = this.exp + exp;
+    }
 
     public String getNick(){
         return this.nick;
+    }
+    public void saveUser(){
+        UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
+        UserFile.levelFile.getData().set("Users." + nick + ".Level", getLevel());
+        UserFile.levelFile.saveData();
     }
 
 }

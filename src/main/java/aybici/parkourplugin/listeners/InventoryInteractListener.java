@@ -135,8 +135,11 @@ public class InventoryInteractListener implements Listener {
                 break;
             }
             if (!parkourSet.categoryContainsIdentifier(category, parkourID)) continue;
-            String parkourName = parkourSet.getParkourByCategoryAndID(category,parkourID).getName();
-            final ItemStack item = new ItemBuilder(Material.SPONGE, 1).setName("§b" + parkourName).addLoreLine("pk " + category.name() + " "+parkourID).toItemStack();
+            Parkour parkour = parkourSet.getParkourByCategoryAndID(category,parkourID);
+            final ItemStack item = new ItemBuilder(Material.SPONGE, 1).
+                    setName("§b" + parkour.getName()).
+                    addLoreLine("pk " + category.name() + " "+parkourID).
+                    addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
             inventory.setItem(i, item);
         }
         if (nextPageExists) {

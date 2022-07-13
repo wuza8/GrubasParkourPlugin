@@ -83,6 +83,12 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "setexp",
+                "<exp/\"calculate\">",
+                "set exp amount for finishing map",
+                new SetExpCommand()));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "desc",
                 "[append] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] []",
                 "sets or appends description of parkour",
@@ -110,7 +116,7 @@ public class CommandExecutorSetter {
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "globaldeltop",
-                "<player/all>",
+                "<player/\"all\">",
                 "deletes ALL times in ALL parkours",
                 new GlobalDeleteTopsCommand()
         ));
@@ -131,7 +137,7 @@ public class CommandExecutorSetter {
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "deltop",
-                "<player/all> [best]",
+                "<player/\"all\"> [best]",
                 "deletes times of the parkour",
                 new DeleteTopsCommand()
         ));

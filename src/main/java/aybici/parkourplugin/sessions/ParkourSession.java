@@ -105,6 +105,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             player.sendMessage(ChatColor.GREEN + "Your time: " + TopListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
+            ExpManager.levelUp(player);
 
             if(startPing <= 180 && player.getPing() <= 180) {
                 TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,parkourPlayerOn.getTopListObject().getTopList());
