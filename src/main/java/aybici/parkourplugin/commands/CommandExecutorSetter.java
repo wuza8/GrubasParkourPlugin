@@ -151,13 +151,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand("addbb"
-                , "<block1> [block2] [block3] [block4] [block5]"
+                , "<block1> [block2] [block3] [block4] [block5] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [block50]"
                 , "adds new backblocks",
                 new AddBackBlockCommand()
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand("removebb"
-                , "<block1> [block2] [block3] [block4] [block5]"
+                , "<block1> [block2] [block3] [block4] [block5] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [block50]"
                 , "removes backblocks",
                 new RemoveBackBlockCommand()
         ));
