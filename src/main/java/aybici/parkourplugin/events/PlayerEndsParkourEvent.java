@@ -1,9 +1,9 @@
 package aybici.parkourplugin.events;
 
 import aybici.parkourplugin.parkours.ExpManager;
+import aybici.parkourplugin.parkours.FinishExpSource;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.users.User;
-import aybici.parkourplugin.users.UserFile;
 import aybici.parkourplugin.users.UserManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -36,8 +36,11 @@ public class PlayerEndsParkourEvent extends Event implements Cancellable {
         this.parkour = parkourPlayerOn;
         this.timeInMillis = playerTime;
         User user = UserManager.getUserByName(player.getName());
+        if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
+            ExpManager.calculateExpOfParkour(parkour, true);
         player.sendMessage(ChatColor.DARK_GREEN + "Exp za przejście: " +ChatColor.GREEN + parkourPlayerOn.getExp());
         user.addExp(parkourPlayerOn.getExp());
+        // user.save jest wykonany później w parkourSession w metodzie levelUp, po przeteleportowaniu gracza na start
     }
 
     @Override

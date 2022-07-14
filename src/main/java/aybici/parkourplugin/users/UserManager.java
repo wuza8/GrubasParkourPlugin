@@ -1,7 +1,9 @@
 package aybici.parkourplugin.users;
 
 import aybici.parkourplugin.LevelFile;
+import aybici.parkourplugin.ParkourPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +37,10 @@ public class UserManager {
             levelFile.saveData();
         }
         return user;
+    }
+    public static void resetAllUsers(){
+        users = new ArrayList<>();
+        LevelFile.getInstance().deleteLevelFile();
+        LevelFile.getInstance().setup(ParkourPlugin.getInstance());
     }
 }

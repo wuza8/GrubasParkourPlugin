@@ -83,10 +83,18 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "global_restore_exp",
+                "<generate exp on maps \"true\"/\"false\">",
+                "only rycerz125 can perform this command",
+                new restoreExpCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "setexp",
                 "<exp/\"calculate\">",
                 "set exp amount for finishing map",
-                new SetExpCommand()));
+                new SetExpCommand()
+        ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "desc",

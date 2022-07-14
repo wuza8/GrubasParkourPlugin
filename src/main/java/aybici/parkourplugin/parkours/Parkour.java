@@ -29,6 +29,7 @@ public class Parkour{
     private String description = "No description.";
     private List<Location> checkpoints = new ArrayList<>();
     private int exp;
+    public FinishExpSource finishExpSource;
 
     Parkour(String name, Location location){
         this.name = name;
@@ -38,19 +39,25 @@ public class Parkour{
         this.category = ParkourCategory.NO_CATEGORY;
         this.identifier = 0;
         this.identifier = generateID();
+        this.exp = 0;
+        this.finishExpSource = FinishExpSource.DEFAULT;
     }
     Parkour(String name){
         this.name = name;
         this.dataFileNameInsideFolder = File.separator + "parkourData.txt";
         this.folderName = ParkourPlugin.parkourSet.parkoursFolder +File.separator +  "parkourMap_" + getName();
         this.category = ParkourCategory.NO_CATEGORY;
+        this.exp = 0;
+        this.finishExpSource = FinishExpSource.DEFAULT;
     }
 
     public int getExp() {
         return exp;
     }
 
-    public void setExp(int exp) {
+    public void setExp(int exp, boolean refreshPlayersExp) {
+        if(refreshPlayersExp)
+            ExpManager.refreshExpOfPlayers(this, exp);
         this.exp = exp;
         saveParkour(folderName + dataFileNameInsideFolder);
     }
@@ -177,6 +184,7 @@ public class Parkour{
 
         String expLine = reader.readLine();
         if(expLine.startsWith("exp:")) { // exp line exists, next line is category
+            finishExpSource = FinishExpSource.valueOf(reader.readLine());
             categoryString = reader.readLine();
             exp = Integer.parseInt(expLine.substring("exp:".length()));
         }
@@ -226,6 +234,7 @@ public class Parkour{
         writer.write(Objects.requireNonNull(location.getWorld()).getName()+"\n");
         writer.write(name+"\n");
         writer.write("exp:"+exp+"\n");
+        writer.write(finishExpSource.name()+"\n");
         writer.write(category.toString()+"\n");
         writer.write(identifier+"\n");
         writer.write(description+"\n");

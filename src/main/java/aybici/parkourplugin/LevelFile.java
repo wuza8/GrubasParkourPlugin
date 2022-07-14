@@ -13,7 +13,6 @@ import java.io.IOException;
 public class LevelFile {
 
     static LevelFile instance;
-    Plugin p;
     FileConfiguration data;
     public static File rfile;
 
@@ -40,6 +39,13 @@ public class LevelFile {
             }
         }
         data = YamlConfiguration.loadConfiguration(rfile);
+    }
+    public void deleteLevelFile(){
+        if(ParkourPlugin.getInstance().getDataFolder().exists()) {
+            File path = new File(ParkourPlugin.getInstance().getDataFolder() + File.separator + "data");
+            rfile = new File(path, String.valueOf(File.separator + "level.yml"));
+            rfile.delete();
+        }
     }
 
     public FileConfiguration getData() {

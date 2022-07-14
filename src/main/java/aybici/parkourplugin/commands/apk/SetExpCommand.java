@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands.apk;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.ExpManager;
+import aybici.parkourplugin.parkours.FinishExpSource;
 import aybici.parkourplugin.parkours.Parkour;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,13 +21,14 @@ public class SetExpCommand extends AdminParkourCommand implements CommandExecuto
         if(args.length == 1){
             int exp;
             if(args[0].equals("calculate")){
-                exp = ExpManager.calculateExpOfParkour(parkour);
+                ExpManager.calculateExpOfParkour(parkour, true);
             }
             else {
                 exp = Integer.parseInt(args[0]);
+                parkour.finishExpSource = FinishExpSource.SET;
+                parkour.setExp(exp, true);
             }
-            parkour.setExp(exp);
-            player.sendMessage("Ustawiono " + ChatColor.BLUE + exp + ChatColor.WHITE + " expa za tę mapę.");
+            player.sendMessage("Ustawiono " + ChatColor.BLUE + parkour.getExp() + ChatColor.WHITE + " expa za tę mapę.");
             return true;
         }
         return false;
