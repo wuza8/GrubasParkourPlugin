@@ -140,7 +140,7 @@ public class Parkour{
         backBlocks.remove(material);
     }
 
-    public boolean hasAnyBackBlock(List<Material> materialList) {
+    public boolean hasAnyBackBlock(Set<Material> materialList) {
         for (Material material : materialList){
             if (backBlocks.contains(material)) return true;
         }

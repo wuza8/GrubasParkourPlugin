@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 
 public class ParkourSession implements OnNewBlockPlayerStandObserver {
@@ -157,7 +157,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     }
 
     @Override
-    public void playerStandOnNewBlock(List<Material> materialList, PlayerMoveEvent event) {
+    public void playerStandOnNewBlock(Set<Material> materialList, PlayerMoveEvent event) {
         if (parkourPlayerOn == null) return;
 
         if(materialList.contains(Material.LIME_WOOL)) {

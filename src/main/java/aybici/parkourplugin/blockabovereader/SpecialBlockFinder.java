@@ -5,8 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpecialBlockFinder {
 
@@ -26,7 +26,7 @@ public class SpecialBlockFinder {
         return  collidesWithEdges;
     }
     private static void addSuspectedBlocksHorizontally(int[] edgeCollisionsTable, Location playerLocation, // constant Y
-                                                       List<Block> potentiallySpecialBlocks){ //modyfikacja przez referencję
+                                                       Set<Block> potentiallySpecialBlocks){ //modyfikacja przez referencję
         Block mainBlock = playerLocation.getBlock();
         potentiallySpecialBlocks.add(mainBlock); // dodajemy blok w punkcie, w którym jest gracz
         boolean isMainBlockPassable = mainBlock.isPassable();
@@ -49,7 +49,7 @@ public class SpecialBlockFinder {
     }
 
     private static void findPotentiallySpecialBlocks(Location playerLocation,
-                                                     List<Block> potentiallySpecialBlocks){ // modyfikacja przez referencję
+                                                     Set<Block> potentiallySpecialBlocks){ // modyfikacja przez referencję
         int[] edgeCollisionsTable = getEdgeCollisionsTable(playerLocation);
         addSuspectedBlocksHorizontally(edgeCollisionsTable, playerLocation,potentiallySpecialBlocks);
         // teraz dla y -= 1
@@ -76,14 +76,13 @@ public class SpecialBlockFinder {
                     ((int)block.getLocation().getY()) == ((int)playerLocation.getY());
         }
     }
-    public static List<Material> getCollidingBlockMaterials(Location playerLocation){
-        List<Block> potentiallySpecialBlocks = new ArrayList<>();
+    public static Set<Material> getCollidingBlockMaterials(Location playerLocation){
+        Set<Block> potentiallySpecialBlocks = new HashSet<>();
         findPotentiallySpecialBlocks(playerLocation,potentiallySpecialBlocks);
-        List<Material> suspectedMaterialList = new ArrayList<>();
+        Set<Material> suspectedMaterialList = new HashSet<>();
         for (Block block : potentiallySpecialBlocks){
             if (checkBlockTypeDependingCollision(playerLocation, block))
-                if (!suspectedMaterialList.contains(block.getType()))
-                    suspectedMaterialList.add(block.getType());
+                suspectedMaterialList.add(block.getType());
         }
 
         return suspectedMaterialList;

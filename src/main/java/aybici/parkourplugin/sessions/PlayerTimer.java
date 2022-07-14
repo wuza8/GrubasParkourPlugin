@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
+import java.util.Set;
 
 public class PlayerTimer{
     private Player player;
@@ -75,9 +76,9 @@ public class PlayerTimer{
     }
 
     private LocationWithTime getWoolEdgeLocation(LocationWithTime location1, LocationWithTime location2, Material specialMaterial){
-        List<Material> materialList1 = SpecialBlockFinder.getCollidingBlockMaterials(location1.location);
+        Set<Material> materialList1 = SpecialBlockFinder.getCollidingBlockMaterials(location1.location);
         if(materialList1.contains(specialMaterial)) {Bukkit.getLogger().info("ERROR: 1st pos contains specMaterial!");return location1;}
-        List<Material> materialList2 = SpecialBlockFinder.getCollidingBlockMaterials(location2.location);
+        Set<Material> materialList2 = SpecialBlockFinder.getCollidingBlockMaterials(location2.location);
         if(!materialList2.contains(specialMaterial)) {Bukkit.getLogger().info("ERROR: 2nd pos does not contain specMaterial!");return location2;}
 
         long timeError = 50; // ms
