@@ -3,9 +3,10 @@ package aybici.parkourplugin.users;
 import aybici.parkourplugin.LevelFile;
 import aybici.parkourplugin.ParkourPlugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.sqrt;
 
 public class UserManager {
     public static List<User> users = new ArrayList<>();
@@ -42,5 +43,11 @@ public class UserManager {
         users = new ArrayList<>();
         LevelFile.getInstance().deleteLevelFile();
         LevelFile.getInstance().setup(ParkourPlugin.getInstance());
+    }
+    public static void fixLevel(User user){
+        user.setLevel(getLevelOfExp(user.getExp()));
+    }
+    public static int getLevelOfExp(long exp){
+        return (int)Math.floor((16 + sqrt(256 + 64 * exp))/32);
     }
 }

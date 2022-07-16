@@ -1,24 +1,22 @@
 package aybici.parkourplugin.users;
 
-import org.bukkit.ChatColor;
-
 public class User {
     private String nick;
     private int level;
-    private int exp;
+    private long exp;
 
     public User(final String name){
         this.nick = name;
     }
 
-    public int getNeedExp(){
+    public long getNeedExp(){
         final int multiplier = 32;
         int i = 1;
-        int need = 0;
-        int needexp = 0;
+        long need = 0;
+        long needexp = 0;
         while(i <= this.level){
             need = needexp;
-            needexp = i * multiplier + need;
+            needexp = (long) i * multiplier + need;
             i++;
         }
         return needexp - this.exp;
@@ -32,14 +30,14 @@ public class User {
         this.level = level;
     }
 
-    public int getExp(){
+    public long getExp(){
         return this.exp;
     }
 
-    public void setExp(int exp){
+    public void setExp(long exp){
         this.exp = exp;
     }
-    public void addExp(int exp){
+    public void addExp(long exp){
         this.exp = this.exp + exp;
     }
 

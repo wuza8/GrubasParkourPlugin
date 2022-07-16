@@ -65,7 +65,7 @@ public class TopListDisplay {
             else {
                 player = Bukkit.getOfflinePlayer(ParkourPlugin.uuidList.getNameFromUUID(uuid));
                 players.add(player);
-                Bukkit.getLogger().info("Ostrzeżenie: Gracz " + player.getName() + "o ID " + uuid  + " jest w topce, ale nigdy nie byl na serwerze.");
+                //Bukkit.getLogger().info("Ostrzeżenie: Gracz " + player.getName() + "o ID " + uuid  + " jest w topce, ale nigdy nie byl na serwerze.");
             }
         }
         return players;

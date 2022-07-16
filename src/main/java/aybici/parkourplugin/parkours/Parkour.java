@@ -28,7 +28,7 @@ public class Parkour{
     private FailSet failSet;
     private String description = "No description.";
     private List<Location> checkpoints = new ArrayList<>();
-    private int exp;
+    private long exp;
     public FinishExpSource finishExpSource;
 
     Parkour(String name, Location location){
@@ -51,11 +51,11 @@ public class Parkour{
         this.finishExpSource = FinishExpSource.DEFAULT;
     }
 
-    public int getExp() {
+    public long getExp() {
         return exp;
     }
 
-    public void setExp(int exp, boolean refreshPlayersExp) {
+    public void setExp(long exp, boolean refreshPlayersExp) {
         if(refreshPlayersExp)
             ExpManager.refreshExpOfPlayers(this, exp);
         this.exp = exp;
@@ -186,7 +186,7 @@ public class Parkour{
         if(expLine.startsWith("exp:")) { // exp line exists, next line is category
             finishExpSource = FinishExpSource.valueOf(reader.readLine());
             categoryString = reader.readLine();
-            exp = Integer.parseInt(expLine.substring("exp:".length()));
+            exp = Long.parseLong(expLine.substring("exp:".length()));
         }
         else { // exp line doesn't exist, this line is category
             exp = 0;
@@ -231,7 +231,10 @@ public class Parkour{
         writer.write(location.getZ()+"\n");
         writer.write(location.getYaw()+"\n");
         writer.write(location.getPitch()+"\n");
-        writer.write(Objects.requireNonNull(location.getWorld()).getName()+"\n");
+        if(location.getWorld() != null)
+            writer.write(Objects.requireNonNull(location.getWorld()).getName()+"\n");
+        else
+            writer.write("nullPoiter\n");
         writer.write(name+"\n");
         writer.write("exp:"+exp+"\n");
         writer.write(finishExpSource.name()+"\n");

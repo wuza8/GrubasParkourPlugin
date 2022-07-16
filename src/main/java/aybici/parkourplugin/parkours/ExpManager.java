@@ -18,7 +18,7 @@ public class ExpManager {
     public static LevelFile levelFile = LevelFile.getInstance();
     public static void calculateExpOfParkour(Parkour parkour, boolean refreshPlayersExp){
         final int SAMPLE_SIZE = 5;
-        final int roundToUpBy = 5;
+        final long MAX_GENERATED_EXP = 5000;
         int topListSize = parkour.getTopListObject().getTopList().size();
         if(topListSize < SAMPLE_SIZE) {
             if(parkour.finishExpSource == FinishExpSource.DEFAULT) return;
@@ -32,15 +32,17 @@ public class ExpManager {
         long time = bestOldTopLine.playerTime;
         parkour.finishExpSource = FinishExpSource.GENERATED;
         int multiplier = ParkourCategory.getExpMultiplier(parkour.getCategory());
-        int exp = (((int)(time/1000)/roundToUpBy) + 1)*roundToUpBy * multiplier; // formuła do zmiany
+        long exp = Math.round((double)(time/1000) * Math.pow(1.2, ((double)(time/1000))/20.0) * multiplier);
+        //int exp = (((int)(time/1000)/roundToUpBy) + 1)*roundToUpBy * multiplier; // formuła do zmiany
+        if(exp > MAX_GENERATED_EXP) exp = MAX_GENERATED_EXP;
         parkour.setExp(exp, refreshPlayersExp);
     }
 
     // ta metoda nie tworzy nowych użytkowników User, koryguje jedynie statystyki już istniejących
     // oraz że ich statystyki są poprawnie policzone
     // wykonuje się ją bezpośrednio przed zmianą expa na mapie
-    public static void refreshExpOfPlayers(Parkour parkour, int newExp){
-        int oldExp = parkour.getExp();
+    public static void refreshExpOfPlayers(Parkour parkour, long newExp){
+        long oldExp = parkour.getExp();
         List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList());
         for(OfflinePlayer player : playerList){
             if(!UserManager.containsUser(player.getName())) {
@@ -50,6 +52,7 @@ public class ExpManager {
                 int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList()).size();
                 user.addExp(- timesFinished * oldExp);
                 user.addExp(timesFinished * newExp);
+                UserManager.fixLevel(user);
                 UserFile.levelFile.getData().set("Users." + user.getNick() + ".Exp", user.getExp());
                 UserFile.levelFile.getData().set("Users." + user.getNick() + ".Level", user.getLevel());
             }
@@ -73,6 +76,7 @@ public class ExpManager {
             User user = UserManager.getUserByName(player.getName());
             int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList()).size();
             user.addExp(timesFinished * parkour.getExp());
+            UserManager.fixLevel(user);
             UserFile.levelFile.getData().set("Users." + user.getNick() + ".Exp", user.getExp());
             UserFile.levelFile.getData().set("Users." + user.getNick() + ".Level", user.getLevel());
         }
@@ -91,21 +95,33 @@ public class ExpManager {
             giveUsersExpForParkour(parkour);
         }
         UserFile.levelFile.saveData();
-        Bukkit.broadcastMessage(ChatColor.MAGIC + "Liczba przejść wszystkich graczy na wszystkich parkourach: " +ChatColor.BOLD+ allCompletions);
-        Bukkit.broadcastMessage(ChatColor.MAGIC +"Dziękujemy za gre na serwerze ! ! <3");
+        String message1 = ChatColor.YELLOW + "Liczba przejść wszystkich graczy na wszystkich parkourach: "+ChatColor.WHITE +ChatColor.BOLD+ allCompletions;
+        String message2 = ChatColor.YELLOW +"Dziękujemy za gre na serwerze ! ! <3";
+        Bukkit.broadcastMessage(message1);
+        Bukkit.broadcastMessage(message2);
+        for(Player player : Bukkit.getOnlinePlayers()){
+            player.sendMessage(message1);
+            player.sendMessage(message2);
+        }
     }
 
 
     public static void levelUp(Player player){
         User user = UserManager.getUserByName(player.getName());
-        while(user.getNeedExp() < 1){
+
+        if(user.getNeedExp() < 1){ // player achieved new level
+            UserManager.fixLevel(user);
             int level = user.getLevel();
-            ++level;
-            user.setLevel(level);
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
-            Bukkit.broadcastMessage(ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!"));
-        }
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+            String message = ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!");
+            Bukkit.broadcastMessage(message); // wypis na konsolę
+            for (Player player1 : Bukkit.getOnlinePlayers()){ // wypis dla innych graczy
+                if(!player1.getName().equals(player.getName()))
+                    player1.sendMessage(message);
+            }
+        } else UserManager.fixLevel(user);
+
         user.saveUser();
     }
 
