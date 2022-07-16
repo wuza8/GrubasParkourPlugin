@@ -38,7 +38,11 @@ public class PlayerEndsParkourEvent extends Event implements Cancellable {
         User user = UserManager.getUserByName(player.getName());
         if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
             ExpManager.calculateExpOfParkour(parkour, true);
-        player.sendMessage(ChatColor.DARK_GREEN + "Exp za przejście: " +ChatColor.GREEN + parkourPlayerOn.getExp());
+        String expMessage;
+        if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
+            expMessage = ChatColor.GRAY + " dostaniesz, gdy jego ilość zostanie ustalona.";
+        else expMessage =  ": "+ ChatColor.GREEN + parkourPlayerOn.getExp();
+        player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp za przejście" + expMessage);
         user.addExp(parkourPlayerOn.getExp());
         // user.save jest wykonany później w parkourSession w metodzie levelUp, po przeteleportowaniu gracza na start
     }

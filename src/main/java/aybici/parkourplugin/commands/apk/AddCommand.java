@@ -11,7 +11,7 @@ public class AddCommand extends AdminParkourCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
 
         try {
             ParkourPlugin.parkourSet.addParkour(args[0], player.getLocation());

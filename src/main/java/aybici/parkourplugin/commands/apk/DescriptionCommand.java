@@ -14,7 +14,7 @@ public class DescriptionCommand extends AdminParkourCommand implements CommandEx
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if (!isPlayerOnParkour(player)) return true;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         Parkour parkour = session.getParkour();

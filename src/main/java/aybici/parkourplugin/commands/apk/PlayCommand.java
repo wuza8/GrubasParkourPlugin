@@ -14,7 +14,7 @@ public class PlayCommand extends AdminParkourCommand implements CommandExecutor 
         Player player = (Player) sender;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if(!isPlayerOnParkour(player)) return true;
 
         ParkourPlugin.parkourSessionSet.teleportToParkour(player, session.getParkour().getName());

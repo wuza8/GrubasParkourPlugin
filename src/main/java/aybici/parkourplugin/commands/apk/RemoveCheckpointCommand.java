@@ -11,7 +11,7 @@ public class RemoveCheckpointCommand extends AdminParkourCommand implements Comm
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if(!isPlayerOnParkour(player)) return true;
 
         if (args.length != 1) return false;

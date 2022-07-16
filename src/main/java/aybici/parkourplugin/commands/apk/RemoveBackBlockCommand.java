@@ -15,7 +15,7 @@ public class RemoveBackBlockCommand extends AdminParkourCommand implements Comma
         Player player = (Player) sender;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if(!isPlayerOnParkour(player)) return true;
 
 

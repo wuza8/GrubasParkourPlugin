@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class GlobalDeleteTopsCommand extends AdminParkourCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
         if (true){
             sender.sendMessage("nie ma opcji");
             return false;

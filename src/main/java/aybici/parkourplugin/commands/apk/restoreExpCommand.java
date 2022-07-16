@@ -1,5 +1,6 @@
 package aybici.parkourplugin.commands.apk;
 
+import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.ExpManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,11 +12,12 @@ public class restoreExpCommand extends AdminParkourCommand implements CommandExe
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
         if(!player.getName().equals("rycerz125")){
             player.sendMessage("Nie możesz tego zrobic, tylko rycerz może haha");
         }
-        ExpManager.restoreExpFromTopLists(Boolean.parseBoolean(args[0]));
+        Thread thread = new Thread(() -> ExpManager.restoreExpFromTopLists(Boolean.parseBoolean(args[0])));
+        thread.start();
         return true;
     }
 }

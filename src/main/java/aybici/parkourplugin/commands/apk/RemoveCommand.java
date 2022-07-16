@@ -11,7 +11,7 @@ public class RemoveCommand extends AdminParkourCommand implements CommandExecuto
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
 
         try {
             if (ParkourPlugin.parkourSet.removeParkour(args[0]))

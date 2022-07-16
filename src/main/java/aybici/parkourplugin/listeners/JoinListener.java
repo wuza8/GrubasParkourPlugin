@@ -1,7 +1,6 @@
 package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.itembuilder.ItemBuilder;
-import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import org.bukkit.Material;

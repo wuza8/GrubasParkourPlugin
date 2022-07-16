@@ -7,6 +7,7 @@ import aybici.parkourplugin.users.UserFile;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class ExpManager {
         long time = bestOldTopLine.playerTime;
         parkour.finishExpSource = FinishExpSource.GENERATED;
         int multiplier = ParkourCategory.getExpMultiplier(parkour.getCategory());
-        int exp = (((int)(time/1000)/roundToUpBy) + 1)*roundToUpBy * multiplier;
+        int exp = (((int)(time/1000)/roundToUpBy) + 1)*roundToUpBy * multiplier; // formuła do zmiany
         parkour.setExp(exp, refreshPlayersExp);
     }
 
@@ -90,8 +91,8 @@ public class ExpManager {
             giveUsersExpForParkour(parkour);
         }
         UserFile.levelFile.saveData();
-        Bukkit.getLogger().info("Liczba przejsc wszystkich graczy na wszystkich parkourach: " + allCompletions);
-        Bukkit.getLogger().info("Dziekujemy za gre na serwerze ! ! <3");
+        Bukkit.broadcastMessage(ChatColor.MAGIC + "Liczba przejść wszystkich graczy na wszystkich parkourach: " +ChatColor.BOLD+ allCompletions);
+        Bukkit.broadcastMessage(ChatColor.MAGIC +"Dziękujemy za gre na serwerze ! ! <3");
     }
 
 
@@ -103,8 +104,8 @@ public class ExpManager {
             user.setLevel(level);
             player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
             Bukkit.broadcastMessage(ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!"));
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         }
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         user.saveUser();
     }
 

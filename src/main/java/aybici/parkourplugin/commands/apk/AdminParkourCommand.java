@@ -1,14 +1,14 @@
 package aybici.parkourplugin.commands.apk;
 
-import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.commands.OnParkourCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 
 public abstract class AdminParkourCommand extends OnParkourCommand {
-    protected boolean SenderHasPermission(CommandSender sender){
-        if (!sender.hasPermission(ParkourPlugin.permissionSet.apkPermission)) {
-            sender.sendMessage(ChatColor.RED + "Nie masz dostępu do komend admin-parkour!");
+    protected boolean SenderHasPermission(CommandSender sender, Permission permission){
+        if (!sender.hasPermission(permission)) {
+            sender.sendMessage(ChatColor.RED + "Nie masz dostępu do komendy bez permisji " + permission);
             return false;
         }return true;
     }

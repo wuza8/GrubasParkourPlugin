@@ -98,7 +98,6 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
         PlayerEndsParkourEvent event = new PlayerEndsParkourEvent(player, parkourPlayerOn, playerTime);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        player.sendMessage(ChatColor.GREEN + "Zakonczono parkour");
 
         if(!event.isCancelled()) {
             playerTimer.resetTimer();

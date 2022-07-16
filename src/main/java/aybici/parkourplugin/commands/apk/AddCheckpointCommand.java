@@ -11,7 +11,7 @@ public class AddCheckpointCommand extends AdminParkourCommand implements Command
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if (!isPlayerOnParkour(player)) return true;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         session.staticCheckpoint.add(player.getLocation().getBlock().getLocation());

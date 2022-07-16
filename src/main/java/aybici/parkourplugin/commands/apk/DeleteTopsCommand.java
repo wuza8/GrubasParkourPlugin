@@ -20,7 +20,7 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
         Player player = (Player) sender;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
         if (!isPlayerOnParkour(player)) return true;
         /*if(!(player.getName().equals("rycerz125") || player.getName().equals("Parkourowiecc"))) {
             player.sendMessage("nei ma opcji");

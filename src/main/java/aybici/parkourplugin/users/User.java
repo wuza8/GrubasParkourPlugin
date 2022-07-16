@@ -1,5 +1,7 @@
 package aybici.parkourplugin.users;
 
+import org.bukkit.ChatColor;
+
 public class User {
     private String nick;
     private int level;

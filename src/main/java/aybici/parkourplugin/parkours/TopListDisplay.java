@@ -119,9 +119,9 @@ public class TopListDisplay {
                 "dummy", parkour.getName().replaceAll("_", " "), RenderType.INTEGER);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        scoreboard.registerNewTeam("team");
-        scoreboard.getTeam("team").setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        scoreboard.getTeam("team").addEntry(player.getName());
+        Team team = scoreboard.registerNewTeam("team");
+        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+        team.addEntry(player.getName());
 
         if (topLinesToDisplay.size() >= 5) {
             for (int i = 0; i < 5; i++)

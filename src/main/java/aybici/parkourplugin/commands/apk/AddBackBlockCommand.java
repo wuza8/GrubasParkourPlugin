@@ -13,7 +13,7 @@ public class AddBackBlockCommand extends AdminParkourCommand implements CommandE
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if (!isPlayerOnParkour(player)) return true;
 
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
