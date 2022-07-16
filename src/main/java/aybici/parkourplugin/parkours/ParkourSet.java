@@ -55,7 +55,13 @@ public class ParkourSet {
         parkours.remove( getParkour(name) );
         File parkourFolder = new File(parkoursFolder + File.separator + "parkourMap_" + name);
         for (File file : parkourFolder.listFiles()){
-            file.delete();
+            if(file.isDirectory()) {
+                for (File file1 : file.listFiles())
+                    file1.delete();
+                file.delete();
+            }
+            else
+                file.delete();
         }
         return parkourFolder.delete();
     }
@@ -63,7 +69,7 @@ public class ParkourSet {
     public void loadParkours(String directory){
         if (!new File(parkoursFolder).exists()) return;
         List<String> parkourNames = new ArrayList<>(getMapNamesFromDirectory(directory));
-        System.out.println("OTO TWOJE PARKOURY: " + parkourNames.toString());
+        System.out.println("OTO TWOJE PARKOURY: " + parkourNames);
         for (String name : parkourNames){
             Parkour parkour = new Parkour(name);
             parkour.loadParkour(directory + File.separator + "parkourMap_" + parkour.getName());
