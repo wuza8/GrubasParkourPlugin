@@ -39,6 +39,8 @@ public class InventoryInteractListener implements Listener {
             onResetItemClick(player);
         else if(materialInHand == Material.BLUE_BED)
             onBedClick(player);
+        else if(materialInHand == Material.SLIME_BALL)
+            onSlimeballClick((Event)event, player);
     }
     @EventHandler
     public void onInventoryClickItem(InventoryClickEvent event) {
@@ -186,5 +188,40 @@ public class InventoryInteractListener implements Listener {
         }
 
 
+    }
+
+    private void onSlimeballClick(final Event event, final Player player){
+        if(((PlayerInteractEvent)event).getAction() == Action.LEFT_CLICK_AIR){
+            if(player.getItemInHand() == null){
+                return;
+            }
+            if(player.getItemInHand().getType() == Material.SLIME_BALL){
+                player.chat("/hide on");
+            }
+        }
+        if(((PlayerInteractEvent)event).getAction() == Action.LEFT_CLICK_BLOCK){
+            if(player.getItemInHand() == null){
+                return;
+            }
+            if(player.getItemInHand().getType() == Material.SLIME_BALL){
+                player.chat("/hide on");
+            }
+        }
+        if(((PlayerInteractEvent)event).getAction() == Action.RIGHT_CLICK_AIR){
+            if(player.getItemInHand() == null){
+                return;
+            }
+            if(player.getItemInHand().getType() == Material.SLIME_BALL){
+                player.chat("/hide off");
+            }
+        }
+        if(((PlayerInteractEvent)event).getAction() == Action.RIGHT_CLICK_BLOCK){
+            if(player.getItemInHand() == null){
+                return;
+            }
+            if(player.getItemInHand().getType() == Material.SLIME_BALL){
+                player.chat("/hide off");
+            }
+        }
     }
 }
