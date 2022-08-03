@@ -97,8 +97,8 @@ public class ExpManager {
         UserFile.levelFile.saveData();
         String message1 = ChatColor.YELLOW + "Liczba przejść wszystkich graczy na wszystkich parkourach: "+ChatColor.WHITE +ChatColor.BOLD+ allCompletions;
         String message2 = ChatColor.YELLOW +"Dziękujemy za gre na serwerze ! ! <3";
-        Bukkit.broadcastMessage(message1);
-        Bukkit.broadcastMessage(message2);
+//        Bukkit.broadcastMessage(message1); gdyby to zawsze działało...
+//        Bukkit.broadcastMessage(message2);
         for(Player player : Bukkit.getOnlinePlayers()){
             player.sendMessage(message1);
             player.sendMessage(message2);
@@ -115,7 +115,7 @@ public class ExpManager {
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
             String message = ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!");
-            Bukkit.broadcastMessage(message); // wypis na konsolę
+            //Bukkit.broadcastMessage(message); // wypis na konsolę i dla wszystkich graczy nie zawsze działa
             for (Player player1 : Bukkit.getOnlinePlayers()){ // wypis dla innych graczy
                 if(!player1.getName().equals(player.getName()))
                     player1.sendMessage(message);

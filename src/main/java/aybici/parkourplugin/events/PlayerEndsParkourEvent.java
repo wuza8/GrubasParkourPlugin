@@ -42,7 +42,7 @@ public class PlayerEndsParkourEvent extends Event implements Cancellable {
         if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
             expMessage = ChatColor.GRAY + " dostaniesz, gdy jego ilość zostanie ustalona.";
         else expMessage =  ": "+ ChatColor.GREEN + parkourPlayerOn.getExp();
-        player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp za przejście" + expMessage);
+        player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp" + expMessage);
         user.addExp(parkourPlayerOn.getExp());
         // user.save jest wykonany później w parkourSession w metodzie levelUp, po przeteleportowaniu gracza na start
     }
