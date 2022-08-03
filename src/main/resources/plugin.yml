@@ -7,13 +7,16 @@ authors:
   - rycerz125
   - wuza8
   - MrKaratio1337
+depend:
+  - Vault
+  - LuckPerms
 commands:
   pklist:
   times:
   apk:
   playdemo:
     description: play demo of player in this parkour
-    usage: /playdemo <nick>/<"best"> [slowmode]
+    usage: /playdemo [nick]/"best" [slowmode]
   showlasttry:
     description: plays demo of last try in parkour
     usage: /showlasttry

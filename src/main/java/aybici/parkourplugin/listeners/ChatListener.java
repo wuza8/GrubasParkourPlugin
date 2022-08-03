@@ -1,7 +1,12 @@
 package aybici.parkourplugin.listeners;
 
+import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
+import aybici.parkourplugin.utils.ChatUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,17 +14,24 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-    @EventHandler//(priority = EventPriority.HIGHEST) chyba nie potrzebne
+    private ParkourPlugin instance;
+
+    public ChatListener(ParkourPlugin instance){
+        this.instance = instance;
+    }
+
+    @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        String format = event.getFormat();
+        User user = UserManager.getUserByName(player.getName());
+        /*String format = event.getFormat();
 
         int number = 1;
         String formatPart1 = format.substring(0, number+1);
         String formatPart2 = format.substring(number+1);
         formatPart1 += "[" + ChatColor.YELLOW + UserManager.getUserByName(player.getName()).getLevel() + ChatColor.WHITE + "]";
         format = formatPart1 + formatPart2;
-        event.setFormat(format);
-
+        World world = Bukkit.getWorld("");*/
+        event.setFormat(ChatUtil.fixColor("&8(&e" + user.getLevel() + "&8)&8[&f" + player.getWorld().getName() + "&8] " + "%s&8: &f%s"));
     }
 }

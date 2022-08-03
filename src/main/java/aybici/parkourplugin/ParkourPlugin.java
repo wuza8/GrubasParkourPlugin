@@ -6,13 +6,18 @@ import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
 import aybici.parkourplugin.listeners.ChatListener;
 import aybici.parkourplugin.listeners.InventoryInteractListener;
 import aybici.parkourplugin.listeners.JoinListener;
+import aybici.parkourplugin.listeners.ModifyInventory;
 import aybici.parkourplugin.parkours.ParkourSet;
 import aybici.parkourplugin.sessions.ParkourSessionSet;
 import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.users.UserFile;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
@@ -28,6 +33,10 @@ public class ParkourPlugin extends JavaPlugin {
     public static PermissionSet permissionSet = new PermissionSet();
     public static Lobby lobby = new Lobby();
     public LevelFile levelFile = LevelFile.getInstance();
+    public Chat chat = null;
+    public Permission permission = null;
+    public Economy economy = null;
+    public boolean placeholders = false;
 
     @Override
     public void onEnable() {
@@ -48,6 +57,16 @@ public class ParkourPlugin extends JavaPlugin {
         lobby.runTeleportToLobbyAllTask();
         CommandExecutorSetter.setExecutors(this);
         registerListeners();
+        this.setupChat();
+        this.setupEconomy();
+        this.setupPermissions();
+    }
+
+    public void onDisable(){
+        this.chat = null;
+        this.permission = null;
+        this.economy = null;
+        this.placeholders = false;
     }
 
     private void registerListeners(){
@@ -57,7 +76,8 @@ public class ParkourPlugin extends JavaPlugin {
         pluginManager.registerEvents(positionSaver, this);
         pluginManager.registerEvents(new JoinListener(), this);
         pluginManager.registerEvents(new InventoryInteractListener(), this);
-        pluginManager.registerEvents(new ChatListener(), this);
+        pluginManager.registerEvents(new ChatListener(this), this);
+        pluginManager.registerEvents(new ModifyInventory(), this);
     }
 
 
@@ -69,6 +89,28 @@ public class ParkourPlugin extends JavaPlugin {
     protected ParkourPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
     {
         super(loader, description, dataFolder, file);
+    }
+
+    public boolean setupChat(){
+        RegisteredServiceProvider<Chat> rsp = this.getServer().getServicesManager().getRegistration(Chat.class);
+        this.chat = (Chat)rsp.getProvider();
+        return this.chat != null;
+    }
+
+    public boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = this.getServer().getServicesManager().getRegistration(Permission.class);
+        this.permission = (Permission) rsp.getProvider();
+        return this.permission != null;
+    }
+
+    public boolean setupEconomy(){
+        if(this.getServer().getPluginManager().getPlugin("Vault") == null)
+            return false;
+        RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
+        if(rsp == null)
+            return false;
+        this.economy = (Economy) rsp.getProvider();
+        return (this.economy != null);
     }
 
     public static ParkourPlugin getInstance(){
