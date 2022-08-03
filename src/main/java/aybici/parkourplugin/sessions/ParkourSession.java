@@ -6,6 +6,7 @@ import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.events.PlayerStartsParkourEvent;
 import aybici.parkourplugin.parkours.*;
 import aybici.parkourplugin.parkours.fails.Fail;
+import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -105,6 +106,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
             teleportTo(parkourPlayerOn);
             ExpManager.levelUp(player);
+            TabUtil.refreshTab(player);
 
             if(startPing <= 180 && player.getPing() <= 180) {
                 TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,parkourPlayerOn.getTopListObject().getTopList());

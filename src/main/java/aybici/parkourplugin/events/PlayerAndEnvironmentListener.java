@@ -2,6 +2,7 @@ package aybici.parkourplugin.events;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.users.User;
+import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -54,6 +55,7 @@ public class PlayerAndEnvironmentListener implements Listener {
         Player player = event.getPlayer();
         player.teleport(ParkourPlugin.lobby.getLobbyLocation());
         ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
+        TabUtil.refreshAllPlayersTab();
     }
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event){

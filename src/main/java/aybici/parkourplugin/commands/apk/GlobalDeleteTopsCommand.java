@@ -11,7 +11,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
         if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
-        if (true){
+        if (!sender.getName().equals("rycerz125")){
             sender.sendMessage("nie ma opcji");
             return false;
         }
@@ -23,7 +23,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
             }
             sender.sendMessage("Usunięto czasy gracza " + Bukkit.getOfflinePlayer(args[0]).getName() + ": " + removes);
             if (removes != 0) return true;
-            if (args[0].equals("all")){
+            if (args[0].equals("jestemPewienZeChceUsunacWszystkieCzasyWszystkichGraczy")){
                 removes = 0;
                 for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
                     removes += parkour.getTopListObject().getTopList().size();

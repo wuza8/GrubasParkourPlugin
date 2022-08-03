@@ -5,6 +5,7 @@ import aybici.parkourplugin.parkours.ExpManager;
 import aybici.parkourplugin.parkours.FinishExpSource;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
+import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,6 +29,7 @@ public class SetExpCommand extends AdminParkourCommand implements CommandExecuto
                 parkour.finishExpSource = FinishExpSource.SET;
                 parkour.setExp(exp, true);
             }
+            TabUtil.refreshAllPlayersTab();
             player.sendMessage("Ustawiono " + ChatColor.BLUE + parkour.getExp() + ChatColor.WHITE + " expa za tę mapę.");
             return true;
         }
@@ -38,6 +40,7 @@ public class SetExpCommand extends AdminParkourCommand implements CommandExecuto
                 exp = Math.round(time * Math.pow(1.2, (time)/20.0) * ParkourCategory.getExpMultiplier(parkour.getCategory()));
                 parkour.finishExpSource = FinishExpSource.SET;
                 parkour.setExp(exp, true);
+                TabUtil.refreshAllPlayersTab();
                 player.sendMessage("Ustawiono " + ChatColor.BLUE + parkour.getExp() + ChatColor.WHITE + " expa za tę mapę.");
                 return true;
             } else return false;

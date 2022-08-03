@@ -4,6 +4,7 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
+import aybici.parkourplugin.utils.TabUtil;
 import com.connorlinfoot.titleapi.TitleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,7 +24,7 @@ public class JoinListener implements Listener {
         setItems(player);
         if (!UserManager.containsUser(player.getName()))
             UserManager.createUser(player.getName());
-        TitleAPI.sendTabTitle(player, "Header", "Footer");
+        TabUtil.refreshAllPlayersTab();
     }
 
     public static void setItems(Player player){
@@ -39,4 +40,5 @@ public class JoinListener implements Listener {
         player.getInventory().setItem(4, bedItem);
         player.updateInventory();
     }
+
 }
