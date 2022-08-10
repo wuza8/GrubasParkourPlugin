@@ -83,6 +83,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "check",
+                "<player> [\"showMapNames\"]",
+                "shows number of finished parkours by player",
+                new CheckCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "global_restore_exp",
                 "<generate exp on maps \"true\"/\"false\">",
                 "only rycerz125 can perform this command",
