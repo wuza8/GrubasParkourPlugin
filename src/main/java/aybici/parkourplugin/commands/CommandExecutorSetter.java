@@ -83,6 +83,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "pknear",
+                "[maxDisplayNumber] [\"-id\"]",
+                "shows parkours near player",
+                new ParkourNearCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "check",
                 "<player> [\"showMapNames\"]",
                 "shows number of finished parkours by player",
