@@ -63,9 +63,9 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
     private String constructParkourListString(List<Parkour> mapsInWorld){
         StringBuilder parkours = new StringBuilder();
         int parkoursDisplayedCounter = 0;
-        for(int i = 0; i < mapsInWorld.size(); i++){
-            if(parkoursDisplayedCounter < maxDisplayedMaps) {
-                parkours.append(getMapName(mapsInWorld.get(i)) + ", ");
+        for (Parkour parkour : mapsInWorld) {
+            if (parkoursDisplayedCounter < maxDisplayedMaps) {
+                parkours.append(getMapName(parkour)).append(", ");
                 parkoursDisplayedCounter++;
             } else break;
         }
