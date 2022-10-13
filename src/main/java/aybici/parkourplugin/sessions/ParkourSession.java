@@ -51,7 +51,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         return playerGameplayState;
     }
 
-    public void teleportTo(Parkour parkour){
+    public boolean teleportTo(Parkour parkour){
         PositionSaver.setPlayerWatching(player,false);
         parkourPlayerOn = parkour;
         if(parkour.getLocation().getWorld() == null) {
@@ -62,7 +62,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
                 String worldName = parkour.getWorldNameFromFile(directory);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
                 ParkourPlugin.lobby.teleportPlayerToLobby(player);
-                return;
+                return false;
             }
         }
         player.teleport(parkour.getLocation());
@@ -76,6 +76,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         staticCheckpoint = new StaticCheckpoint(this);
         staticCheckpoint.runSession();
         ParkourPlugin.positionSaver.stopSaving(player);
+        return true;
     }
 
     public boolean isPlayerOnParkour() {

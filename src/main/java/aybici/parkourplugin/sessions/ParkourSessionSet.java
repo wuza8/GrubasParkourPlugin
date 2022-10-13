@@ -23,7 +23,8 @@ public class ParkourSessionSet {
     public void teleportToParkour(Player player, String name) {
         Parkour parkour = parkourSet.getParkour(name);
         if (!ParkourPlugin.parkourSet.playerHasAccessToParkour(player, parkour, true)) return;
-        getSession(player).teleportTo(parkour);
+        boolean succeed = getSession(player).teleportTo(parkour);
+        if(!succeed) return;
 
         player.sendMessage(ChatColor.GOLD + "Dołączono do parkoura " + ChatColor.DARK_GREEN +
                 parkour.getName().replaceAll("_"," ") + ChatColor.GOLD + " w kategorii " + ChatColor.GRAY
