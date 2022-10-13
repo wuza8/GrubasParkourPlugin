@@ -225,6 +225,39 @@ public class Parkour{
         category = ParkourCategory.valueOf(categoryString);
     }
 
+    public String getWorldNameFromFile(String directory){
+        if (!new File(directory + dataFileNameInsideFolder).exists()){
+            getLogger().info("Missing file: " + directory + dataFileNameInsideFolder);
+            return null;
+        }
+        try{
+            FileReader fileReader = new FileReader(directory + dataFileNameInsideFolder);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            double x, y, z;
+            float yaw, pitch;
+            String worldName;
+
+
+            x = Double.parseDouble(reader.readLine());
+            y = Double.parseDouble(reader.readLine());
+            z = Double.parseDouble(reader.readLine());
+            yaw = Float.parseFloat(reader.readLine());
+            pitch = Float.parseFloat(reader.readLine());
+            worldName = reader.readLine();
+
+            reader.close();
+            fileReader.close();
+
+            return worldName;
+
+        } catch(IOException a){
+            System.out.println("ladowanie informacji nie powiodlo sie");
+            System.out.println(Arrays.toString(a.getStackTrace()));
+        }
+        return null;
+    }
+
     private void writeData(BufferedWriter writer) throws IOException {
         writer.write(location.getX()+"\n");
         writer.write(location.getY()+"\n");

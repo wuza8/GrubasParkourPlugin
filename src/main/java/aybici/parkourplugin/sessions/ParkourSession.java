@@ -1,5 +1,6 @@
 package aybici.parkourplugin.sessions;
 
+import aybici.parkourplugin.Lobby;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.blockabovereader.OnNewBlockPlayerStandObserver;
 import aybici.parkourplugin.events.PlayerEndsParkourEvent;
@@ -11,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
@@ -52,6 +54,17 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     public void teleportTo(Parkour parkour){
         PositionSaver.setPlayerWatching(player,false);
         parkourPlayerOn = parkour;
+        if(parkour.getLocation().getWorld() == null) {
+            String directory = ParkourPlugin.parkourSet.parkoursFolder + File.separator + "parkourMap_" + parkour.getName();
+            parkour.loadParkour(directory);
+            if(parkour.getLocation().getWorld() == null){
+                player.sendMessage("Załadowano parkour na nowo, ale dalej world = null, załadujemy świat automatycznie, spróbuj ponownie");
+                String worldName = parkour.getWorldNameFromFile(directory);
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
+                ParkourPlugin.lobby.teleportPlayerToLobby(player);
+                return;
+            }
+        }
         player.teleport(parkour.getLocation());
         playerGameplayState = PlayerGameplayState.ON_PARKOUR;
         playerTimer.resetTimer();
