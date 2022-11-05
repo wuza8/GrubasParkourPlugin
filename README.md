@@ -2,6 +2,7 @@
 Authors:
 * rycerz125
 * wuza8
+* MrKaratio1337
 ---
 ### About
 This is a plugin for parkour mini game.
