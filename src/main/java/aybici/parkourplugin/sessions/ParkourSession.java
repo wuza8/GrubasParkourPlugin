@@ -54,11 +54,11 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     public boolean teleportTo(Parkour parkour){
         PositionSaver.setPlayerWatching(player,false);
         parkourPlayerOn = parkour;
-        if(parkour.getLocation().getWorld() == null) {
+        if(parkour.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
             String directory = ParkourPlugin.parkourSet.parkoursFolder + File.separator + "parkourMap_" + parkour.getName();
-            parkour.loadParkour(directory);
+            parkour.loadParkour(directory, false);
             if(parkour.getLocation().getWorld() == null){
-                player.sendMessage("Załadowano parkour na nowo, ale dalej world = null, załadujemy świat automatycznie, spróbuj ponownie");
+                player.sendMessage("Parkour jest na niezaładowanym świecie," +ChatColor.GREEN + " Załadujemy świat automatycznie, spróbuj ponownie!");
                 String worldName = parkour.getWorldNameFromFile(directory);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
                 ParkourPlugin.lobby.teleportPlayerToLobby(player);

@@ -66,6 +66,7 @@ public class TopList {
         String file = directory + fileNameInsideFolder;
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
+        topList = new ArrayList<>(); // teraz nie powinny sie dublowac topki nawet gdy zaladujemy je ponownie gdy sa zaladowane
         boolean lineExists = true;
         while (lineExists) {
             currentLine = reader.readLine();

@@ -83,6 +83,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "removeDuplicatedToplines",
+                "[parkourName]",
+                "removes duplicated toplines from toplist.txt, you shall do restart after performing this command",
+                new RepairDuplicatedTopLinesCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "pknear",
                 "[maxDisplayNumber] [\"-id\"] [\"-idshort\"] [\"-distance\"]",
                 "shows parkours near player",

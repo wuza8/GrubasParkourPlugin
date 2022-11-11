@@ -252,7 +252,7 @@ public class Parkour{
             return worldName;
 
         } catch(IOException a){
-            System.out.println("ladowanie informacji nie powiodlo sie");
+            System.out.println("ladowanie informacji o swiecie nie powiodlo sie");
             System.out.println(Arrays.toString(a.getStackTrace()));
         }
         return null;
@@ -285,7 +285,7 @@ public class Parkour{
             }
         }
     }
-    public void loadParkour(String directory) {
+    public void loadParkour(String directory, boolean loadTopList) { // uwaga, ponowne ładowanie topki powoduje jej dublowanie
         //Bukkit.getLogger().info(directory);
         if (!new File(directory + dataFileNameInsideFolder).exists()){
             getLogger().info("Missing file: " + directory + dataFileNameInsideFolder);
@@ -302,7 +302,7 @@ public class Parkour{
 //                    + "\n      backBlocks = " + backBlocks);
 
             File topListFile = new File(directory + topList.fileNameInsideFolder);
-            if (topListFile.exists()) {
+            if (topListFile.exists() && loadTopList) {
 //                getLogger().info("Wczytywanie topek...");
                 topList.loadTopListString(directory);
             }
