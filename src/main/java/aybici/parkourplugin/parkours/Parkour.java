@@ -105,7 +105,9 @@ public class Parkour{
     }
 
     public Location getLocation(){
-        return location.clone();
+        if(location != null)
+            return location.clone();
+        else return null;
     }
 
     public void setLocation(Location location){
