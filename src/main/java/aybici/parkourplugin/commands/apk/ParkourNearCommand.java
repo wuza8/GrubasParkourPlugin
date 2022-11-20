@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands.apk;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.Parkour;
+import com.github.aybici.Subcommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 public class ParkourNearCommand extends AdminParkourCommand implements CommandExecutor {
 
@@ -53,6 +55,15 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
                 specifiedArgs.shortDisplayByIdSpecified = true;
                 continue;
             }
+            if(arg.startsWith("-maxdist=")){
+                if(specifiedArgs.maxDistanceSpecified){
+                    specifiedArgs.isArgsOK = false;
+                    break;
+                }
+                specifiedArgs.maxDistance = Double.parseDouble(arg.substring(arg.indexOf("=") + 1));
+                specifiedArgs.maxDistanceSpecified = true;
+                continue;
+            }
             try{
                 specifiedArgs.maxDisplayedMaps = Integer.parseInt(arg);
                 if(specifiedArgs.maxNumberSpecified) {
@@ -77,6 +88,14 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
             } else
             if(world.equals(parkour.getLocation().getWorld()))
                 mapsInWorld.add(parkour);
+            else if(parkour.getLocation().getWorld() == null) {
+                String worldName = parkour.getWorldNameFromFile(parkour.folderName + parkour.dataFileNameInsideFolder);
+                if(worldName != null)
+                if (worldName.equals(world.getName())) {
+                    mapsInWorld.add(parkour);
+                    parkour.getLocation().setWorld(Bukkit.getWorld(worldName)); // dodajemy temu parkourowi world bo najwyraźniej jest załadowany
+                }
+            }
         }
         return mapsInWorld;
     }
@@ -110,11 +129,13 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         boolean shortDisplayById;
         int maxDisplayedMaps;
         boolean displayDistance;
+        double maxDistance;
 
         boolean idDisplaySpecified;
         boolean shortDisplayByIdSpecified;
         boolean maxNumberSpecified;
         boolean displayDistanceSpecified;
+        boolean maxDistanceSpecified;
 
         boolean isArgsOK;
 
@@ -123,11 +144,13 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
             shortDisplayById = false;
             maxDisplayedMaps = 5;
             displayDistance = false;
+            maxDistance = Integer.MAX_VALUE;
 
             idDisplaySpecified = false;
             shortDisplayByIdSpecified = false;
             maxNumberSpecified = false;
             displayDistanceSpecified = false;
+            maxDistanceSpecified = false;
 
             isArgsOK = true;
         }
@@ -141,12 +164,18 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         Args specifiedArgs = specifyArgs(args);
 
         if (!specifiedArgs.isArgsOK) {
-            return false;
+            player.sendMessage(command.getUsage());
+            return true;
         }
 
         List<Parkour> mapsInWorld = getMapsInWorld(playerLocation.getWorld());
+        String distanceMessage = "";
+        if(specifiedArgs.maxDistanceSpecified) {
+            mapsInWorld.removeIf(o -> o.getLocation().distanceSquared(playerLocation) > Math.pow(specifiedArgs.maxDistance, 2));
+            distanceMessage = " w odległości " + specifiedArgs.maxDistance;
+        }
         mapsInWorld.sort(Comparator.comparing(map -> playerLocation.distanceSquared(map.getLocation())));
-        player.sendMessage("Znalezione parkoury w tym świecie: " + mapsInWorld.size());
+        player.sendMessage("Znalezione parkoury w tym świecie" + distanceMessage +": " + mapsInWorld.size());
         player.sendMessage("Najbliższe mapy to: ");
         player.sendMessage(constructParkourListString(mapsInWorld, specifiedArgs, playerLocation));
         return true;

@@ -91,7 +91,7 @@ public class CommandExecutorSetter {
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "pknear",
-                "[maxDisplayNumber] [\"-id\"] [\"-idshort\"] [\"-distance\"]",
+                "[maxDisplayNumber] [\"-id\"] [\"-idshort\"] [\"-distance\"] [\"-maxdist={meters}\"]",
                 "shows parkours near player",
                 new ParkourNearCommand()
         ));
