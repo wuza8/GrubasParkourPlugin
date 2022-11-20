@@ -55,7 +55,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         PositionSaver.setPlayerWatching(player,false);
         parkourPlayerOn = parkour;
         if(parkour.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
-            String directory = ParkourPlugin.parkourSet.parkoursFolder + File.separator + "parkourMap_" + parkour.getName();
+            String directory = parkour.folderName + parkour.dataFileNameInsideFolder;
             parkour.loadParkour(directory, false);
             if(parkour.getLocation().getWorld() == null){
                 player.sendMessage("Parkour jest na niezaładowanym świecie," +ChatColor.GREEN + " Załadujemy świat automatycznie, spróbuj ponownie!");

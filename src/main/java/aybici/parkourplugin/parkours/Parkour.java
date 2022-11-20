@@ -228,12 +228,12 @@ public class Parkour{
     }
 
     public String getWorldNameFromFile(String directory){
-        if (!new File(directory + dataFileNameInsideFolder).exists()){
-            getLogger().info("Missing file: " + directory + dataFileNameInsideFolder);
+        if (!new File(directory).exists()){
+            getLogger().info("Missing file: " + directory);
             return null;
         }
         try{
-            FileReader fileReader = new FileReader(directory + dataFileNameInsideFolder);
+            FileReader fileReader = new FileReader(directory);
             BufferedReader reader = new BufferedReader(fileReader);
 
             double x, y, z;
