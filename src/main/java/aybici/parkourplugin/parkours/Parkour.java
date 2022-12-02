@@ -110,8 +110,9 @@ public class Parkour{
         else return null;
     }
 
-    public void setLocation(Location location){
+    public void setLocation(Location location, boolean autosave){
         this.location = location.clone();
+        if(autosave)
         saveParkour(folderName + dataFileNameInsideFolder);
     }
 
@@ -200,6 +201,7 @@ public class Parkour{
         numberOfBackBlocks = Integer.parseInt(reader.readLine());
 
         backBlockNamesSet = new String[numberOfBackBlocks];
+        backBlocks.clear();
         for (int i = 0; i < numberOfBackBlocks; i++){
             backBlockNamesSet[i] = reader.readLine();
             backBlocks.add(getMaterial(backBlockNamesSet[i]));
@@ -208,6 +210,7 @@ public class Parkour{
         World world = Bukkit.getWorld(worldName);
 
         String line = reader.readLine();
+        checkpoints.clear();
         if (line != null) {
             int checkpointsNumber = Integer.parseInt(line);
             for (int i = 0; i < checkpointsNumber; i++) {

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Predicate;
 
 public class ParkourNearCommand extends AdminParkourCommand implements CommandExecutor {
 
@@ -92,8 +91,12 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
                 String worldName = parkour.getWorldNameFromFile(parkour.folderName + parkour.dataFileNameInsideFolder);
                 if(worldName != null)
                 if (worldName.equals(world.getName())) {
+                    // dodajemy temu parkourowi worlda bo najwyraźniej jest (world) załadowany
+                    Location parkourLocation = parkour.getLocation();
+                    parkourLocation.setWorld(Bukkit.getWorld(worldName));
+                    parkour.setLocation(parkourLocation, false);
+
                     mapsInWorld.add(parkour);
-                    parkour.getLocation().setWorld(Bukkit.getWorld(worldName)); // dodajemy temu parkourowi world bo najwyraźniej jest załadowany
                 }
             }
         }
@@ -164,7 +167,16 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         Args specifiedArgs = specifyArgs(args);
 
         if (!specifiedArgs.isArgsOK) {
-            player.sendMessage(command.getUsage());
+            player.sendMessage(ChatColor.GREEN + "/apk pknear "+
+                    "[maxDisplayNumber] [\"-id\"] [\"-idshort\"] [\"-distance\"] [\"-maxdist={meters}\"]\n"+ ChatColor.WHITE +
+                    "shows parkours near player in player's world");
+            player.sendMessage("Specify valid arguments, order doesn't matter");
+
+            player.sendMessage(ChatColor.GREEN + "maxDisplayNumber" + ChatColor.DARK_GREEN +" - positive integer, specifies how many found maps should be displayed, default: 5");
+            player.sendMessage(ChatColor.GREEN + "\"-id\"" + ChatColor.DARK_GREEN +" - specifies display variant <CATEGORY PARKOUR_ID>, default: no");
+            player.sendMessage(ChatColor.GREEN + "\"-idshort\"" + ChatColor.DARK_GREEN +" - specifies shortened display variant of <CATEGORY PARKOUR_ID>, default: no");
+            player.sendMessage(ChatColor.GREEN + "\"-distance\"" + ChatColor.DARK_GREEN +" - shows corresponding distance from the player, default: no");
+            player.sendMessage(ChatColor.GREEN + "\"-maxdist={meters}\"" + ChatColor.DARK_GREEN +" - only show maps which distance is less than specified, e.g -maxdist=1000, default: inf");
             return true;
         }
 

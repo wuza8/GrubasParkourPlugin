@@ -16,7 +16,7 @@ public class SetSpawnCommand extends AdminParkourCommand implements CommandExecu
         if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         if(!isPlayerOnParkour(player)) return true;
 
-        session.getParkour().setLocation(player.getLocation());
+        session.getParkour().setLocation(player.getLocation(), true);
         player.sendMessage("Parkour spawn moved!");
         return false;
     }
