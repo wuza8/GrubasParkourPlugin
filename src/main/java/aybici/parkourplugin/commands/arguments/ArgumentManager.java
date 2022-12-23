@@ -11,12 +11,18 @@ public class ArgumentManager {
     public ArgumentManager(){
         arguments = new ArrayList<>();
     }
-    public void parseAllArgs(String[] stringArgs){
+    public boolean parseAllArgs(String[] stringArgs){
+        int specifiedArgs = 0;
         for (String arg : stringArgs) {
             for (Argument argument : arguments) {
-                argument.parseArg(arg);
+                if(!argument.isSpecified()) {
+                    argument.parseArg(arg);
+                    if(argument.isSpecified())
+                        specifiedArgs ++;
+                }
             }
         }
+        return (specifiedArgs == stringArgs.length);
     }
     public void addArgument(Argument argument){
         arguments.add(argument);

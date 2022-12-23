@@ -50,32 +50,42 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
     public PlayerGameplayState getPlayerGameplayState(){
         return playerGameplayState;
     }
-
-    public boolean teleportTo(Parkour parkour){
-        PositionSaver.setPlayerWatching(player,false);
-
+    private boolean isPlayerJailed(){
         if(ParkourPlugin.getInstance().essentials != null)
-        if(ParkourPlugin.getInstance().essentials.getUser(player).isJailed()){
-            player.sendMessage( ChatColor.RED + "Jesteś w więzieniu, nie możesz wchodzić na mapy :(");
-            long jailTime =
-            ParkourPlugin.getInstance().essentials.getUser(player).getJailTimeout();
-            player.sendMessage(ChatColor.DARK_GRAY + "Do końca kary zostało " + (jailTime - System.currentTimeMillis()) + " ms");
-            ParkourPlugin.lobby.teleportPlayerToLobby(player);
-            return false;
-        }
-
-        parkourPlayerOn = parkour;
-        if(parkour.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
-            String directory = parkour.folderName + parkour.dataFileNameInsideFolder;
-            parkour.loadParkour(parkour.folderName, false);
-            if(parkour.getLocation().getWorld() == null){
-                player.sendMessage("Parkour "+ ChatColor.GRAY +parkour.getName() +ChatColor.WHITE+ " jest na niezaładowanym świecie," +ChatColor.GREEN + " Załadujemy świat automatycznie, spróbuj ponownie!");
-                String worldName = parkour.getWorldNameFromFile(directory);
+            if(ParkourPlugin.getInstance().essentials.getUser(player).isJailed()){
+                player.sendMessage( ChatColor.RED + "Jesteś w więzieniu, nie możesz wchodzić na mapy :(");
+                long jailTime =
+                        ParkourPlugin.getInstance().essentials.getUser(player).getJailTimeout();
+                player.sendMessage(ChatColor.DARK_GRAY + "Do końca kary zostało " + (jailTime - System.currentTimeMillis()) + " ms");
+                ParkourPlugin.lobby.teleportPlayerToLobby(player);
+                return true;
+            }
+        return false;
+    }
+    private boolean isMapLoaded(){
+        if(parkourPlayerOn.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
+            String directory = parkourPlayerOn.folderName + parkourPlayerOn.dataFileNameInsideFolder;
+            parkourPlayerOn.loadParkour(parkourPlayerOn.folderName, false);
+            if(parkourPlayerOn.getLocation().getWorld() == null){
+                player.sendMessage("Parkour "+ ChatColor.GRAY +parkourPlayerOn.getName() +ChatColor.WHITE+ " jest na niezaładowanym świecie," +ChatColor.GREEN + " Załadujemy świat automatycznie, spróbuj ponownie!");
+                String worldName = parkourPlayerOn.getWorldNameFromFile(directory);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
                 ParkourPlugin.lobby.teleportPlayerToLobby(player);
                 return false;
             }
         }
+        return true;
+    }
+    public boolean teleportTo(Parkour parkour){
+        PositionSaver.setPlayerWatching(player,false);
+
+        boolean playerInJail = isPlayerJailed();
+        if(playerInJail) return false;
+
+        parkourPlayerOn = parkour;
+        boolean mapIsLoaded = isMapLoaded();
+        if(!mapIsLoaded) return false;
+
         player.teleport(parkour.getLocation());
         playerGameplayState = PlayerGameplayState.ON_PARKOUR;
         playerTimer.resetTimer();

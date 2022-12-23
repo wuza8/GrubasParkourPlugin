@@ -1,8 +1,6 @@
 package commands.arguments;
 
-import aybici.parkourplugin.commands.arguments.Argument;
-import aybici.parkourplugin.commands.arguments.ArgumentManager;
-import aybici.parkourplugin.commands.arguments.BooleanArgument;
+import aybici.parkourplugin.commands.arguments.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -51,5 +49,42 @@ public class ArgumentManagerTest {
         argumentManager.parseAllArgs(args);
         Assertions.assertEquals(true, arg1.isSpecified());
         Assertions.assertEquals(true, arg1.getValue());
+    }
+
+    @Test
+    public void parseNumberArguments(){
+        IntArgument intArgument = new IntArgument("-intArg=", 5);
+        DoubleArgument doubleArgument = new DoubleArgument("-doubleArg=", 1.1);
+        DominantIntArgument dominantIntArgument = new DominantIntArgument(14);
+        ArgumentManager argumentManager = new ArgumentManager();
+        argumentManager.addArgument(intArgument);
+        argumentManager.addArgument(doubleArgument);
+        argumentManager.addArgument(dominantIntArgument);
+        String[] args = {"-intArg=10","12","-doubleArg=2.1"};
+        boolean isArgsOk = argumentManager.parseAllArgs(args);
+        Assertions.assertEquals(true, intArgument.isSpecified());
+        Assertions.assertEquals(10, intArgument.getValue());
+        Assertions.assertEquals(true, doubleArgument.isSpecified());
+        Assertions.assertEquals(2.1, doubleArgument.getValue());
+        Assertions.assertEquals(true, dominantIntArgument.isSpecified());
+        Assertions.assertEquals(12, dominantIntArgument.getValue());
+        Assertions.assertEquals(true, isArgsOk);
+
+        intArgument = new IntArgument("-intArg=", 5);
+        doubleArgument = new DoubleArgument("-doubleArg=", 1.1);
+        dominantIntArgument = new DominantIntArgument(3);
+        argumentManager = new ArgumentManager();
+        argumentManager.addArgument(intArgument);
+        argumentManager.addArgument(doubleArgument);
+        argumentManager.addArgument(dominantIntArgument);
+        String[] args2 = {"-intArg=asdf","-doubleArg=2.2a","23"};
+        isArgsOk = argumentManager.parseAllArgs(args2);
+        Assertions.assertEquals(false, intArgument.isSpecified());
+        Assertions.assertEquals(5, intArgument.getValue());
+        Assertions.assertEquals(false, doubleArgument.isSpecified());
+        Assertions.assertEquals(1.1, doubleArgument.getValue());
+        Assertions.assertEquals(true, dominantIntArgument.isSpecified());
+        Assertions.assertEquals(23, dominantIntArgument.getValue());
+        Assertions.assertEquals(false, isArgsOk);
     }
 }
