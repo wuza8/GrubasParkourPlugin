@@ -53,6 +53,17 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
     public boolean teleportTo(Parkour parkour){
         PositionSaver.setPlayerWatching(player,false);
+
+        if(ParkourPlugin.getInstance().essentials != null)
+        if(ParkourPlugin.getInstance().essentials.getUser(player).isJailed()){
+            player.sendMessage( ChatColor.RED + "Jesteś w więzieniu, nie możesz wchodzić na mapy :(");
+            long jailTime =
+            ParkourPlugin.getInstance().essentials.getUser(player).getJailTimeout();
+            player.sendMessage(ChatColor.DARK_GRAY + "Do końca kary zostało " + (jailTime - System.currentTimeMillis()) + " ms");
+            ParkourPlugin.lobby.teleportPlayerToLobby(player);
+            return false;
+        }
+
         parkourPlayerOn = parkour;
         if(parkour.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
             String directory = parkour.folderName + parkour.dataFileNameInsideFolder;

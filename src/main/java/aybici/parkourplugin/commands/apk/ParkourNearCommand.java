@@ -1,6 +1,9 @@
 package aybici.parkourplugin.commands.apk;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.commands.arguments.Argument;
+import aybici.parkourplugin.commands.arguments.ArgumentManager;
+import aybici.parkourplugin.commands.arguments.BooleanArgument;
 import aybici.parkourplugin.parkours.Parkour;
 import com.github.aybici.Subcommand;
 import org.bukkit.Bukkit;
@@ -18,7 +21,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class ParkourNearCommand extends AdminParkourCommand implements CommandExecutor {
+    private BooleanArgument idArgument = new BooleanArgument("-id", false);
+    private BooleanArgument idShortArgument = new BooleanArgument("-idshort", false);
+    private void parseArgs(String[] args){
+        ArgumentManager argumentManager = new ArgumentManager();
+        argumentManager.addArgument(idArgument);
+        argumentManager.addArgument(idShortArgument);
 
+        argumentManager.parseAllArgs(args);
+    }
     private Args specifyArgs(String[] args){
         Args specifiedArgs = new Args();
 

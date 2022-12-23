@@ -3,6 +3,7 @@ package aybici.parkourplugin.events;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.utils.TabUtil;
+import com.earth2me.essentials.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,6 +17,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerCommandEvent;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class PlayerAndEnvironmentListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -131,14 +135,19 @@ public class PlayerAndEnvironmentListener implements Listener {
             event.setCancelled(true);
         }
     }
-    /*@EventHandler
+    @EventHandler
     public void onBanningSomeone(PlayerCommandPreprocessEvent event){
-        if (event.getMessage().contains("ban ") || event.getMessage().contains("banip ") || event.getMessage().contains("ban-ip "))
+        if (event.getMessage().contains("ban ") || event.getMessage().contains("banip ") || event.getMessage().contains("ban-ip ")){
             event.setCancelled(true);
+            event.getPlayer().sendMessage("Użyj /jail player wiezienie 10m");
+        }
+
     }
     @EventHandler
     public void onBanningSomeoneConsole(ServerCommandEvent event){
-        if (event.getCommand().contains("ban ") || event.getCommand().contains("banip ") || event.getCommand().contains("ban-ip "))
+        if (event.getCommand().contains("ban ") || event.getCommand().contains("banip ") || event.getCommand().contains("ban-ip ")) {
             event.setCancelled(true);
-    }*/
+            event.getSender().sendMessage("Użyj /jail player wiezienie 10m");
+        }
+    }
 }

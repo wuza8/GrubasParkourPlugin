@@ -11,8 +11,6 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.startsWith;
 
 public class ParkourPluginTest {
     private PlayerMock player;
@@ -21,21 +19,21 @@ public class ParkourPluginTest {
     private Location parkourStartBlockLocation;
     private Location parkourStopBlockLocation;
     private Location parkourBackBlock;
-
+    private ParkourPlugin plugin;
     private Random random;
 
     @Before
     public void setUp() {
         ServerMock server = MockBukkit.mock();
-        ParkourPlugin plugin = MockBukkit.load(ParkourPlugin.class);
-        player = server.addPlayer();
-        World world = player.getLocation().getWorld();
-        parkourSpawn = new Location(world, 100, 10, 100);
-        parkourStartBlockLocation = new Location(world, 102, 10, 100);
-        parkourStopBlockLocation = new Location(world, 115, 10, 100);
-        parkourBackBlock = new Location(world, 105, 9, 100);
-        createParkour();
-        random = new Random();
+        plugin = MockBukkit.load(ParkourPlugin.class);
+//        player = server.addPlayer();
+//        World world = player.getLocation().getWorld();
+//        parkourSpawn = new Location(world, 100, 10, 100);
+//        parkourStartBlockLocation = new Location(world, 102, 10, 100);
+//        parkourStopBlockLocation = new Location(world, 115, 10, 100);
+//        parkourBackBlock = new Location(world, 105, 9, 100);
+//        createParkour();
+//        random = new Random();
     }
 
     private void createParkour(){
@@ -78,6 +76,12 @@ public class ParkourPluginTest {
         player.simulatePlayerMove(parkourBackBlock);
         //TODO: Find out why this line doesn't work on MockBukkit
         //player.assertTeleported(parkourSpawn, 1);
+    }
+    @Test
+    public void checkEssentials(){
+        if(plugin.essentials != null){
+            System.out.println("passed essentials");
+        }else System.out.println("not passed essentials");
     }
 
     private void stepOnGreenWool(){

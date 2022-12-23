@@ -1,6 +1,6 @@
 name: ParkourPlugin
 main: aybici.parkourplugin.ParkourPlugin
-softdepend: [Multiverse-Core]
+softdepend: [Multiverse-Core, Essentials]
 version: 0.1
 api-version: 1.16
 authors:
