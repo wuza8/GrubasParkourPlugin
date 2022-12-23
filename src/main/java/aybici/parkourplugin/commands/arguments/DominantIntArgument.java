@@ -17,9 +17,12 @@ public class DominantIntArgument extends Argument{
     public DominantIntArgument(int defaultValue){
         this.value = defaultValue;
         this.specified = false;
+        this.isObligatory = false;
     }
-    public DominantIntArgument(){
-        this(0);
+    public DominantIntArgument(boolean isObligatory){
+        this.value = 0;
+        this.specified = false;
+        this.isObligatory = isObligatory;
     }
     public int getValue(){
         return value;

@@ -21,9 +21,13 @@ public class IntArgument extends Argument{
         this.textPrefixNeededToSetValue = textPrefixNeededToSetValue;
         this.value = defaultValue;
         this.specified = false;
+        this.isObligatory = false;
     }
-    public IntArgument(String textPrefixNeededToSetValue){
-        this(textPrefixNeededToSetValue, 0);
+    public IntArgument(String textPrefixNeededToSetValue, boolean isObligatory){
+        this.textPrefixNeededToSetValue = textPrefixNeededToSetValue;
+        this.value = 0;
+        this.specified = false;
+        this.isObligatory = isObligatory;
     }
     public int getValue(){
         return value;

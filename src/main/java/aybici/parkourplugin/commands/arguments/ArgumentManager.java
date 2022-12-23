@@ -22,6 +22,9 @@ public class ArgumentManager {
                 }
             }
         }
+        for(Argument argument : arguments)
+            if(argument.isObligatory && !argument.isSpecified())
+                return false;
         return (specifiedArgs == stringArgs.length);
     }
     public void addArgument(Argument argument){

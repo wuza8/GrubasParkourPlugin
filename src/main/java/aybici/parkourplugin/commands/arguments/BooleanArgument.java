@@ -22,5 +22,6 @@ public class BooleanArgument extends Argument{
         this.value = defaultValue;
         this.textNeededToChangeValue = textNeededToChangeValue;
         this.specified = false;
+        this.isObligatory = false;
     }
 }

@@ -21,9 +21,13 @@ public class DoubleArgument extends Argument{
         this.textPrefixNeededToSetValue = textPrefixNeededToSetValue;
         this.value = defaultValue;
         this.specified = false;
+        this.isObligatory = false;
     }
-    public DoubleArgument(String textPrefixNeededToSetValue){
-        this(textPrefixNeededToSetValue, 0);
+    public DoubleArgument(String textPrefixNeededToSetValue, boolean isObligatory){
+        this.textPrefixNeededToSetValue = textPrefixNeededToSetValue;
+        this.value = 0;
+        this.specified = false;
+        this.isObligatory = isObligatory;
     }
     public double getValue(){
         return value;

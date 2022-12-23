@@ -55,7 +55,7 @@ public class ArgumentManagerTest {
     public void parseNumberArguments(){
         IntArgument intArgument = new IntArgument("-intArg=", 5);
         DoubleArgument doubleArgument = new DoubleArgument("-doubleArg=", 1.1);
-        DominantIntArgument dominantIntArgument = new DominantIntArgument(14);
+        DominantIntArgument dominantIntArgument = new DominantIntArgument(true);
         ArgumentManager argumentManager = new ArgumentManager();
         argumentManager.addArgument(intArgument);
         argumentManager.addArgument(doubleArgument);
@@ -72,17 +72,17 @@ public class ArgumentManagerTest {
 
         intArgument = new IntArgument("-intArg=", 5);
         doubleArgument = new DoubleArgument("-doubleArg=", 1.1);
-        dominantIntArgument = new DominantIntArgument(3);
+        dominantIntArgument = new DominantIntArgument(true);
         argumentManager = new ArgumentManager();
         argumentManager.addArgument(intArgument);
         argumentManager.addArgument(doubleArgument);
         argumentManager.addArgument(dominantIntArgument);
-        String[] args2 = {"-intArg=asdf","-doubleArg=2.2a","23"};
+        String[] args2 = {"-intArg=10","-doubleArg=2.2","23", "23"};
         isArgsOk = argumentManager.parseAllArgs(args2);
-        Assertions.assertEquals(false, intArgument.isSpecified());
-        Assertions.assertEquals(5, intArgument.getValue());
-        Assertions.assertEquals(false, doubleArgument.isSpecified());
-        Assertions.assertEquals(1.1, doubleArgument.getValue());
+        Assertions.assertEquals(true, intArgument.isSpecified());
+        Assertions.assertEquals(10, intArgument.getValue());
+        Assertions.assertEquals(true, doubleArgument.isSpecified());
+        Assertions.assertEquals(2.2, doubleArgument.getValue());
         Assertions.assertEquals(true, dominantIntArgument.isSpecified());
         Assertions.assertEquals(23, dominantIntArgument.getValue());
         Assertions.assertEquals(false, isArgsOk);
