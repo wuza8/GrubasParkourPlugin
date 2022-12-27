@@ -4,7 +4,7 @@ import static aybici.parkourplugin.utils.NumberParser.tryParseInt;
 
 public class IntArgument extends Argument{
     private String textPrefixNeededToSetValue;
-    private int value;
+    protected int value;
     @Override
     public void parseArg(String text) {
         if(specified)

@@ -13,12 +13,15 @@ public class ArgumentManager {
     }
     public boolean parseAllArgs(String[] stringArgs){
         int specifiedArgs = 0;
+        relocateDominantStringArg();
         for (String arg : stringArgs) {
             for (Argument argument : arguments) {
                 if(!argument.isSpecified()) {
                     argument.parseArg(arg);
-                    if(argument.isSpecified())
-                        specifiedArgs ++;
+                    if(argument.isSpecified()) {
+                        specifiedArgs++;
+                        break;
+                    }
                 }
             }
         }
@@ -29,5 +32,20 @@ public class ArgumentManager {
     }
     public void addArgument(Argument argument){
         arguments.add(argument);
+    }
+    private void relocateDominantStringArg(){
+        Argument dominantStringArgument = null;
+        int domStringIndex = 0;
+
+        for(Argument argument : arguments){
+            if(argument instanceof DominantStringArgument) {
+                dominantStringArgument = argument;
+                domStringIndex = arguments.indexOf(argument);
+            }
+        }
+        if(dominantStringArgument != null){
+            arguments.remove(domStringIndex);
+            arguments.add(dominantStringArgument);
+        }
     }
 }

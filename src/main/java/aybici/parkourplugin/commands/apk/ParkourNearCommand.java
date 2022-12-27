@@ -21,12 +21,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class ParkourNearCommand extends AdminParkourCommand implements CommandExecutor {
-    private final BooleanArgument idArgument = new BooleanArgument("-id", false);
-    private final BooleanArgument idShortArgument = new BooleanArgument("-idshort", false);
-    private final BooleanArgument showDistanceArgument = new BooleanArgument("-distance", false);
-    private final IntArgument maxDistanceArgument = new IntArgument("-maxdist=", Integer.MAX_VALUE);
-    private final DominantIntArgument maxAmountDisplay = new DominantIntArgument(5);
+    private BooleanArgument idArgument;
+    private BooleanArgument idShortArgument ;
+    private BooleanArgument showDistanceArgument;
+    private IntArgument maxDistanceArgument;
+    private DominantIntArgument maxAmountDisplay;
     private boolean parseArgs(String[] args){
+        idArgument = new BooleanArgument("-id", false);
+        idShortArgument = new BooleanArgument("-idshort", false);
+        showDistanceArgument = new BooleanArgument("-distance", false);
+        maxDistanceArgument = new IntArgument("-maxdist=", Integer.MAX_VALUE);
+        maxAmountDisplay = new DominantIntArgument(5);
         ArgumentManager argumentManager = new ArgumentManager();
         argumentManager.addArgument(idArgument);
         argumentManager.addArgument(idShortArgument);
@@ -87,7 +92,7 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
 
         boolean isArgsOK = parseArgs(args);
 
-        if (isArgsOK) {
+        if (!isArgsOK) {
             player.sendMessage(ChatColor.GREEN + "/apk pknear "+
                     "[maxDisplayNumber] [\"-id\"] [\"-idshort\"] [\"-distance\"] [\"-maxdist={meters}\"]\n"+ ChatColor.WHITE +
                     "shows parkours near player in player's world");

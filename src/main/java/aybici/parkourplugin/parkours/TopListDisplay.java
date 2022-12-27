@@ -27,7 +27,7 @@ public class TopListDisplay {
         if(bestTimeLine.playerTime < Long.MAX_VALUE){
             return bestTimeLine;
         }
-        System.out.println("Nobody finished the parkour.");
+        Bukkit.getLogger().info("Nobody finished the parkour.");
         return null;
     }
 

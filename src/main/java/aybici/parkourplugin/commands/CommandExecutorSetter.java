@@ -166,7 +166,7 @@ public class CommandExecutorSetter {
 
         apkExecutor.addCommandExecutor(new Subcommand(
                 "deltop",
-                "<player/\"all\"> [best]",
+                "<player/\"all\"> [best] [demo] [permanently]",
                 "deletes times of the parkour",
                 new DeleteTopsCommand()
         ));

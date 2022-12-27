@@ -87,4 +87,65 @@ public class ArgumentManagerTest {
         Assertions.assertEquals(23, dominantIntArgument.getValue());
         Assertions.assertEquals(false, isArgsOk);
     }
+    @Test
+    public void parseStringArgument(){
+        StringArgument stringArgument1 = new StringArgument("arg1=", false);
+        DominantStringArgument dominantStringArgument = new DominantStringArgument(false);
+        DominantIntArgument intArgument =  new DominantIntArgument(false);
+
+        ArgumentManager argumentManager = new ArgumentManager();
+        argumentManager.addArgument(dominantStringArgument);
+        argumentManager.addArgument(intArgument);
+        argumentManager.addArgument(stringArgument1);
+
+        String[] args = {"25","rycerz125","arg1=best"};
+        boolean isArgsOk = argumentManager.parseAllArgs(args);
+
+        Assertions.assertTrue(isArgsOk);
+        Assertions.assertEquals(25, intArgument.getValue());
+        Assertions.assertEquals("rycerz125", dominantStringArgument.getValue());
+        Assertions.assertEquals("best", stringArgument1.getValue());
+    }
+//    @Test
+//    public void relocateTest(){
+//        StringArgument stringArgument1 = new StringArgument("arg1=", false);
+//        DominantStringArgument dominantStringArgument = new DominantStringArgument(false);
+//        DominantIntArgument intArgument =  new DominantIntArgument(false);
+//
+//        ArgumentManager argumentManager = new ArgumentManager();
+//        argumentManager.addArgument(dominantStringArgument);
+//        argumentManager.addArgument(intArgument);
+//        argumentManager.addArgument(stringArgument1);
+//
+//        Assertions.assertEquals(dominantStringArgument, argumentManager.arguments.get(0));
+//        Assertions.assertEquals(intArgument, argumentManager.arguments.get(1));
+//        Assertions.assertEquals(stringArgument1, argumentManager.arguments.get(2));
+//
+//        argumentManager.relocateDominantStringArg();
+//        Assertions.assertEquals(intArgument, argumentManager.arguments.get(0));
+//        Assertions.assertEquals(stringArgument1, argumentManager.arguments.get(1));
+//        Assertions.assertEquals(dominantStringArgument, argumentManager.arguments.get(2));
+//    }
+    @Test
+    public void deltopTest(){
+        BooleanArgument deleteDemoFile = new BooleanArgument("demo", false);
+        BooleanArgument deleteOnlyBest = new BooleanArgument("best", false);
+        DominantStringArgument playerName = new DominantStringArgument(false);
+        BooleanArgument deleteAllOnParkour = new BooleanArgument("all", false);
+        BooleanArgument safeDelete = new BooleanArgument("permanently", true);
+        ArgumentManager argumentManager = new ArgumentManager();
+        argumentManager.addArgument(deleteDemoFile);
+        argumentManager.addArgument(deleteOnlyBest);
+        argumentManager.addArgument(playerName);
+        argumentManager.addArgument(deleteAllOnParkour);
+        argumentManager.addArgument(safeDelete);
+        String[] args = {"all", "permanently", "demo"};
+        boolean isok = argumentManager.parseAllArgs(args);
+        Assertions.assertEquals(false,playerName.isSpecified());
+        Assertions.assertTrue(deleteAllOnParkour.getValue());
+        Assertions.assertFalse(deleteOnlyBest.getValue());
+        Assertions.assertTrue(isok);
+        Assertions.assertFalse(safeDelete.getValue());
+        Assertions.assertTrue(deleteDemoFile.getValue());
+    }
 }

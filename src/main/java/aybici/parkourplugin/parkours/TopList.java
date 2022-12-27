@@ -21,7 +21,7 @@ public class TopList {
     private final Parkour parkour;
     public final String fileNameInsideFolder = File.separator + "topList.txt";
 
-    TopList(Parkour parkour){
+    public TopList(Parkour parkour){
         this.parkour = parkour;
     }
 
@@ -36,28 +36,41 @@ public class TopList {
         return topList;
     }
 
-    public int removeAllTimesOfPlayer(OfflinePlayer player){
+    public int removeAllTimesOfPlayer(OfflinePlayer player, boolean removeDemo){
         int removes = 0;
         for (TopLine topLine : TopListDisplay.getAllTimesOfPlayer(player, topList)){
             topList.remove(topLine);
             removes++;
         }
+        File demoFile = new File(parkour.folderName + File.separator + "demos"+File.separator + player.getName() + ".txt");
+        if (demoFile.exists() && removeDemo) demoFile.delete();
         return removes;
     }
 
-    public boolean removeTopLine(TopLine topLine, Parkour parkour){
-        File topListFile = new File(parkour.folderName + fileNameInsideFolder);
+    public boolean removeTopLine(TopLine topLine, boolean removeDemo){
+        //po co to tu jest wtf
+//        File topListFile = new File(parkour.folderName + fileNameInsideFolder);
         File demoFile = new File(parkour.folderName + File.separator + "demos"+File.separator + topLine.player.getName() + ".txt");
-        if (demoFile.exists()) demoFile.delete();
-        topListFile.delete();
+        if (demoFile.exists() && removeDemo) demoFile.delete();
+//        topListFile.delete();
         if (topLine != null) return topList.remove(topLine);
         return false;
     }
+    public boolean hideTopLine(TopLine topLine){
+        return true;
+    }
+    public void hideTopList(){
 
-    public void clearTopList(Parkour parkour){
+    }
+
+    public void clearTopList(boolean removeDemo){
         topList.clear();
         File topListFile = new File(parkour.folderName + fileNameInsideFolder);
         topListFile.delete();
+        File directory = new File(parkour.folderName + File.separator + "demos");
+        if(removeDemo && directory.exists())
+            for(File file : directory.listFiles())
+                file.delete();
     }
 
     public void loadTopListString(String directory) throws IOException, CloneNotSupportedException {

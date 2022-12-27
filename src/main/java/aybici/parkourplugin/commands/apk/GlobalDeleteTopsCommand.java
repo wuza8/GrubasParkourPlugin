@@ -20,7 +20,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
         if (args.length == 1){
             int removes = 0;
             for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
-                removes += parkour.getTopListObject().removeAllTimesOfPlayer(Bukkit.getOfflinePlayer(args[0]));
+                removes += parkour.getTopListObject().removeAllTimesOfPlayer(Bukkit.getOfflinePlayer(args[0]), true);
                 parkour.getTopListObject().saveTopList();
                 File demoFile = new File(parkour.folderName + File.separator + "demos"+File.separator  + args[0] + ".txt");
                 if (demoFile.exists()) demoFile.delete(); // odkomentować jeśli chcemy usuwać demo razem z topką
@@ -31,7 +31,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
                 removes = 0;
                 for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
                     removes += parkour.getTopListObject().getTopList().size();
-                    parkour.getTopListObject().clearTopList(parkour);
+                    parkour.getTopListObject().clearTopList(true);
                 }
                 sender.sendMessage("Usunięto wszystkie czasy na wszystkich parkourach: " + removes);
                 return true;

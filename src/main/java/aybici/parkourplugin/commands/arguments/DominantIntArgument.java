@@ -2,8 +2,7 @@ package aybici.parkourplugin.commands.arguments;
 
 import static aybici.parkourplugin.utils.NumberParser.tryParseInt;
 
-public class DominantIntArgument extends Argument{
-    private int value;
+public class DominantIntArgument extends IntArgument{
     @Override
     public void parseArg(String text) {
         if(specified)
@@ -15,16 +14,9 @@ public class DominantIntArgument extends Argument{
         }
     }
     public DominantIntArgument(int defaultValue){
-        this.value = defaultValue;
-        this.specified = false;
-        this.isObligatory = false;
+        super(null, defaultValue);
     }
     public DominantIntArgument(boolean isObligatory){
-        this.value = 0;
-        this.specified = false;
-        this.isObligatory = isObligatory;
-    }
-    public int getValue(){
-        return value;
+        super(null, isObligatory);
     }
 }
