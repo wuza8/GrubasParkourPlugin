@@ -135,7 +135,11 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
         }
     }
     private void deleteAllTimes(){
-        int size = topListObject.getTopList().size();
+        List<TopLine> times;
+        if(safeDelete.getValue()) times = TopListDisplay.getNotHiddenTimes(topList); //mozemy ukryć tylko nieukryte mapy
+        else times = topList; // a usunąć możemy wszystkie
+
+        int size = times.size();
         if(safeDelete.getValue())
             topListObject.hideTopList();
         else
@@ -145,14 +149,20 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
         player.sendMessage(deletedOrHidden + " wszystkie czasy na tym parkourze: " + size);
     }
     private void deleteAllTimesOfPlayer(){
-        int times = TopListDisplay.getAllTimesOfPlayer(playerToRemove, topList).size();
+        List<TopLine> allTimesOfPlayer = TopListDisplay.getAllTimesOfPlayer(playerToRemove, topList);
+        List<TopLine> timesOfPlayer;
+        if(safeDelete.getValue()) timesOfPlayer = TopListDisplay.getNotHiddenTimes(allTimesOfPlayer);
+        else timesOfPlayer = allTimesOfPlayer;
+
+        int times = timesOfPlayer.size();
+
         if(times == 0){
             player.sendMessage("Brak czasów gracza " + playerToRemove.getName());
             return;
         }
 
         if(safeDelete.getValue())
-            for (TopLine topLine : TopListDisplay.getAllTimesOfPlayer(playerToRemove, topList))
+            for (TopLine topLine : timesOfPlayer)
                 topListObject.hideTopLine(topLine);
         else
             topListObject.removeAllTimesOfPlayer(player,false);
@@ -162,22 +172,29 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
         player.sendMessage(deletedOrHidden + " czasy gracza " + playerToRemove.getName() + ": " + times);
     }
     private void deleteBestTimeOfAll(){
+        List<TopLine> times;
+        if(safeDelete.getValue()) times = TopListDisplay.getNotHiddenTimes(topList); //mozemy ukryć tylko nieukryte mapy
+        else times = topList; // a usunąć możemy wszystkie
+
         if(safeDelete.getValue())
-            topListObject.hideTopLine(TopListDisplay.getBestTime(topList));
+            topListObject.hideTopLine(TopListDisplay.getBestTime(times));
         else
-            topListObject.removeTopLine(TopListDisplay.getBestTime(topList),false);
+            topListObject.removeTopLine(TopListDisplay.getBestTime(times),false);
 
         topListObject.saveTopList();
         player.sendMessage(deletedOrHidden + " najlepszy czas na mapie.");
     }
     private void deleteBestTimeOfSpecifiedPlayer(){
+        List<TopLine> times;
+        if(safeDelete.getValue()) times = TopListDisplay.getNotHiddenTimes(topList); //mozemy ukryć tylko nieukryte mapy
+        else times = topList; // a usunąć możemy wszystkie
 
         boolean succeed;
 
         if(safeDelete.getValue())
-            succeed = topListObject.hideTopLine(TopListDisplay.getBestTimeOfPlayer(playerToRemove, topList));
+            succeed = topListObject.hideTopLine(TopListDisplay.getBestTimeOfPlayer(playerToRemove, times));
         else
-            succeed = topListObject.removeTopLine(TopListDisplay.getBestTimeOfPlayer(playerToRemove, topList),false);
+            succeed = topListObject.removeTopLine(TopListDisplay.getBestTimeOfPlayer(playerToRemove, times),false);
 
         topListObject.saveTopList();
 
@@ -234,6 +251,10 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
 
         if(topList.size() == 0){
             player.sendMessage("Brak czasów do usunięcia");
+            return true;
+        }
+        if(safeDelete.getValue() && TopListDisplay.getNotHiddenTimes(topList).size() == 0){
+            player.sendMessage("Brak czasów do ukrycia");
             return true;
         }
 

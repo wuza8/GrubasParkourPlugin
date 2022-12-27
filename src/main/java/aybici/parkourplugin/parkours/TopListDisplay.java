@@ -18,6 +18,13 @@ public class TopListDisplay {
         }
         return notLaggedTimes;
     }
+    public static List<TopLine> getNotHiddenTimes(List<TopLine> topListWithHidden){
+        List<TopLine> topList = new ArrayList<>();
+        for(TopLine topLine : topListWithHidden)
+            if(!topLine.hidden)
+                topList.add(topLine);
+        return topList;
+    }
 
     public static TopLine getBestTime(List<TopLine> topList){
         TopLine bestTimeLine = new TopLine();
@@ -108,7 +115,9 @@ public class TopListDisplay {
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);*/
         player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR); // clear scoreboard
-        List<TopLine> topList = parkour.getTopListObject().getTopList();
+        List<TopLine> topListWithHidden = parkour.getTopListObject().getTopList();
+        List<TopLine> topList = getNotHiddenTimes(topListWithHidden);
+
         if (topList.size()==0) return;
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);
         if (topLinesToSort.size()==0) return;

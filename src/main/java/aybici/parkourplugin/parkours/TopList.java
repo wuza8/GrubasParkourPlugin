@@ -1,15 +1,13 @@
 package aybici.parkourplugin.parkours;
 
+import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,19 +46,21 @@ public class TopList {
     }
 
     public boolean removeTopLine(TopLine topLine, boolean removeDemo){
-        //po co to tu jest wtf
-//        File topListFile = new File(parkour.folderName + fileNameInsideFolder);
+        if(topLine == null) return false;
         File demoFile = new File(parkour.folderName + File.separator + "demos"+File.separator + topLine.player.getName() + ".txt");
         if (demoFile.exists() && removeDemo) demoFile.delete();
-//        topListFile.delete();
-        if (topLine != null) return topList.remove(topLine);
-        return false;
+        return topList.remove(topLine);
     }
     public boolean hideTopLine(TopLine topLine){
-        return true;
+        if(topLine != null) {
+            topLine.hidden = true;
+            return true;
+        }
+        return false;
     }
     public void hideTopList(){
-
+        for(TopLine topLine : topList)
+            topLine.hidden = true;
     }
 
     public void clearTopList(boolean removeDemo){
@@ -92,6 +92,10 @@ public class TopList {
                 topLine.playerTime = Long.parseLong(convertedLine.get(2));
                 topLine.startPing = Integer.parseInt(convertedLine.get(3));
                 topLine.endPing = Integer.parseInt(convertedLine.get(4));
+                topLine.hidden = false;
+                if(convertedLine.size() > 5)
+                    if (convertedLine.get(5).equals("hidden"))
+                        topLine.hidden = true;
 
                 topLine.player = Bukkit.getOfflinePlayer(ParkourPlugin.uuidList.getUUIDFromShort(shortUUID));
 
@@ -104,10 +108,18 @@ public class TopList {
 
 
     public void saveTopList(){
-        File file = new File(parkour.folderName + fileNameInsideFolder);
+        String directory = parkour.folderName + fileNameInsideFolder;
+        File file = new File(directory);
         file.delete();
-        for (TopLine topLine : topList){
-            topLine.saveTopLineString(parkour.folderName + fileNameInsideFolder);
+        FileCreator.createFile(directory);
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(directory, true));
+            for (TopLine topLine : topList){
+                topLine.saveTopLineString(writer);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

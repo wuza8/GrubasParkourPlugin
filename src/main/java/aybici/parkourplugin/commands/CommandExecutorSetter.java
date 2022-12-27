@@ -63,21 +63,21 @@ public class CommandExecutorSetter {
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "my",
-                "[sort type: date/time/players] [page]",
+                "[sort type: date/time/players] [page] [\"showHidden\"]",
                 "sends to player all his times of parkour",
                 new PrintTimesCommand(DisplayingTimesState.ONE_PLAYER_ALL_TIMES)
         ));
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "top",
-                "[sort type: date/time/players] [page]",
+                "[sort type: date/time/players] [page] [\"showHidden\"]",
                 "sends to player best times of all players",
                 new PrintTimesCommand(DisplayingTimesState.ALL_PLAYERS_BEST_TIMES)
         ));
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "all",
-                "[sort type: date/time/players] [page]",
+                "[sort type: date/time/players] [page] [\"showHidden\"]",
                 "sends to player all times of parkour",
                 new PrintTimesCommand(DisplayingTimesState.ALL_PLAYERS_ALL_TIMES)
         ));
