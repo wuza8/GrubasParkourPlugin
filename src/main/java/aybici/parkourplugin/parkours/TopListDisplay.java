@@ -114,13 +114,20 @@ public class TopListDisplay {
     public static List<TopLine> getNotCheatedTimesExcept(OfflinePlayer player, List<TopLine> topList){
         if(player == null) return topList;
         List<TopLine> notCheated = new ArrayList<>(topList);
-        boolean isPlayerCheater = false;
-        User user = UserManager.getUserByName(player.getName());
-        if(user != null) isPlayerCheater = user.isCheater();
-        notCheated.removeIf(topLine -> topLine.isPlayerCheater());
+        List<OfflinePlayer> allPlayers = getAllPlayersOfTop(topList);
+        allPlayers.remove(player);
+        User user;
 
-        if(isPlayerCheater){
-            notCheated.addAll(getAllTimesOfPlayer(player,topList));
+        for(OfflinePlayer player1 : allPlayers){
+             user = UserManager.getUserByName(player1.getName());
+             if(user != null) {
+                 if (!user.isCheater())
+                     allPlayers.remove(player1);
+             } else allPlayers.remove(player1);
+        }
+
+        for(OfflinePlayer player1 : allPlayers){
+            notCheated.removeAll(getAllTimesOfPlayer(player1, notCheated));
         }
 
         return notCheated;
@@ -134,7 +141,7 @@ public class TopListDisplay {
         player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR); // clear scoreboard
 
         List<TopLine> topList = parkour.getTopListObject().getTopList(false,true,false);
-        topList = getNotCheatedTimesExcept(player,topList);
+        //topList = getNotCheatedTimesExcept(player,topList);
         if (topList.size()==0) return;
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);
         if (topLinesToSort.size()==0) return;

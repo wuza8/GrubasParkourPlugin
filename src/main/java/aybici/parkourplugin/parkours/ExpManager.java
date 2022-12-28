@@ -19,7 +19,7 @@ public class ExpManager {
     public static void calculateExpOfParkour(Parkour parkour, boolean refreshPlayersExp){
         final int SAMPLE_SIZE = 5;
         final long MAX_GENERATED_EXP = 5000;
-        int topListSize = parkour.getTopListObject().getTopList(false,false,true).size();
+        int topListSize = parkour.getTopListObject().getTopList(false,true,true).size();
         if(topListSize < SAMPLE_SIZE) {
             if(parkour.finishExpSource == FinishExpSource.DEFAULT) return;
             Bukkit.getLogger().info("Too small sample amount: parkour " + parkour.getName() + " " + parkour.getCategory() + " " + parkour.getIdentifier());
@@ -27,7 +27,7 @@ public class ExpManager {
             parkour.setExp(0, refreshPlayersExp);
             return;
         }
-        List<TopLine> oldestTopList = TopListDisplay.sortTopList(parkour.getTopListObject().getTopList(false,false,true) , SortTimesType.DATE).subList(0,SAMPLE_SIZE);
+        List<TopLine> oldestTopList = TopListDisplay.sortTopList(parkour.getTopListObject().getTopList(false,true,true) , SortTimesType.DATE).subList(0,SAMPLE_SIZE);
         TopLine bestOldTopLine = TopListDisplay.getBestTime(oldestTopList);
         long time = bestOldTopLine.playerTime;
         parkour.finishExpSource = FinishExpSource.GENERATED;

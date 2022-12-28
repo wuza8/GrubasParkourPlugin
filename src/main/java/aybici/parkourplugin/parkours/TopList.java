@@ -2,6 +2,8 @@ package aybici.parkourplugin.parkours;
 
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
+import aybici.parkourplugin.users.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -36,8 +38,25 @@ public class TopList {
 
         if(!withHidden)
             topListToReturn.removeIf(topLine -> topLine.hidden);
-        if(!withCheated)
-            topListToReturn.removeIf(topLine -> topLine.isPlayerCheater());
+
+
+        if(!withCheated) {
+            User user;
+            List<OfflinePlayer> allPlayers = TopListDisplay.getAllPlayersOfTop(topListToReturn);
+            for(OfflinePlayer player1 : allPlayers){
+                user = UserManager.getUserByName(player1.getName());
+                if(user != null) {
+                    if (!user.isCheater())
+                        allPlayers.remove(player1);
+                } else allPlayers.remove(player1);
+            }
+
+            for(OfflinePlayer player1 : allPlayers){
+                topListToReturn.removeAll(TopListDisplay.getAllTimesOfPlayer(player1, topListToReturn));
+            }
+        }
+
+
         if(!withLagged)
             topListToReturn.removeIf(topLine -> topLine.isLagged());
         return topListToReturn;
