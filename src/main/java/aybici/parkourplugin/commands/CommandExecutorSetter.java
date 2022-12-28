@@ -83,6 +83,13 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
+                "showtop",
+                "<\"all\"/player>",
+                "unhides hidden times",
+                new ShowTopsCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
                 "unsetcheater",
                 "<player>",
                 "unset cheat flag of player",

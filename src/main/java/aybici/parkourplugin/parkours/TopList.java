@@ -58,6 +58,27 @@ public class TopList {
         }
         return false;
     }
+    public int showTopLinesOfPlayer(OfflinePlayer player){
+        int showedLines = 0;
+        for(TopLine topLine : topList){
+            if(topLine.player.getName().equals(player.getName()))
+                if(topLine.hidden) {
+                    topLine.hidden = false;
+                    showedLines ++;
+                }
+        }
+        return showedLines;
+    }
+    public int showAllTopLines(){
+        int showedLines = 0;
+        for(TopLine topLine : topList){
+            if(topLine.hidden) {
+                topLine.hidden = false;
+                showedLines ++;
+            }
+        }
+        return showedLines;
+    }
     public void hideTopList(){
         for(TopLine topLine : topList)
             topLine.hidden = true;
