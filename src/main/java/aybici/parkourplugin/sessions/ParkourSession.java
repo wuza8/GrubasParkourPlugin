@@ -7,6 +7,7 @@ import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.events.PlayerStartsParkourEvent;
 import aybici.parkourplugin.parkours.*;
 import aybici.parkourplugin.parkours.fails.Fail;
+import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -118,6 +119,14 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
     }
 
+    private String getCheaterBasedRedColor(){
+        if(UserManager.containsUser(player.getName())) {
+            if (UserManager.getUserByName(player.getName()).isCheater())
+                return "" + ChatColor.RED;
+        }
+        return "";
+    }
+
     public void onPlayerStandOnRedWool(Location endLocation){
         if(!playerGameplayState.equals(PlayerGameplayState.PARKOURING)) return;
         if(checkpoint.isPlaced()) return;
@@ -137,7 +146,8 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
         if(!event.isCancelled()) {
             playerTimer.resetTimer();
-            player.sendMessage(ChatColor.GREEN + "Your time: " + TopListDisplay.timeToString(playerTime));
+
+            player.sendMessage(ChatColor.GREEN + "Your time: " +getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
             ExpManager.levelUp(player);
@@ -150,16 +160,19 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
                         ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
                 } else ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
 
-                if (TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()) != null) {//wyslwietlanie best time
-                    if (playerTime < TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()).playerTime)
-                        displayBestTimeInfo(player, previousBestTop, playerTime);
-                } else displayBestTimeInfo(player, previousBestTop, playerTime);
+                displayNewBestTimeInfo(playerTime, previousBestTop);
 
             }
             parkourPlayerOn.getTopListObject().addTopLine(player, playerTime, startPing);
             TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
             TopListDisplay.displayScoreboardToOtherPlayers(parkourPlayerOn, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
         }
+    }
+    private void displayNewBestTimeInfo(long playerTime, TopLine previousBestTop){
+        if (TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()) != null) {//wyslwietlanie best time
+            if (playerTime < TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()).playerTime)
+                displayBestTimeInfo(player, previousBestTop, playerTime);
+        } else displayBestTimeInfo(player, previousBestTop, playerTime);
     }
     public void onPlayerFails(){
         try {
@@ -176,12 +189,15 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         } else player.teleport(staticCheckpoint.getCurrentCheckpointLocation());
     }
     private void displayBestTimeInfo(Player bestPlayer, TopLine previousBestTop, long playerTime){
-        for (Player player : Bukkit.getServer().getOnlinePlayers()){
-            if (!player.equals(bestPlayer)) {
-                player.sendMessage("> " + ChatColor.AQUA + "Gracz " + bestPlayer.getName() + " ustanowił nowy rekord na mapie " +
-                        ChatColor.WHITE + parkourPlayerOn.getName());
-                player.sendMessage("> " + ChatColor.AQUA + "Jego czas to: " + ChatColor.WHITE +
-                        TopListDisplay.timeToString(playerTime));
+        boolean cheater = UserManager.getUserByName(player.getName()).isCheater();
+        if(!cheater) {
+            for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                if (!player.equals(bestPlayer)) {
+                    player.sendMessage("> " + ChatColor.AQUA + "Gracz " + bestPlayer.getName() + " ustanowił nowy rekord na mapie " +
+                            ChatColor.WHITE + parkourPlayerOn.getName());
+                    player.sendMessage("> " + ChatColor.AQUA + "Jego czas to: " + ChatColor.WHITE +
+                            TopListDisplay.timeToString(playerTime));
+                }
             }
         }
         bestPlayer.sendMessage("> "+ChatColor.AQUA+"Ustanowiłeś nowy rekord na mapie!");
@@ -190,6 +206,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             timeDifferenceString = TopListDisplay.timeToString(previousBestTop.playerTime - playerTime);
             bestPlayer.sendMessage("> "+ChatColor.AQUA+"Pobiłeś swój rekord o: "+ ChatColor.WHITE + timeDifferenceString);
         }
+        if(cheater) bestPlayer.sendMessage(ChatColor.GRAY + "Niestety zostałeś uznany cheatera i twoje czasy nie wyświetlą się innym");
     }
 
     @Override

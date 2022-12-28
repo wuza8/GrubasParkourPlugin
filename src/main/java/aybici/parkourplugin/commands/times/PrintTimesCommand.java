@@ -25,6 +25,7 @@ public class PrintTimesCommand extends OnParkourCommand implements CommandExecut
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         int page = 1;
         boolean showHiddenTimes = false;
+        boolean showCheated = false;
         SortTimesType sortTimesType;
         if (args.length > 0)
         switch (args[0]){
@@ -43,11 +44,14 @@ public class PrintTimesCommand extends OnParkourCommand implements CommandExecut
         } else sortTimesType = SortTimesType.DATE;
         if (args.length > 1) page = Integer.parseInt(args[1]);
         if (args.length > 2) if(args[2].equals("showHidden")) showHiddenTimes = true;
+        if (args.length > 3) if(args[3].equals("showCheated")) showCheated = true;
 
         List<TopLine> topListWithHidden = session.getParkour().getTopListObject().getTopList();
         List<TopLine> topList;
         if(showHiddenTimes) topList = topListWithHidden;
         else topList = TopListDisplay.getNotHiddenTimes(topListWithHidden);
+
+        if(!showCheated) topList = TopListDisplay.getNotCheatedTimesExcept(player,topList);
 
         return TopListDisplay.printTopList(player,topList
                 , displayingTimesState, sortTimesType, page);

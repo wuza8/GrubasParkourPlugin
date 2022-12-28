@@ -150,4 +150,19 @@ public class PlayerAndEnvironmentListener implements Listener {
             event.getSender().sendMessage("Użyj /jail player wiezienie 10m");
         }
     }
+    @EventHandler
+    public void onWhitelist(PlayerCommandPreprocessEvent event){
+        if (event.getMessage().contains("whitelist on")){
+            event.setCancelled(true);
+            event.getPlayer().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
+        }
+
+    }
+    @EventHandler
+    public void onWhitelistConsole(ServerCommandEvent event){
+        if (event.getCommand().contains("whitelist on")) {
+            event.setCancelled(true);
+            event.getSender().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
+        }
+    }
 }

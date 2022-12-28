@@ -63,6 +63,7 @@ public class Lobby {
         getLogger().info("Wczytano lokacje spawnu: " + lobbyLocation.toString());
     }
     public void teleportAllPlayersToLobby(){
+        if(getLobbyLocation() != null)
         for(Player player : Bukkit.getOnlinePlayers()){
             teleportPlayerToLobby(player);
         }

@@ -1,6 +1,7 @@
 package aybici.parkourplugin.parkours;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -109,6 +110,22 @@ public class TopListDisplay {
                 + separateMinutesSeconds + zeroBeforeSeconds + seconds + ":" + zerosBeforeMillis + millis;
     }
 
+    public static List<TopLine> getNotCheatedTimesExcept(OfflinePlayer player, List<TopLine> topList){
+        if(player == null) return topList;
+        List<TopLine> notCheated = new ArrayList<>();
+        for(TopLine topLine : topList){
+            if(topLine.player.getName().equals(player.getName()))
+                notCheated.add(topLine);
+            else {
+                if(UserManager.containsUser(player.getName())) {
+                    boolean cheater = UserManager.getUserByName(player.getName()).isCheater();
+                    if(!cheater) notCheated.add(topLine);
+                }else notCheated.add(topLine);
+            }
+        }
+        return notCheated;
+    }
+
     public static void displayTimesOnScoreboard(Player player, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         /*Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST); //czyszczenie glownego scoreboarda
@@ -116,7 +133,8 @@ public class TopListDisplay {
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);*/
         player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR); // clear scoreboard
         List<TopLine> topListWithHidden = parkour.getTopListObject().getTopList();
-        List<TopLine> topList = getNotHiddenTimes(topListWithHidden);
+        List<TopLine> topListWithCheated = getNotHiddenTimes(topListWithHidden);
+        List<TopLine> topList = getNotCheatedTimesExcept(player, topListWithCheated);
 
         if (topList.size()==0) return;
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);

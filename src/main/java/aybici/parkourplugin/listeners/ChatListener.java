@@ -24,6 +24,8 @@ public class ChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
         User user = UserManager.getUserByName(player.getName());
+        String cheaterPrefix = "";
+        if(user.isCheater()) cheaterPrefix = "&4[Cheater]";
         /*String format = event.getFormat();
 
         int number = 1;
@@ -32,6 +34,6 @@ public class ChatListener implements Listener {
         formatPart1 += "[" + ChatColor.YELLOW + UserManager.getUserByName(player.getName()).getLevel() + ChatColor.WHITE + "]";
         format = formatPart1 + formatPart2;
         World world = Bukkit.getWorld("");*/
-        event.setFormat(ChatUtil.fixColor("&8(&e" + user.getLevel() + "&8)&8[&f" + player.getWorld().getName() + "&8] " + "%s&8: &f%s"));
+        event.setFormat(ChatUtil.fixColor("&8(&e" + user.getLevel() + "&8)"+cheaterPrefix+"&8[&f" + player.getWorld().getName() + "&8] " + "%s&8: &f%s"));
     }
 }

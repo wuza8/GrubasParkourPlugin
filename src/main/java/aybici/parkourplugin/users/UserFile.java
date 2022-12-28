@@ -15,6 +15,7 @@ public class UserFile {
             User user = UserManager.createUser(string);
             user.setExp(levelFile.getData().getInt("Users." + string + ".Exp"));
             user.setLevel(levelFile.getData().getInt("Users." + string + ".Level"));
+            user.setCheater(levelFile.getData().getBoolean("Users." + string + ".Cheater"));
         }
     }
 }

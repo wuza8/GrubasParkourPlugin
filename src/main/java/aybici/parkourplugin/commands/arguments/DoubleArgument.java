@@ -1,6 +1,6 @@
 package aybici.parkourplugin.commands.arguments;
 
-import static aybici.parkourplugin.utils.NumberParser.tryParseDouble;
+import static aybici.parkourplugin.utils.ValueParser.tryParseDouble;
 
 public class DoubleArgument extends Argument{
     private String textPrefixNeededToSetValue;

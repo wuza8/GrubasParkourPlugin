@@ -4,6 +4,7 @@ public class User {
     private String nick;
     private int level;
     private long exp;
+    private boolean isCheater;
 
     public User(final String name){
         this.nick = name;
@@ -29,6 +30,10 @@ public class User {
     public void setLevel(int level){
         this.level = level;
     }
+    public void setCheater(boolean value){
+        this.isCheater = value;
+    }
+    public boolean isCheater(){return isCheater;}
 
     public long getExp(){
         return this.exp;
@@ -47,6 +52,7 @@ public class User {
     public void saveUser(){
         UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
         UserFile.levelFile.getData().set("Users." + nick + ".Level", getLevel());
+        UserFile.levelFile.getData().set("Users." + nick + ".Cheater", isCheater);
         UserFile.levelFile.saveData();
     }
 

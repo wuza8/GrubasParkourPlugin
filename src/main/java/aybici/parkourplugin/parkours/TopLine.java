@@ -61,8 +61,10 @@ public class TopLine implements Cloneable {
         return (startPing > 180 || endPing > 180);
     }
     public String toScoreboardDisplay(){
+        String cheaterColor = "";
+        if(isPlayerCheater()) cheaterColor = ChatColor.RED + "";
         String timeToString = TopListDisplay.timeToString(playerTime);
-        return ChatColor.AQUA + timeToString + ChatColor.DARK_GREEN + ", " + ChatColor.WHITE + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
+        return ChatColor.AQUA +cheaterColor + timeToString + ChatColor.DARK_GREEN + ", " + ChatColor.WHITE + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
     }
 
     /*private String getName(OfflinePlayer player){
@@ -75,10 +77,17 @@ public class TopLine implements Cloneable {
     public String toString(){
         String color;
         if(hidden) color = "DARK_GRAY";
+        else if(isPlayerCheater()) color = "DARK_RED";
         else if (isLagged()) color = "RED";
         else color = "WHITE";
         String timeToString = TopListDisplay.timeToString(playerTime);
         return ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()) + ", " +ChatColor.DARK_GREEN+ DateAndTime.getDateString(date)+
                 ChatColor.WHITE + ", " + ChatColor.valueOf(color) + timeToString;
+    }
+    private boolean isPlayerCheater(){
+        boolean cheater = false;
+        if(UserManager.containsUser(player.getName()))
+            cheater = UserManager.getUserByName(player.getName()).isCheater();
+        return cheater;
     }
 }

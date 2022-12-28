@@ -63,23 +63,37 @@ public class CommandExecutorSetter {
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "my",
-                "[sort type: date/time/players] [page] [\"showHidden\"]",
+                "[sort type: date/time/players] [page] [\"showHidden\"] [\"showCheated\"]",
                 "sends to player all his times of parkour",
                 new PrintTimesCommand(DisplayingTimesState.ONE_PLAYER_ALL_TIMES)
         ));
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "top",
-                "[sort type: date/time/players] [page] [\"showHidden\"]",
+                "[sort type: date/time/players] [page] [\"showHidden\"] [\"showCheated\"]",
                 "sends to player best times of all players",
                 new PrintTimesCommand(DisplayingTimesState.ALL_PLAYERS_BEST_TIMES)
         ));
 
         timesExecutor.addCommandExecutor(new Subcommand(
                 "all",
-                "[sort type: date/time/players] [page] [\"showHidden\"]",
+                "[sort type: date/time/players] [page] [\"showHidden\"] [\"showCheated\"]",
                 "sends to player all times of parkour",
                 new PrintTimesCommand(DisplayingTimesState.ALL_PLAYERS_ALL_TIMES)
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
+                "unsetcheater",
+                "<player>",
+                "unset cheat flag of player",
+                new SetCheaterCommand(false)
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
+                "setcheater",
+                "<player>",
+                "Flag player as a cheater, only this player will see his times",
+                new SetCheaterCommand(true)
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(

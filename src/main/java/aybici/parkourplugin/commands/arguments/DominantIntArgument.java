@@ -1,6 +1,6 @@
 package aybici.parkourplugin.commands.arguments;
 
-import static aybici.parkourplugin.utils.NumberParser.tryParseInt;
+import static aybici.parkourplugin.utils.ValueParser.tryParseInt;
 
 public class DominantIntArgument extends IntArgument{
     @Override
