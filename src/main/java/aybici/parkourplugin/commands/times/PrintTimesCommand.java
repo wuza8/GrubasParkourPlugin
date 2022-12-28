@@ -46,10 +46,7 @@ public class PrintTimesCommand extends OnParkourCommand implements CommandExecut
         if (args.length > 2) if(args[2].equals("showHidden")) showHiddenTimes = true;
         if (args.length > 3) if(args[3].equals("showCheated")) showCheated = true;
 
-        List<TopLine> topListWithHidden = session.getParkour().getTopListObject().getTopList();
-        List<TopLine> topList;
-        if(showHiddenTimes) topList = topListWithHidden;
-        else topList = TopListDisplay.getNotHiddenTimes(topListWithHidden);
+        List<TopLine> topList = session.getParkour().getTopListObject().getTopList(showHiddenTimes, true, true);
 
         if(!showCheated) topList = TopListDisplay.getNotCheatedTimesExcept(player,topList);
 

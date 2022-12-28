@@ -232,7 +232,7 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
 
         if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
         if (!isPlayerOnParkour(player)) return true;
-        topList = session.getParkour().getTopListObject().getTopList();
+        topList = session.getParkour().getTopListObject().getTopList(true,true,true);
         topListObject = session.getParkour().getTopListObject();
         demoFolder = new File(session.getParkour().folderName + File.separator + "demos");
 

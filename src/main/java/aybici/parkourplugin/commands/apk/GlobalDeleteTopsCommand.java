@@ -30,7 +30,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
             if (args[0].equals("jestemPewienZeChceUsunacWszystkieCzasyWszystkichGraczy")){
                 removes = 0;
                 for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
-                    removes += parkour.getTopListObject().getTopList().size();
+                    removes += parkour.getTopListObject().getTopList(true,true,true).size();
                     parkour.getTopListObject().clearTopList(true);
                 }
                 sender.sendMessage("Usunięto wszystkie czasy na wszystkich parkourach: " + removes);

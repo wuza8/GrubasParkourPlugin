@@ -19,7 +19,7 @@ public class ExpManager {
     public static void calculateExpOfParkour(Parkour parkour, boolean refreshPlayersExp){
         final int SAMPLE_SIZE = 5;
         final long MAX_GENERATED_EXP = 5000;
-        int topListSize = parkour.getTopListObject().getTopList().size();
+        int topListSize = parkour.getTopListObject().getTopList(false,false,true).size();
         if(topListSize < SAMPLE_SIZE) {
             if(parkour.finishExpSource == FinishExpSource.DEFAULT) return;
             Bukkit.getLogger().info("Too small sample amount: parkour " + parkour.getName() + " " + parkour.getCategory() + " " + parkour.getIdentifier());
@@ -27,7 +27,7 @@ public class ExpManager {
             parkour.setExp(0, refreshPlayersExp);
             return;
         }
-        List<TopLine> oldestTopList = TopListDisplay.sortTopList(parkour.getTopListObject().getTopList() , SortTimesType.DATE).subList(0,SAMPLE_SIZE);
+        List<TopLine> oldestTopList = TopListDisplay.sortTopList(parkour.getTopListObject().getTopList(false,false,true) , SortTimesType.DATE).subList(0,SAMPLE_SIZE);
         TopLine bestOldTopLine = TopListDisplay.getBestTime(oldestTopList);
         long time = bestOldTopLine.playerTime;
         parkour.finishExpSource = FinishExpSource.GENERATED;
@@ -43,13 +43,13 @@ public class ExpManager {
     // wykonuje się ją bezpośrednio przed zmianą expa na mapie
     public static void refreshExpOfPlayers(Parkour parkour, long newExp){
         long oldExp = parkour.getExp();
-        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList());
+        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList(false,true,true));
         for(OfflinePlayer player : playerList){
             if(!UserManager.containsUser(player.getName())) {
                 Bukkit.getLogger().info("KRYTYCZNY BLAD, BRAK STATYSTYK GRACZA " + player.getName() + " a ma topke na parkourze " + parkour.getName());
             } else{
                 User user = UserManager.getUserByName(player.getName());
-                int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList()).size();
+                int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList(false,true,true)).size();
                 user.addExp(- timesFinished * oldExp);
                 user.addExp(timesFinished * newExp);
                 UserManager.fixLevel(user);
@@ -62,7 +62,7 @@ public class ExpManager {
 
     // zebranie statystyk z dawnych topek
     public static void createNonExistingUsersOfParkour(Parkour parkour){
-        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList());
+        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList(true,true,true));
         for(OfflinePlayer player : playerList) {
             if(!UserManager.containsUser(player.getName()))
                 UserManager.createUser(player.getName());
@@ -71,10 +71,10 @@ public class ExpManager {
 
     // zebranie statystyk z dawnych topek
     public static void giveUsersExpForParkour(Parkour parkour){
-        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList());
+        List<OfflinePlayer> playerList = TopListDisplay.getAllPlayersOfTop(parkour.getTopListObject().getTopList(false,true,true));
         for(OfflinePlayer player : playerList) {
             User user = UserManager.getUserByName(player.getName());
-            int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList()).size();
+            int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList(false,true,true)).size();
             user.addExp(timesFinished * parkour.getExp());
             UserManager.fixLevel(user);
             UserFile.levelFile.getData().set("Users." + user.getNick() + ".Exp", user.getExp());
@@ -88,7 +88,7 @@ public class ExpManager {
         UserManager.resetAllUsers();
         for(Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
             createNonExistingUsersOfParkour(parkour);
-            allCompletions += parkour.getTopListObject().getTopList().size();
+            allCompletions += parkour.getTopListObject().getTopList(true,true,true).size();
             if(calculateFinishExpIfNotSet)
                 if(!parkour.finishExpSource.equals(FinishExpSource.SET))
                     calculateExpOfParkour(parkour, false);

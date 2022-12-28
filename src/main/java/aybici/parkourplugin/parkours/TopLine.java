@@ -3,6 +3,7 @@ package aybici.parkourplugin.parkours;
 import aybici.parkourplugin.DateAndTime;
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -84,10 +85,11 @@ public class TopLine implements Cloneable {
         return ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()) + ", " +ChatColor.DARK_GREEN+ DateAndTime.getDateString(date)+
                 ChatColor.WHITE + ", " + ChatColor.valueOf(color) + timeToString;
     }
-    private boolean isPlayerCheater(){
+    public boolean isPlayerCheater(){
         boolean cheater = false;
-        if(UserManager.containsUser(player.getName()))
-            cheater = UserManager.getUserByName(player.getName()).isCheater();
+        User user = UserManager.getUserByName(ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()));
+        if(user != null)
+            cheater = user.isCheater();
         return cheater;
     }
 }

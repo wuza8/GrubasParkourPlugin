@@ -2,14 +2,20 @@ package aybici.parkourplugin.users;
 
 import aybici.parkourplugin.LevelFile;
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.UUIDList;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static java.lang.Math.sqrt;
 
 public class UserManager {
     public static List<User> users = new ArrayList<>();
+    public static HashMap<String, User> playerUserHashMap = new HashMap<>();
     public static boolean containsUser(String name){
         for (User user : users){
             if(user.getNick().equals(name))
@@ -17,13 +23,19 @@ public class UserManager {
         }
         return false;
     }
-
-    public static User getUserByName(String name){
-        for (User user : users)
-            if (user.getNick().equals(name))
-                return user;
-        return null;
+    public static User getUserByName(String player){
+        return playerUserHashMap.get(player);
     }
+    private static void addUserToPlayerHashmap(String player, User user){
+        playerUserHashMap.put(player,user);
+    }
+//
+//    public static User getUserByName(String name){
+//        for (User user : users)
+//            if (user.getNick().equals(name))
+//                return user;
+//        return null;
+//    }
 
     public static User createUser(String playerNick){
         User user = new User(playerNick);
@@ -37,6 +49,7 @@ public class UserManager {
             levelFile.getData().set("Users." + playerNick + ".Level", user.getLevel());
             levelFile.saveData();
         }
+        addUserToPlayerHashmap(playerNick, user);
         return user;
     }
     public static void resetAllUsers(){

@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 
@@ -154,7 +155,10 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             TabUtil.refreshTab(player);
 
             if(startPing <= 180 && player.getPing() <= 180) {
-                TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,parkourPlayerOn.getTopListObject().getTopList());
+                List<TopLine> topListWithCheaters = parkourPlayerOn.getTopListObject()
+                        .getTopList(false, true, false);
+
+                TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,TopListDisplay.getNotCheatedTimesExcept(player,topListWithCheaters));
                 if (previousBestTop != null) {
                     if (playerTime < previousBestTop.playerTime)
                         ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
@@ -169,8 +173,9 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
     }
     private void displayNewBestTimeInfo(long playerTime, TopLine previousBestTop){
-        if (TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()) != null) {//wyslwietlanie best time
-            if (playerTime < TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList()).playerTime)
+        TopLine bestTime = TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList(false,false,false));
+        if (bestTime != null) {//wyslwietlanie best time
+            if (playerTime < bestTime.playerTime)
                 displayBestTimeInfo(player, previousBestTop, playerTime);
         } else displayBestTimeInfo(player, previousBestTop, playerTime);
     }

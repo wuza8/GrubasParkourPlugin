@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,8 +31,16 @@ public class TopList {
         if (topLine.isLagged()) player.sendMessage(ChatColor.RED + "Twój ping jest większy niz 180, czas nie będzie wyswietlony w najlepszych czasach.");
     }
 
-    public List<TopLine> getTopList() {
-        return topList;
+    public List<TopLine> getTopList(boolean withHidden, boolean withCheated, boolean withLagged) {
+        List<TopLine> topListToReturn = new ArrayList<>(topList);
+
+        if(!withHidden)
+            topListToReturn.removeIf(topLine -> topLine.hidden);
+        if(!withCheated)
+            topListToReturn.removeIf(topLine -> topLine.isPlayerCheater());
+        if(!withLagged)
+            topListToReturn.removeIf(topLine -> topLine.isLagged());
+        return topListToReturn;
     }
 
     public int removeAllTimesOfPlayer(OfflinePlayer player, boolean removeDemo){
@@ -61,7 +70,7 @@ public class TopList {
     public int showTopLinesOfPlayer(OfflinePlayer player){
         int showedLines = 0;
         for(TopLine topLine : topList){
-            if(topLine.player.getName().equals(player.getName()))
+            if(topLine.player.getUniqueId().equals(player.getUniqueId()))
                 if(topLine.hidden) {
                     topLine.hidden = false;
                     showedLines ++;

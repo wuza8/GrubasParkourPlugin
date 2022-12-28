@@ -205,7 +205,8 @@ public class PositionSaver implements Listener {
         locationList.get(locationList.size()-2).time = correctedEndTime - 50L;
     }
     public static OfflinePlayer getBestDemoPlayer(Parkour parkour){
-        List<TopLine> topList = TopListDisplay.getTopListToSort(parkour.getTopListObject().getTopList(), DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, null);
+        List<TopLine> topList = TopListDisplay.getTopListToSort(parkour.getTopListObject().getTopList(
+                false,false,false), DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, null);
         topList = TopListDisplay.sortTopList(topList, SortTimesType.TIME);
         String pathName = parkour.folderName + File.separator + "demos"+File.separator;
         for (TopLine topLine : topList) {

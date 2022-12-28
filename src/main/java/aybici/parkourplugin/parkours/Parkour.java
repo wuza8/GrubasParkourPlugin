@@ -343,7 +343,7 @@ public class Parkour{
     }
 
     public boolean didPlayerFinishParkour(Player player){
-        List<TopLine> topList = getTopListObject().getTopList();
+        List<TopLine> topList = getTopListObject().getTopList(false,true,true);
         for (TopLine topLine : topList){
             if (topLine.player.getUniqueId().equals(player.getUniqueId())) return true;
         }

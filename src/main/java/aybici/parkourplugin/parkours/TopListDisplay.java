@@ -1,6 +1,7 @@
 package aybici.parkourplugin.parkours;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -112,17 +113,16 @@ public class TopListDisplay {
 
     public static List<TopLine> getNotCheatedTimesExcept(OfflinePlayer player, List<TopLine> topList){
         if(player == null) return topList;
-        List<TopLine> notCheated = new ArrayList<>();
-        for(TopLine topLine : topList){
-            if(topLine.player.getName().equals(player.getName()))
-                notCheated.add(topLine);
-            else {
-                if(UserManager.containsUser(player.getName())) {
-                    boolean cheater = UserManager.getUserByName(player.getName()).isCheater();
-                    if(!cheater) notCheated.add(topLine);
-                }else notCheated.add(topLine);
-            }
+        List<TopLine> notCheated = new ArrayList<>(topList);
+        boolean isPlayerCheater = false;
+        User user = UserManager.getUserByName(player.getName());
+        if(user != null) isPlayerCheater = user.isCheater();
+        notCheated.removeIf(topLine -> topLine.isPlayerCheater());
+
+        if(isPlayerCheater){
+            notCheated.addAll(getAllTimesOfPlayer(player,topList));
         }
+
         return notCheated;
     }
 
@@ -132,10 +132,9 @@ public class TopListDisplay {
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);*/
         player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR); // clear scoreboard
-        List<TopLine> topListWithHidden = parkour.getTopListObject().getTopList();
-        List<TopLine> topListWithCheated = getNotHiddenTimes(topListWithHidden);
-        List<TopLine> topList = getNotCheatedTimesExcept(player, topListWithCheated);
 
+        List<TopLine> topList = parkour.getTopListObject().getTopList(false,true,false);
+        topList = getNotCheatedTimesExcept(player,topList);
         if (topList.size()==0) return;
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);
         if (topLinesToSort.size()==0) return;

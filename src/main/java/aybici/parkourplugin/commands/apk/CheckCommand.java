@@ -19,7 +19,7 @@ public class CheckCommand extends AdminParkourCommand implements CommandExecutor
             int completedDifferentMaps = 0;
             StringBuilder parkourList = new StringBuilder();
             for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
-                int size = TopListDisplay.getAllTimesOfPlayer(Bukkit.getOfflinePlayer(args[0]),parkour.getTopListObject().getTopList()).size();
+                int size = TopListDisplay.getAllTimesOfPlayer(Bukkit.getOfflinePlayer(args[0]),parkour.getTopListObject().getTopList(true,true,true)).size();
                 completedMaps += size;
                 if(size != 0) {
                     completedDifferentMaps++;
