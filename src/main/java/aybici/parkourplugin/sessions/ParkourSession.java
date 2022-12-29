@@ -159,7 +159,8 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
                 List<TopLine> topListWithCheaters = parkourPlayerOn.getTopListObject()
                         .getTopList(false, true, false);
 
-                TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,TopListDisplay.getNotCheatedTimesExcept(player,topListWithCheaters));
+                //TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,TopListDisplay.getNotCheatedTimesExcept(player,topListWithCheaters));
+                TopLine previousBestTop = TopListDisplay.getBestTimeOfPlayer(player,topListWithCheaters); /// zamienic
                 if (previousBestTop != null) {
                     if (playerTime < previousBestTop.playerTime)
                         ParkourPlugin.positionSaver.saveToFile(player, parkourPlayerOn.folderName);
@@ -180,7 +181,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         }
     }
     private void displayNewBestTimeInfo(long playerTime, TopLine previousBestTop){
-        TopLine bestTime = TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList(false,false,false));
+        TopLine bestTime = TopListDisplay.getBestTime(parkourPlayerOn.getTopListObject().getTopList(false,true,false));
         if (bestTime != null) {//wyslwietlanie best time
             if (playerTime < bestTime.playerTime)
                 displayBestTimeInfo(player, previousBestTop, playerTime);
