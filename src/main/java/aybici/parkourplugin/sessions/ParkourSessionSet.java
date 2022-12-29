@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.HashMap;
@@ -31,7 +32,14 @@ public class ParkourSessionSet {
                 + parkour.getCategory().toString().toLowerCase() + ChatColor.GOLD + " o ID = " + ChatColor.GRAY
                 + parkour.getIdentifier());
         player.sendMessage(ChatColor.BLUE + parkour.getDescription().replaceAll("#", "\n"));
-        TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+
+        new BukkitRunnable() {
+            public void run() {
+                parkour.loadTopList(); // internal check if loaded
+                TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+            }
+        }.runTask(ParkourPlugin.getInstance());
+
         player.playNote(player.getLocation(), Instrument.BANJO, Note.flat(1, Note.Tone.A));
     }
 

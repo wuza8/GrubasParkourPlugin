@@ -37,7 +37,7 @@ public class TopList {
         if(!withHidden)
             topListToReturn.removeIf(topLine -> topLine.hidden);
         if(!withCheated)
-            topListToReturn.removeIf(topLine -> topLine.isPlayerCheater());
+            topListToReturn.removeIf(topLine -> topLine.isPlayerCheater);
         if(!withLagged)
             topListToReturn.removeIf(topLine -> topLine.isLagged());
         return topListToReturn;
@@ -128,6 +128,7 @@ public class TopList {
                         topLine.hidden = true;
 
                 topLine.player = Bukkit.getOfflinePlayer(ParkourPlugin.uuidList.getUUIDFromShort(shortUUID));
+                topLine.isPlayerCheater = topLine.isPlayerCheater();
 
                 topList.add((TopLine) topLine.clone());
             }

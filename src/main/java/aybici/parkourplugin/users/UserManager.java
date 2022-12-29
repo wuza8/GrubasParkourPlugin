@@ -23,8 +23,8 @@ public class UserManager {
         }
         return false;
     }
-    public static User getUserByName(String player){
-        return playerUserHashMap.get(player);
+    public static User getUserByName(String playerName){
+        return playerUserHashMap.get(playerName);
     }
     private static void addUserToPlayerHashmap(String player, User user){
         playerUserHashMap.put(player,user);

@@ -117,7 +117,7 @@ public class TopListDisplay {
         boolean isPlayerCheater = false;
         User user = UserManager.getUserByName(player.getName());
         if(user != null) isPlayerCheater = user.isCheater();
-        notCheated.removeIf(topLine -> topLine.isPlayerCheater());
+        notCheated.removeIf(topLine -> topLine.isPlayerCheater);
 
         if(isPlayerCheater){
             notCheated.addAll(getAllTimesOfPlayer(player,topList));

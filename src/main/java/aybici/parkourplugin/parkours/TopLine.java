@@ -20,6 +20,7 @@ public class TopLine implements Cloneable {
         this.startPing = startPing;
         this.endPing = player.getPing();
         this.hidden = false;
+        this.isPlayerCheater = isPlayerCheater();
     }
     TopLine(){
         this.date = 0;
@@ -28,6 +29,7 @@ public class TopLine implements Cloneable {
         this.startPing = 0;
         this.endPing = 0;
         this.hidden = false;
+        this.isPlayerCheater = false;
     }
     public OfflinePlayer player;
     long date;
@@ -35,6 +37,7 @@ public class TopLine implements Cloneable {
     int startPing;
     int endPing;
     boolean hidden;
+    public boolean isPlayerCheater;
 
     public void saveTopLineString(BufferedWriter writer) throws IOException {
         String hiddenFlag = "";
@@ -85,7 +88,7 @@ public class TopLine implements Cloneable {
         return ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()) + ", " +ChatColor.DARK_GREEN+ DateAndTime.getDateString(date)+
                 ChatColor.WHITE + ", " + ChatColor.valueOf(color) + timeToString;
     }
-    public boolean isPlayerCheater(){
+    public boolean isPlayerCheater(){ // dlugi czas wykonania
         boolean cheater = false;
         User user = UserManager.getUserByName(ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId()));
         if(user != null)

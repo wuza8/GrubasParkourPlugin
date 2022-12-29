@@ -72,7 +72,7 @@ public class ParkourSet {
         System.out.println("OTO TWOJE PARKOURY: " + parkourNames);
         for (String name : parkourNames){
             Parkour parkour = new Parkour(name);
-            parkour.loadParkour(directory + File.separator + "parkourMap_" + parkour.getName(), true);
+            parkour.loadParkour(directory + File.separator + "parkourMap_" + parkour.getName(), false);
             parkours.add(parkour);
         }
     }

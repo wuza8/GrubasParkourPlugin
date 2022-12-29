@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands.apk;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.ExpManager;
+import aybici.parkourplugin.parkours.Parkour;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,11 @@ public class RestoreExpCommand extends AdminParkourCommand implements CommandExe
         if(!player.getName().equals("rycerz125")){
             player.sendMessage("Nie możesz tego zrobic, tylko rycerz może");
         }
-        Thread thread = new Thread(() -> ExpManager.restoreExpFromTopLists(Boolean.parseBoolean(args[0])));
+        Thread thread = new Thread(() -> {
+            for(Parkour parkour : ParkourPlugin.parkourSet.getParkours())
+                parkour.loadTopList();
+            ExpManager.restoreExpFromTopLists(Boolean.parseBoolean(args[0]));
+        });
         thread.start();
         return true;
     }

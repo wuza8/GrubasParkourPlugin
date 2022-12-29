@@ -30,6 +30,7 @@ public class Parkour{
     private List<Location> checkpoints = new ArrayList<>();
     private long exp;
     public FinishExpSource finishExpSource;
+    public boolean isTopListLoaded;
 
     Parkour(String name, Location location){
         this.name = name;
@@ -41,6 +42,7 @@ public class Parkour{
         this.identifier = generateID();
         this.exp = 0;
         this.finishExpSource = FinishExpSource.DEFAULT;
+        this.isTopListLoaded = true;
     }
     Parkour(String name){
         this.name = name;
@@ -49,6 +51,7 @@ public class Parkour{
         this.category = ParkourCategory.NO_CATEGORY;
         this.exp = 0;
         this.finishExpSource = FinishExpSource.DEFAULT;
+        this.isTopListLoaded = false;
     }
 
     public long getExp() {
@@ -239,16 +242,14 @@ public class Parkour{
             FileReader fileReader = new FileReader(directory);
             BufferedReader reader = new BufferedReader(fileReader);
 
-            double x, y, z;
-            float yaw, pitch;
             String worldName;
 
 
-            x = Double.parseDouble(reader.readLine());
-            y = Double.parseDouble(reader.readLine());
-            z = Double.parseDouble(reader.readLine());
-            yaw = Float.parseFloat(reader.readLine());
-            pitch = Float.parseFloat(reader.readLine());
+            Double.parseDouble(reader.readLine()); //x
+            Double.parseDouble(reader.readLine()); //y
+            Double.parseDouble(reader.readLine()); //z
+            Float.parseFloat(reader.readLine()); //yaw
+            Float.parseFloat(reader.readLine()); //pitch
             worldName = reader.readLine();
 
             reader.close();
@@ -290,6 +291,18 @@ public class Parkour{
             }
         }
     }
+    public synchronized void loadTopList(){
+        if(isTopListLoaded) return; // method safe if is loaded
+        isTopListLoaded = true;
+        File topListFile = new File(folderName+ topList.fileNameInsideFolder);
+        if (topListFile.exists()) {
+            try {
+                topList.loadTopListString(folderName);
+            } catch (IOException | CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void loadParkour(String directory, boolean loadTopList) { // uwaga, ponowne ładowanie topki powoduje jej dublowanie
         //Bukkit.getLogger().info(directory);
         if (!new File(directory + dataFileNameInsideFolder).exists()){
@@ -306,10 +319,12 @@ public class Parkour{
 //            getLogger().info("wczytano parkour:\n      pkName = " + name + "\n      location = " + location.toString()
 //                    + "\n      backBlocks = " + backBlocks);
 
-            File topListFile = new File(directory + topList.fileNameInsideFolder);
-            if (topListFile.exists() && loadTopList) {
+            if(loadTopList) {
+                File topListFile = new File(directory + topList.fileNameInsideFolder);
+                if (topListFile.exists()) {
 //                getLogger().info("Wczytywanie topek...");
-                topList.loadTopListString(directory);
+                    topList.loadTopListString(directory);
+                }
             }
         } catch(IOException a){
             System.out.println("E KURDE COS JEST NIE TAK DXD");

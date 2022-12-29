@@ -12,6 +12,7 @@ import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -168,8 +169,14 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
             }
             parkourPlayerOn.getTopListObject().addTopLine(player, playerTime, startPing);
-            TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
-            TopListDisplay.displayScoreboardToOtherPlayers(parkourPlayerOn, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+
+            new BukkitRunnable() {
+                public void run() {
+                    TopListDisplay.displayTimesOnScoreboard(player, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+                    TopListDisplay.displayScoreboardToOtherPlayers(parkourPlayerOn, DisplayingTimesState.ALL_PLAYERS_BEST_TIMES, SortTimesType.TIME);
+                }
+            }.runTask(ParkourPlugin.getInstance());
+
         }
     }
     private void displayNewBestTimeInfo(long playerTime, TopLine previousBestTop){
