@@ -61,11 +61,13 @@ public class ShowTopsCommand extends AdminParkourCommand implements CommandExecu
         if(playerName.isSpecified()) {
             OfflinePlayer playerToShow = Bukkit.getOfflinePlayer(playerName.getValue());
             showedLines = topListObject.showTopLinesOfPlayer(playerToShow);
+            topListObject.saveTopList();
             player.sendMessage("Pokazano wszystkie topki gracza " + playerToShow.getName() + ": " + showedLines);
             return true;
         }
         if(showAllHidden.getValue()){
             showedLines = topListObject.showAllTopLines();
+            topListObject.saveTopList();
             player.sendMessage("Pokazano wszystkie topki: " + showedLines);
             return true;
         }
