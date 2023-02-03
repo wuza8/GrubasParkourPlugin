@@ -4,10 +4,8 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.utils.TabUtil;
 import com.earth2me.essentials.Essentials;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +16,13 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkPopulateEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -159,10 +164,36 @@ public class PlayerAndEnvironmentListener implements Listener {
 
     }
     @EventHandler
+    public void onMsgMuted(PlayerCommandPreprocessEvent event){
+        String command = event.getMessage();
+        Player player = event.getPlayer();
+        boolean muted = false;
+        if(ParkourPlugin.getInstance().essentials != null)
+            muted = ParkourPlugin.getInstance().essentials.getUser(player).isMuted();
+        if (command.contains("msg ") && muted){
+            player.sendMessage("Nie możesz rozpoczynać nowych dyskusji prywatnych z powodu mute.");
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onWhitelistConsole(ServerCommandEvent event){
         if (event.getCommand().contains("whitelist on")) {
             event.setCancelled(true);
             event.getSender().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
         }
     }
+//    @EventHandler
+//    public void onGenerateChunk(ChunkLoadEvent event){
+//        event.getChunk().
+//    }
+
+//    @EventHandler
+//    public void onUnloadChunk(ChunkUnloadEvent event){
+//        //if(event.getChunk().getInhabitedTime() == Long.MAX_VALUE - 125)
+//            event.setSaveChunk(false);
+//            event.getChunk().unload(false);
+//    }
 }
+
+
+

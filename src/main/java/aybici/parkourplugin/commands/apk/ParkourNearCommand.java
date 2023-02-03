@@ -1,11 +1,9 @@
 package aybici.parkourplugin.commands.apk;
 
 import aybici.parkourplugin.ParkourPlugin;
-import aybici.parkourplugin.commands.arguments.ArgumentManager;
-import aybici.parkourplugin.commands.arguments.BooleanArgument;
-import aybici.parkourplugin.commands.arguments.DominantIntArgument;
-import aybici.parkourplugin.commands.arguments.IntArgument;
+import aybici.parkourplugin.commands.arguments.*;
 import aybici.parkourplugin.parkours.Parkour;
+import com.sun.jdi.connect.Connector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -26,18 +24,21 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
     private BooleanArgument showDistanceArgument;
     private IntArgument maxDistanceArgument;
     private DominantIntArgument maxAmountDisplay;
+    private StringArgument customWorld;
     private boolean parseArgs(String[] args){
         idArgument = new BooleanArgument("-id", false);
         idShortArgument = new BooleanArgument("-idshort", false);
         showDistanceArgument = new BooleanArgument("-distance", false);
         maxDistanceArgument = new IntArgument("-maxdist=", Integer.MAX_VALUE);
         maxAmountDisplay = new DominantIntArgument(5);
+        customWorld = new StringArgument("world=", false);
         ArgumentManager argumentManager = new ArgumentManager();
         argumentManager.addArgument(idArgument);
         argumentManager.addArgument(idShortArgument);
         argumentManager.addArgument(showDistanceArgument);
         argumentManager.addArgument(maxDistanceArgument);
         argumentManager.addArgument(maxAmountDisplay);
+        argumentManager.addArgument(customWorld);
         return argumentManager.parseAllArgs(args);
     }
     private List<Parkour> getMapsInWorld(World world){
@@ -106,7 +107,17 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
             return true;
         }
 
-        List<Parkour> mapsInWorld = getMapsInWorld(playerLocation.getWorld());
+        World world;
+        if(customWorld.isSpecified())
+            world = Bukkit.getWorld(customWorld.getValue());
+        else world = playerLocation.getWorld();
+        if(world == null) {
+            player.sendMessage("World " + customWorld.getValue()+ " = null :(");
+            return false;
+        }
+
+
+        List<Parkour> mapsInWorld = getMapsInWorld(world);
         String distanceMessage = "";
         if(maxDistanceArgument.isSpecified()) {
             mapsInWorld.removeIf(o -> o.getLocation().distanceSquared(playerLocation) > Math.pow(maxDistanceArgument.getValue(), 2));
