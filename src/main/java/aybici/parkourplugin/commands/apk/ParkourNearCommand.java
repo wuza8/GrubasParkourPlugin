@@ -89,7 +89,7 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
         Player player = (Player) sender;
-        Location playerLocation = player.getLocation();
+        Location playerLocation = player.getLocation().clone();
 
         boolean isArgsOK = parseArgs(args);
 
@@ -115,7 +115,7 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         if(world == null) {
             player.sendMessage("World " + customWorld.getValue()+ " = null :(");
             return false;
-        }
+        } playerLocation.setWorld(world);
 
 
         List<Parkour> mapsInWorld = getMapsInWorld(world);
