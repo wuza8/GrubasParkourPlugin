@@ -31,7 +31,7 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         showDistanceArgument = new BooleanArgument("-distance", false);
         maxDistanceArgument = new IntArgument("-maxdist=", Integer.MAX_VALUE);
         maxAmountDisplay = new DominantIntArgument(5);
-        customWorld = new StringArgument("world=", false);
+        customWorld = new StringArgument("-world=", false);
         ArgumentManager argumentManager = new ArgumentManager();
         argumentManager.addArgument(idArgument);
         argumentManager.addArgument(idShortArgument);
@@ -104,6 +104,7 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
             player.sendMessage(ChatColor.GREEN + "\"-idshort\"" + ChatColor.DARK_GREEN +" - specifies shortened display variant of <CATEGORY PARKOUR_ID>, default: no");
             player.sendMessage(ChatColor.GREEN + "\"-distance\"" + ChatColor.DARK_GREEN +" - shows corresponding distance from the player, default: no");
             player.sendMessage(ChatColor.GREEN + "\"-maxdist={meters}\"" + ChatColor.DARK_GREEN +" - only show maps which distance is less than specified, e.g -maxdist=1000, default: inf");
+            player.sendMessage(ChatColor.GREEN + "\"-world={name}\"" + ChatColor.DARK_GREEN +" - specify custom world");
             return true;
         }
 
