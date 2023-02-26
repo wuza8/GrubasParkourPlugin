@@ -3,7 +3,6 @@ package aybici.parkourplugin.commands.apk;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.commands.arguments.*;
 import aybici.parkourplugin.parkours.Parkour;
-import com.sun.jdi.connect.Connector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -46,19 +45,27 @@ public class ParkourNearCommand extends AdminParkourCommand implements CommandEx
         for (Parkour parkour : ParkourPlugin.parkourSet.getParkours()){
             if(parkour.getLocation() == null){
                 Bukkit.getLogger().info("Parkour " + parkour.getName() + " nie ma ustalonej lokalizacji!");
-            } else
-            if(world.equals(parkour.getLocation().getWorld()))
-                mapsInWorld.add(parkour);
-            else if(parkour.getLocation().getWorld() == null) {
-                String worldName = parkour.getWorldNameFromFile(parkour.folderName + parkour.dataFileNameInsideFolder);
-                if(worldName != null)
-                if (worldName.equals(world.getName())) {
-                    // dodajemy temu parkourowi worlda bo najwyraźniej jest (world) załadowany
-                    Location parkourLocation = parkour.getLocation();
-                    parkourLocation.setWorld(Bukkit.getWorld(worldName));
-                    parkour.setLocation(parkourLocation, false);
-
+            } else {
+                World parkourWorld = null;
+                try {// jak sie kliknie -world=kilkamapparcade to potem komenda nie dzialalaby bez tego XD
+                    parkourWorld = parkour.getLocation().getWorld();
+                } catch (Exception e){
+                    e.printStackTrace();
+                    Bukkit.getLogger().info("parkour.getLocation().getWorld() Error, mapa: " + parkour.getName());
+                }
+                if (world.equals(parkourWorld))
                     mapsInWorld.add(parkour);
+                else if (parkourWorld == null) {
+                    String worldName = parkour.getWorldNameFromFile(parkour.folderName + parkour.dataFileNameInsideFolder);
+                    if (worldName != null)
+                        if (worldName.equals(world.getName())) {
+                            // dodajemy temu parkourowi worlda bo najwyraźniej jest (world) załadowany
+                            Location parkourLocation = parkour.getLocation();
+                            parkourLocation.setWorld(Bukkit.getWorld(worldName));
+                            parkour.setLocation(parkourLocation, false);
+
+                            mapsInWorld.add(parkour);
+                        }
                 }
             }
         }
