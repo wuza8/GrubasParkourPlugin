@@ -4,6 +4,7 @@ package aybici.parkourplugin.blockabovereader;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Slab;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,12 +20,14 @@ public class SpecialBlockFinder {
     private static boolean isCarpet(Material material){
         return material.name().contains("CARPET");
     }
-    private static boolean isSlab(Material material){
-        return material.name().contains("SLAB");
+    private static boolean isBottomSlab(Block block){
+        if(!block.getType().name().contains("SLAB")) return false;
+        Slab slab = (Slab) block.getBlockData();
+        return slab.getType() == Slab.Type.BOTTOM;
     }
     private static boolean isBlockNotFullHeight(Block block){
         return isCarpet(block.getType()) ||
-                isSlab(block.getType()) ||
+                isBottomSlab(block) ||
                 notFullHeightMaterials.contains(block.getType());
     }
 
