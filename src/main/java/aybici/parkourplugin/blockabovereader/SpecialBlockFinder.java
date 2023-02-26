@@ -5,10 +5,28 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class SpecialBlockFinder {
+
+    private static final HashSet<Material> notFullHeightMaterials = new HashSet<>(Arrays.asList(
+            Material.CHEST,
+            Material.ENDER_CHEST,
+            Material.CACTUS
+    ));
+    private static boolean isCarpet(Material material){
+        return material.name().contains("CARPET");
+    }
+    private static boolean isSlab(Material material){
+        return material.name().contains("SLAB");
+    }
+    private static boolean isBlockNotFullHeight(Block block){
+        return isCarpet(block.getType()) ||
+                isSlab(block.getType()) ||
+                notFullHeightMaterials.contains(block.getType());
+    }
 
     private static int[] getEdgeCollisionsTable(Location playerLocation){
         int[] collidesWithEdges = {0,0}; //X, Z
@@ -30,7 +48,8 @@ public class SpecialBlockFinder {
         Block mainBlock = playerLocation.getBlock();
         potentiallySpecialBlocks.add(mainBlock); // dodajemy blok w punkcie, w którym jest gracz
         boolean isMainBlockPassable = mainBlock.isPassable();
-        if(edgeCollisionsTable[0] != 0 && isMainBlockPassable){
+        boolean isMainBlockNotFullHeight = isBlockNotFullHeight(mainBlock);
+        if(edgeCollisionsTable[0] != 0 && (isMainBlockPassable || isMainBlockNotFullHeight)){
             potentiallySpecialBlocks.add(playerLocation.clone(). // tylko delta X
                     add(edgeCollisionsTable[0] , 0 , 0).
                     getBlock());
@@ -41,7 +60,7 @@ public class SpecialBlockFinder {
                         getBlock());
             }
         }
-        if (edgeCollisionsTable[1] != 0 && isMainBlockPassable){ // tylko delta Z
+        if (edgeCollisionsTable[1] != 0 && (isMainBlockPassable || isMainBlockNotFullHeight)){ // tylko delta Z
             potentiallySpecialBlocks.add(playerLocation.clone().
                     add(0 , 0, edgeCollisionsTable[1]).
                     getBlock());
