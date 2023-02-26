@@ -14,11 +14,10 @@ import java.util.UUID;
 import static java.lang.Math.sqrt;
 
 public class UserManager {
-    public static List<User> users = new ArrayList<>();
     public static HashMap<String, User> playerUserHashMap = new HashMap<>();
     public static boolean containsUser(String name){
-        for (User user : users){
-            if(user.getNick().equals(name))
+        for (String userName : playerUserHashMap.keySet()){
+            if(userName.equals(name))
                 return true;
         }
         return false;
@@ -39,7 +38,7 @@ public class UserManager {
 
     public static User createUser(String playerNick){
         User user = new User(playerNick);
-        users.add(user);
+        playerUserHashMap.put(playerNick,user);
         LevelFile levelFile = LevelFile.getInstance();
 
         if(levelFile.getData().getConfigurationSection("Users." + playerNick) == null){
@@ -53,7 +52,7 @@ public class UserManager {
         return user;
     }
     public static void resetAllUsers(){
-        users = new ArrayList<>();
+        playerUserHashMap = new HashMap<>();
         LevelFile.getInstance().deleteLevelFile();
         LevelFile.getInstance().setup(ParkourPlugin.getInstance());
     }
