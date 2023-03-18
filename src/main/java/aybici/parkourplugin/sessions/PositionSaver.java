@@ -26,13 +26,26 @@ public class PositionSaver implements Listener {
     private static final HashMap<Player, Boolean> doSaving = new HashMap<>();
     private BukkitTask playTask;
     private static final HashMap<Player, Boolean> playerWatchingHash = new HashMap<>();
+    private static final HashMap<Player, Parkour> playerParkourHash = new HashMap<>();
     public static boolean isPlayerWatching(Player player){
         if (!playerWatchingHash.containsKey(player)) return false;
         else return (playerWatchingHash.get(player));
     }
-    public static void setPlayerWatching(Player player, boolean value){
+    public static Parkour getWatchingParkour(Player player){
+        return playerParkourHash.get(player);
+    }
+    public static void unsetPlayerWatching(Player player){
+        playerParkourHash.remove(player);
+
         playerWatchingHash.remove(player);
-        playerWatchingHash.put(player,value);
+        playerWatchingHash.put(player,false);
+    }
+    public static void setPlayerWatching(Player player, Parkour parkour){
+        playerParkourHash.remove(player);
+        playerParkourHash.put(player, parkour);
+
+        playerWatchingHash.remove(player);
+        playerWatchingHash.put(player,true);
     }
     public void startSaving(Player player){
         List<LocationWithTime> newPlayerDemo = new ArrayList<>(playerDemosHashMap.get(player).subList(0,2)); // chcemy wziac 2 pierwsze
@@ -106,7 +119,7 @@ public class PositionSaver implements Listener {
         //Entity entity = locationList.get(0).location.getWorld().spawnEntity(locationList.get(0).location, EntityType.ZOMBIE);
         //player.setGameMode(GameMode.SPECTATOR);
         //player.setSpectatorTarget(entity);
-        setPlayerWatching(player,true);
+        setPlayerWatching(player,parkour);
         PlayerTimer playerTimer = new PlayerTimer(player,slowMotion);
         playerTimer.startTimer();
         ItemStack previousItem = player.getInventory().getItem(8);
@@ -127,7 +140,7 @@ public class PositionSaver implements Listener {
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"skin clear " + player.getName());
                     cancel();
                     player.getInventory().setItem(8, previousItem);
-                    setPlayerWatching(player,false);
+                    unsetPlayerWatching(player);
                     playerTimer.resetTimer();
                 }
             }

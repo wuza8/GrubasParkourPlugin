@@ -75,7 +75,7 @@ public class InventoryInteractListener implements Listener {
     }
     private void onDemoQuitItemClick(final Player player){
         if(PositionSaver.isPlayerWatching(player))
-            PositionSaver.setPlayerWatching(player, false);
+            PositionSaver.unsetPlayerWatching(player);
     }
     private void onResetItemClick(final Player player){
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);

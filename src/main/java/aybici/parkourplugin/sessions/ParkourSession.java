@@ -80,7 +80,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         return true;
     }
     public boolean teleportTo(Parkour parkour){
-        PositionSaver.setPlayerWatching(player,false);
+        PositionSaver.unsetPlayerWatching(player);
 
         boolean playerInJail = isPlayerJailed();
         if(playerInJail) return false;
