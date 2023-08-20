@@ -1,6 +1,7 @@
 package aybici.parkourplugin.commands.pklist;
 
 import aybici.parkourplugin.parkours.ParkourCategory;
+import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -24,8 +25,8 @@ public class ArgsHandler {
         }
         else {
             boolean invalidCategoryName = true;
-            for (ParkourCategory parkourCategory : ParkourCategory.values()){
-                if (parkourCategory.name().equalsIgnoreCase(args[0])) {
+            for (ParkourCategory parkourCategory : ParkourCategoryFacade.getAllCategories()){
+                if (parkourCategory.getName().equalsIgnoreCase(args[0])) {
                     invalidCategoryName = false;
                     break;
                 }
@@ -34,7 +35,7 @@ public class ArgsHandler {
                 player.sendMessage("Nie ma kategorii \"" + args[0] + "\"");
                 return false;
             }
-            category = ParkourCategory.valueOf(args[0].toUpperCase());
+            category = ParkourCategoryFacade.get(args[0].toUpperCase());
             player.sendMessage(ChatColor.AQUA + "Wyświetlam kategorię " + category.toString().toLowerCase() + ":");
         }
 

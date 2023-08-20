@@ -3,11 +3,14 @@ package aybici.parkourplugin.commands;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
+import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import static aybici.parkourplugin.commands.apk.AdminParkourCommand.SenderHasPermission;
 
 public class PkCommand implements CommandExecutor {
     @Override
@@ -24,11 +27,12 @@ public class PkCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 2) {
-            if (!ParkourCategory.contains(args[0].toUpperCase())){
+            if (ParkourCategoryFacade.get(args[0].toUpperCase()).getName().equals("UNKNOWN")
+                    && !SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)){
                 player.sendMessage("Nie ma takiej kategorii!");
                 return true;
             }
-            ParkourCategory parkourCategory = ParkourCategory.valueOf(args[0].toUpperCase());
+            ParkourCategory parkourCategory = ParkourCategoryFacade.get(args[0].toUpperCase());
             for (Parkour parkour : parkourSet.getAllMapsOfCategory(parkourCategory)){
                 if (parkour.getIdentifier() == Integer.parseInt(args[1])) {
                     ParkourPlugin.parkourSessionSet.teleportToParkour(player, parkour.getName());

@@ -31,7 +31,7 @@ public class ExpManager {
         TopLine bestOldTopLine = TopListDisplay.getBestTime(oldestTopList);
         long time = bestOldTopLine.playerTime;
         parkour.finishExpSource = FinishExpSource.GENERATED;
-        int multiplier = ParkourCategory.getExpMultiplier(parkour.getCategory());
+        int multiplier = parkour.getCategory().getXpMultiplier();
         long exp = Math.round((double)(time/1000) * Math.pow(1.2, ((double)(time/1000))/20.0) * multiplier);
         //int exp = (((int)(time/1000)/roundToUpBy) + 1)*roundToUpBy * multiplier; // formuła do zmiany
         if(exp > MAX_GENERATED_EXP) exp = MAX_GENERATED_EXP;

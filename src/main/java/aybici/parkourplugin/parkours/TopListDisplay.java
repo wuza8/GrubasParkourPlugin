@@ -141,7 +141,7 @@ public class TopListDisplay {
         List<TopLine> topLinesToDisplay = sortTopList(topLinesToSort, sortTimesType);
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective objective = scoreboard.registerNewObjective(parkour.getCategory().name()+parkour.getIdentifier(),
+        Objective objective = scoreboard.registerNewObjective(parkour.getCategory().getName()+parkour.getIdentifier(),
                 "dummy", parkour.getName().replaceAll("_", " "), RenderType.INTEGER);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 

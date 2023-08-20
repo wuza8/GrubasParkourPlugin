@@ -37,7 +37,7 @@ public class SetExpCommand extends AdminParkourCommand implements CommandExecuto
             long exp;
             double time = Double.parseDouble(args[1]);
             if (args[0].equals("calculate")) {
-                exp = Math.round(time * Math.pow(1.2, (time)/20.0) * ParkourCategory.getExpMultiplier(parkour.getCategory()));
+                exp = Math.round(time * Math.pow(1.2, (time)/20.0) * parkour.getCategory().getXpMultiplier());
                 parkour.finishExpSource = FinishExpSource.SET;
                 parkour.setExp(exp, true);
                 TabUtil.refreshAllPlayersTab();

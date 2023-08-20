@@ -29,7 +29,7 @@ public class ParkourSessionSet {
 
         player.sendMessage(ChatColor.GOLD + "Dołączono do parkoura " + ChatColor.DARK_GREEN +
                 parkour.getName().replaceAll("_"," ") + ChatColor.GOLD + " w kategorii " + ChatColor.GRAY
-                + parkour.getCategory().toString().toLowerCase() + ChatColor.GOLD + " o ID = " + ChatColor.GRAY
+                + parkour.getCategory().getDisplayName().replace("_", " ").toLowerCase() + ChatColor.GOLD + " o ID = " + ChatColor.GRAY
                 + parkour.getIdentifier());
         player.sendMessage(ChatColor.BLUE + parkour.getDescription().replaceAll("#", "\n"));
 

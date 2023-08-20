@@ -37,7 +37,7 @@ public class Parkour{
         this.location = location.clone();
         this.dataFileNameInsideFolder = File.separator + "parkourData.txt";
         this.folderName = ParkourPlugin.parkourSet.parkoursFolder + File.separator + "parkourMap_" + getName();
-        this.category = ParkourCategory.NO_CATEGORY;
+        this.category = ParkourCategoryFacade.get("UNKNOWN");
         this.identifier = 0;
         this.identifier = generateID();
         this.exp = 0;
@@ -48,7 +48,7 @@ public class Parkour{
         this.name = name;
         this.dataFileNameInsideFolder = File.separator + "parkourData.txt";
         this.folderName = ParkourPlugin.parkourSet.parkoursFolder +File.separator +  "parkourMap_" + getName();
-        this.category = ParkourCategory.NO_CATEGORY;
+        this.category = ParkourCategoryFacade.get("UNKNOWN");
         this.exp = 0;
         this.finishExpSource = FinishExpSource.DEFAULT;
         this.isTopListLoaded = false;
@@ -228,9 +228,8 @@ public class Parkour{
             }
         }
 
-
         location = new Location(world, x, y, z, yaw, pitch);
-        category = ParkourCategory.valueOf(categoryString);
+        category = ParkourCategoryFacade.get(categoryString);
     }
 
     public String getWorldNameFromFile(String directory){
@@ -277,7 +276,7 @@ public class Parkour{
         writer.write(name+"\n");
         writer.write("exp:"+exp+"\n");
         writer.write(finishExpSource.name()+"\n");
-        writer.write(category.toString()+"\n");
+        writer.write(category.getName()+"\n");
         writer.write(identifier+"\n");
         writer.write(description+"\n");
         writer.write(backBlocks.size()+"\n");

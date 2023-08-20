@@ -7,9 +7,11 @@ import aybici.parkourplugin.listeners.ChatListener;
 import aybici.parkourplugin.listeners.InventoryInteractListener;
 import aybici.parkourplugin.listeners.JoinListener;
 import aybici.parkourplugin.listeners.ModifyInventory;
+import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
 import aybici.parkourplugin.sessions.ParkourSessionSet;
 import aybici.parkourplugin.sessions.PositionSaver;
+import aybici.parkourplugin.usableblocks.UsableBlocksFacade;
 import aybici.parkourplugin.users.UserFile;
 import com.earth2me.essentials.Essentials;
 import net.milkbowl.vault.chat.Chat;
@@ -42,6 +44,7 @@ public class ParkourPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        ParkourCategoryFacade.init();
         plugin = this;
         uuidList.loadList();
         uuidList.loadPlayerNames();
@@ -82,6 +85,7 @@ public class ParkourPlugin extends JavaPlugin {
         pluginManager.registerEvents(new InventoryInteractListener(), this);
         pluginManager.registerEvents(new ChatListener(this), this);
         pluginManager.registerEvents(new ModifyInventory(), this);
+        pluginManager.registerEvents(new UsableBlocksFacade(), this);
     }
 
 

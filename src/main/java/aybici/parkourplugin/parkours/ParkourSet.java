@@ -16,7 +16,7 @@ import static org.bukkit.Bukkit.getLogger;
 
 public class ParkourSet {
     private final Set<Parkour> parkours = new HashSet<>();
-    public String parkoursFolder = "dataBase" +File.separator +  "parkours";
+    public String parkoursFolder = "dataBase" + File.separator +  "parkours";
 
     public void addParkour(String name, Location location) throws IllegalStateException{
         if(doesExist(name))
@@ -162,7 +162,7 @@ public class ParkourSet {
         ParkourCategory category = parkour.getCategory();
         int nextID = getNextIdentifierOfCategory(category,parkour.getIdentifier());
         if (parkour.getIdentifier() == getMaxIdentifierOfCategory(category)){
-            ParkourCategory nextCategory = getNextCategory(category);
+            ParkourCategory nextCategory = category;
             if(!nextCategory.equals(category)) {
                 category = nextCategory;
                 nextID = getLowestIdentifierOfCategory(nextCategory);
@@ -174,7 +174,7 @@ public class ParkourSet {
         ParkourCategory category = parkour.getCategory();
         int previousID = getPreviousIdentifierOfCategory(category,parkour.getIdentifier());
         if (parkour.getIdentifier() == getLowestIdentifierOfCategory(category)){
-            ParkourCategory previousCategory = getPreviousCategory(category);
+            ParkourCategory previousCategory = category;
             if(!previousCategory.equals(category)) {
                 category = previousCategory;
                 previousID = getMaxIdentifierOfCategory(previousCategory);
@@ -182,54 +182,13 @@ public class ParkourSet {
         }
         return getParkourByCategoryAndID(category,previousID);
     }
-    public ParkourCategory getPreviousCategory(ParkourCategory category){
-        if (category.equals(ParkourCategory.EASY))
-            return ParkourCategory.EASY;
-        if (category.equals(ParkourCategory.MEDIUM))
-            return ParkourCategory.EASY;
-        if (category.equals(ParkourCategory.HARD))
-            return ParkourCategory.MEDIUM;
 
-        if (category.equals(ParkourCategory.DROPPER))
-            return ParkourCategory.HARD;
-        if (category.equals(ParkourCategory.KZ))
-            return ParkourCategory.DROPPER;
-        if (category.equals(ParkourCategory.COMMUNITY))
-            return ParkourCategory.KZ;
-        if (category.equals(ParkourCategory.SPECIAL))
-            return ParkourCategory.COMMUNITY;
-        if (category.equals(ParkourCategory.EVENT))
-            return ParkourCategory.SPECIAL;
-
-        return ParkourCategory.NO_CATEGORY;
-    }
-    public ParkourCategory getNextCategory(ParkourCategory category){
-        if (category.equals(ParkourCategory.EASY))
-            return ParkourCategory.MEDIUM;
-        if (category.equals(ParkourCategory.MEDIUM))
-            return ParkourCategory.HARD;
-        if (category.equals(ParkourCategory.HARD))
-            return ParkourCategory.DROPPER;
-
-        if (category.equals(ParkourCategory.DROPPER))
-            return ParkourCategory.KZ;
-        if (category.equals(ParkourCategory.KZ))
-            return ParkourCategory.COMMUNITY;
-        if (category.equals(ParkourCategory.COMMUNITY))
-            return ParkourCategory.SPECIAL;
-        if (category.equals(ParkourCategory.SPECIAL))
-            return ParkourCategory.EVENT;
-        if (category.equals(ParkourCategory.EVENT))
-            return ParkourCategory.EVENT;
-
-        return ParkourCategory.NO_CATEGORY;
-    }
     public boolean playerHasAccessToParkour(Player player, Parkour parkour, Boolean sendMessages){
         ParkourCategory category = parkour.getCategory();
         int identifier = parkour.getIdentifier();
 
         if (!player.hasPermission(ParkourPlugin.permissionSet.allParkoursPermission)) { // zrobic w permisjach inaczej
-            if (parkour.getCategory().equals(ParkourCategory.NO_CATEGORY)) {
+            if (parkour.getCategory().equals(ParkourCategoryFacade.get("UNKNOWN"))) {
                 if (sendMessages) player.sendMessage(ChatColor.RED + "Nie możesz dołączać do parkourów tej kategorii!");
                 return false;
             }

@@ -4,9 +4,11 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
+import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
 import aybici.parkourplugin.sessions.ParkourSession;
 import aybici.parkourplugin.sessions.PositionSaver;
+import aybici.parkourplugin.usableblocks.UsableItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -88,41 +90,27 @@ public class InventoryInteractListener implements Listener {
         player.chat("/cp");
     }
     private Inventory getMenuInventory(){
-        Inventory inventory = Bukkit.getServer().createInventory(null, 18);
+        Inventory inventory = Bukkit.getServer().createInventory(null, 9*6);
         int i = 0;
-        for (ParkourCategory parkourCategory : ParkourCategory.values()) {
-            if (parkourCategory == ParkourCategory.NO_CATEGORY) continue;
-            final ItemStack item = new ItemBuilder(getMaterialOfCategory(parkourCategory), 1).setName("§b" + parkourCategory.name()).addLoreLine("kategoria").toItemStack();
-            inventory.setItem(i, item);
+        for (ParkourCategory parkourCategory : ParkourCategoryFacade.getAllCategories()) {
+            if(parkourCategory.getBookPosition() < 0) continue;
+
+            final ItemStack item = new UsableItemBuilder(parkourCategory.getCategoryMaterial(), 1)
+                    .sendCommand("pkcat "+parkourCategory.getName())
+                    .toItemBuilder()
+                    .setName("§b" + parkourCategory.getDisplayName().replace("_", " "))
+                    .toItemStack();
+            inventory.setItem(parkourCategory.getBookPosition(), item);
             i++;
         }
         return inventory;
     }
-    private Material getMaterialOfCategory(ParkourCategory parkourCategory){
-        if (parkourCategory == ParkourCategory.NO_CATEGORY)
-            return Material.ANDESITE;
-        if (parkourCategory == ParkourCategory.EASY)
-            return Material.GREEN_CONCRETE;
-        if (parkourCategory == ParkourCategory.COMMUNITY)
-            return Material.DIAMOND;
-        if (parkourCategory == ParkourCategory.DROPPER)
-            return Material.PURPLE_WOOL;
-        if (parkourCategory == ParkourCategory.EVENT)
-            return Material.EMERALD_BLOCK;
-        if (parkourCategory == ParkourCategory.HARD)
-            return Material.RED_CONCRETE;
-        if (parkourCategory == ParkourCategory.MEDIUM)
-            return Material.ORANGE_CONCRETE;
-        if (parkourCategory == ParkourCategory.SPECIAL)
-            return Material.GOLD_INGOT;
-        if (parkourCategory == ParkourCategory.KZ)
-            return Material.DIORITE;
-        return null;
-    }
 
-    private Inventory getCategoryInventory(ParkourCategory category, int page){
+
+    public static Inventory getCategoryInventory(ParkourCategory category, int page){
         int SIZE = 54;
         Inventory inventory = Bukkit.getServer().createInventory(null, SIZE);
+        Material parkourMaterial = category.getCategoryMaterial();
         ParkourSet parkourSet = ParkourPlugin.parkourSet;
         int maxIDOfCategory = parkourSet.getMaxIdentifierOfCategory(category);
         int shift = 1;
@@ -138,18 +126,19 @@ public class InventoryInteractListener implements Listener {
             }
             if (!parkourSet.categoryContainsIdentifier(category, parkourID)) continue;
             Parkour parkour = parkourSet.getParkourByCategoryAndID(category,parkourID);
-            final ItemStack item = new ItemBuilder(Material.SPONGE, 1).
+            final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
+                    sendCommand("pk " + category.getName() + " "+parkourID).
+                    toItemBuilder().
                     setName("§b" + parkour.getName()).
-                    addLoreLine("pk " + category.name() + " "+parkourID).
                     addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
             inventory.setItem(i, item);
         }
         if (nextPageExists) {
-            final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bKolejna strona").addLoreLine(category.name() + "#" + (page+1)).toItemStack();
+            final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bKolejna strona").addLoreLine(category.getName() + "#" + (page+1)).toItemStack();
             inventory.setItem(SIZE - 1,arrow);
         }
         if (previousPageExists) {
-            final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bPoprzednia strona").addLoreLine(category.name() + "#" + (page-1)).toItemStack();
+            final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bPoprzednia strona").addLoreLine(category.getName() + "#" + (page-1)).toItemStack();
             inventory.setItem(SIZE - 2, arrow);
         }
         return inventory;
@@ -161,33 +150,22 @@ public class InventoryInteractListener implements Listener {
             return;
         }
         Material material = event.getCurrentItem().getType();
-
-        if (material == Material.SPONGE) {
-            String command;
-            command = event.getCurrentItem().getItemMeta().getLore().get(0);
-            player.performCommand(command);
-            return;
-        }
-
-        for (ParkourCategory parkourCategory : ParkourCategory.values()){
-            if(getMaterialOfCategory(parkourCategory) == material) {
-                player.openInventory(getCategoryInventory(parkourCategory, 1));
-                return;
-            }
-        }
-
-
+//
+//        for (ParkourCategory parkourCategory : ParkourCategoryFacade.getAllCategories()){
+//            if(parkourCategory.getCategoryMaterial() == material) {
+//                player.openInventory(getCategoryInventory(parkourCategory, 1));
+//                return;
+//            }
+//        }
 
         if (material == Material.ARROW){
             String loreLine = event.getCurrentItem().getItemMeta().getLore().get(0);
             List<String> convertedLine = Stream.of(loreLine.split("#", -1))
                     .collect(Collectors.toList());
-            ParkourCategory category = ParkourCategory.valueOf(convertedLine.get(0));
+            ParkourCategory category = ParkourCategoryFacade.get(convertedLine.get(0));
             int page = Integer.parseInt(convertedLine.get(1));
             player.openInventory(getCategoryInventory(category, page));
         }
-
-
     }
 
     private void onSlimeballClick(final Event event, final Player player){

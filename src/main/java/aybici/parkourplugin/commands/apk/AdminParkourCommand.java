@@ -6,10 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
 public abstract class AdminParkourCommand extends OnParkourCommand {
-    protected boolean SenderHasPermission(CommandSender sender, Permission permission){
+    public static boolean SenderHasPermission(CommandSender sender, Permission permission){
         if (!sender.hasPermission(permission)) {
             sender.sendMessage(ChatColor.RED + "Nie masz dostępu do komendy bez permisji " + permission);
             return false;
-        }return true;
+        } return true;
     }
 }

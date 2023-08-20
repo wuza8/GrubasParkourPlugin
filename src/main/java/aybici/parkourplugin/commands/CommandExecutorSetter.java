@@ -16,6 +16,7 @@ public class CommandExecutorSetter {
     public static void setExecutors(ParkourPlugin plugin){
 
         plugin.getCommand("pkat").setExecutor(new PkatCommand());
+        plugin.getCommand("pkcat").setExecutor(new PkCatCommand());
         plugin.getCommand("pk").setExecutor(new PkCommand());
         plugin.getCommand("fails").setExecutor(new FailsCommand());
         plugin.getCommand("hide").setExecutor(new HideCommand());
@@ -210,6 +211,18 @@ public class CommandExecutorSetter {
                 , "<block1> [block2] [block3] [block4] [block5] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [block50]"
                 , "adds new backblocks",
                 new AddBackBlockCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand("addcategory"
+                , "<name> <display_name> <xp_multiplier> <material> <bookplace>"
+                , "adds new category",
+                new AddCategoryCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand("removecategory"
+                , "<name>"
+                , "removes category",
+                new RemoveCategoryCommand()
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand("removebb"
