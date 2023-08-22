@@ -11,6 +11,7 @@ public class UsableBlockUsedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     public UsableBlockUsedEvent(Player player, String command) {
+        this.player = player;
         this.command = command;
     }
 

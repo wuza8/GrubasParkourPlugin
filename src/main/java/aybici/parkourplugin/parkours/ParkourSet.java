@@ -2,8 +2,11 @@ package aybici.parkourplugin.parkours;
 
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.hiddens.HiddenParkourFacade;
 import org.bukkit.ChatColor;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
+import org.bukkit.Note;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -192,6 +195,19 @@ public class ParkourSet {
                 if (sendMessages) player.sendMessage(ChatColor.RED + "Nie możesz dołączać do parkourów tej kategorii!");
                 return false;
             }
+
+            if(parkour.getCategory().getName().equals("HIDDEN")){
+
+                if(!HiddenParkourFacade.playerUnlockedHiddens(player).stream()
+                    .anyMatch(s1 -> s1.equals(parkour.getName())) ) {
+                    if (sendMessages) player.sendMessage(ChatColor.RED + "Nie odblokowales tego hiddena!");
+                    player.closeInventory();
+                    player.playNote(player.getLocation(), Instrument.BELL, Note.flat(1, Note.Tone.A));
+                    return false;
+                }
+                else return true;
+            }
+
 
             if (identifier != getLowestIdentifierOfCategory(category)) {
                 int previousIdentifier = getPreviousIdentifierOfCategory(category, identifier);

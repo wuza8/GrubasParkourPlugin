@@ -1,10 +1,14 @@
 package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.hiddens.HiddenParkourFacade;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
+import org.bukkit.ChatColor;
+import org.bukkit.Instrument;
+import org.bukkit.Note;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,9 +36,13 @@ public class PkCommand implements CommandExecutor {
                 player.sendMessage("Nie ma takiej kategorii!");
                 return true;
             }
+
+
             ParkourCategory parkourCategory = ParkourCategoryFacade.get(args[0].toUpperCase());
             for (Parkour parkour : parkourSet.getAllMapsOfCategory(parkourCategory)){
                 if (parkour.getIdentifier() == Integer.parseInt(args[1])) {
+
+
                     ParkourPlugin.parkourSessionSet.teleportToParkour(player, parkour.getName());
                     return true;
                 }

@@ -13,6 +13,10 @@ public class UsableBlocksFacade implements Listener {
         //.... this java thing is
         boolean isSomethingThere = false;
 
+        if (event.getCurrentItem() == null) {
+            return;
+        }
+
         try{
             event.getCurrentItem().getItemMeta().getLore().get(0);
             isSomethingThere = true;
@@ -21,21 +25,23 @@ public class UsableBlocksFacade implements Listener {
 
         if(!isSomethingThere) return;
 
-        String command = event.getCurrentItem().getItemMeta().getLore().get(0).substring(1);
+        String command = event.getCurrentItem().getItemMeta().getLore().get(0);
         Player player = (Player) event.getWhoClicked();
 
-        if (event.getCurrentItem().getItemMeta().getLore().get(0).startsWith("/")) {
-            if (event.getCurrentItem() == null) {
-                return;
-            }
+        sendCommand(command, player);
+    }
 
-            player.performCommand(command);
+    public static void sendCommand(String command, Player player) {
+        if(!command.startsWith("/") && !command.startsWith("$")) return;
+
+        if (command.startsWith("/")) {
+            player.performCommand(command.substring(1));
         }
-        else if (event.getCurrentItem().getItemMeta().getLore().get(0).startsWith("$")) {
+        else {
             // Create the event here
             UsableBlockUsedEvent newEvent = new UsableBlockUsedEvent(player, command);
             // Call the event
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getServer().getPluginManager().callEvent(newEvent);
         }
     }
 

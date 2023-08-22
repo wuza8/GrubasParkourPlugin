@@ -1,6 +1,7 @@
 package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.hiddens.HiddenParkourFacade;
 import aybici.parkourplugin.itembuilder.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
@@ -107,7 +108,7 @@ public class InventoryInteractListener implements Listener {
     }
 
 
-    public static Inventory getCategoryInventory(ParkourCategory category, int page){
+    public static Inventory getCategoryInventory(ParkourCategory category, Player player, int page){
         int SIZE = 54;
         Inventory inventory = Bukkit.getServer().createInventory(null, SIZE);
         Material parkourMaterial = category.getCategoryMaterial();
@@ -115,6 +116,14 @@ public class InventoryInteractListener implements Listener {
         int maxIDOfCategory = parkourSet.getMaxIdentifierOfCategory(category);
         int shift = 1;
         int parkourID;
+
+        boolean isHidden = category.getName().equals("HIDDEN");
+        List<String> unlockedHiddenParkours = null;
+
+        if(isHidden){
+            unlockedHiddenParkours = HiddenParkourFacade.playerUnlockedHiddens(player);
+        }
+
         boolean nextPageExists = true;
         boolean previousPageExists = true;
         if (page == 1) previousPageExists = false;
@@ -124,8 +133,17 @@ public class InventoryInteractListener implements Listener {
                 nextPageExists = false;
                 break;
             }
+
             if (!parkourSet.categoryContainsIdentifier(category, parkourID)) continue;
             Parkour parkour = parkourSet.getParkourByCategoryAndID(category,parkourID);
+
+            if(isHidden){
+                if(unlockedHiddenParkours.stream().anyMatch(s -> s.equals(parkour.getName())) ){
+                    parkourMaterial = category.getCategoryMaterial();
+                }
+                else parkourMaterial = Material.BARRIER;
+            }
+
             final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
                     sendCommand("pk " + category.getName() + " "+parkourID).
                     toItemBuilder().
@@ -164,7 +182,7 @@ public class InventoryInteractListener implements Listener {
                     .collect(Collectors.toList());
             ParkourCategory category = ParkourCategoryFacade.get(convertedLine.get(0));
             int page = Integer.parseInt(convertedLine.get(1));
-            player.openInventory(getCategoryInventory(category, page));
+            player.openInventory(getCategoryInventory(category, player, page));
         }
     }
 
