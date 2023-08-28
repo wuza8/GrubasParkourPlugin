@@ -5,7 +5,7 @@ import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -66,11 +66,11 @@ public class TopLine implements Cloneable {
     }
     public String toScoreboardDisplay(int topNumber, Player forPlayer){
         String topColor = "";
-        if(isPlayerCheater()) topColor = ChatColor.RED + "";
+        if(isPlayerCheater()) topColor = ChatColor.of("#666999") + "";
         if(player.equals(forPlayer)) topColor = ChatColor.GOLD + "";
-        if(topNumber == 0) topColor = ChatColor.GREEN + "";
-        if(topNumber == 1) topColor = ChatColor.BLUE + "";
-        if(topNumber == 2) topColor = ChatColor.DARK_BLUE + "";
+        if(topNumber == 0) topColor = ChatColor.of("#123321") + "";
+        if(topNumber == 1) topColor = ChatColor.of("#133721") + "";
+        if(topNumber == 2) topColor = ChatColor.of("#696969") + "";
 
 
 
