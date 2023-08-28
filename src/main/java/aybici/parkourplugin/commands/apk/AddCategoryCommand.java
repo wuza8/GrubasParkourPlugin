@@ -19,13 +19,14 @@ public class AddCategoryCommand  extends AdminParkourCommand implements CommandE
             int xpMultiplier = Integer.parseInt(args[2]);
             Material materialName = Material.matchMaterial(args[3]);
             int bookNumber = Integer.parseInt(args[4]);
+            int minLevel = Integer.parseInt(args[5]);
 
             if(materialName == null) {
                 sender.sendMessage("Materiał "+args[3]+" nie istnieje!");
                 return false;
             }
 
-            ParkourCategoryFacade.addCategory(new ParkourCategory(name, displayName, xpMultiplier, materialName, bookNumber));
+            ParkourCategoryFacade.addCategory(new ParkourCategory(name, displayName, xpMultiplier, materialName, bookNumber, minLevel));
             ParkourCategoryFacade.saveCategories();
         }
         catch (Exception ex){

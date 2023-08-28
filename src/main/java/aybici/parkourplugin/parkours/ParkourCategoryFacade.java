@@ -13,7 +13,7 @@ import static org.bukkit.Bukkit.getLogger;
 public class ParkourCategoryFacade {
     private static HashMap<String, ParkourCategory> categories = new HashMap<>();
 
-    private static ParkourCategory unknown = new ParkourCategory("UNKNOWN", "Unknown", 0, Material.SLIME_BALL, -1);
+    private static ParkourCategory unknown = new ParkourCategory("UNKNOWN", "Unknown", 0, Material.SLIME_BALL, -1,0);
     private static String categoriesFilepath = "categories.txt";
 
     public static void init(){
@@ -56,7 +56,8 @@ public class ParkourCategoryFacade {
                             data[1],
                             Integer.parseInt(data[2]),
                             Material.getMaterial(data[3]),
-                            Integer.parseInt(data[4]))
+                            Integer.parseInt(data[4]),
+                            Integer.parseInt(data[5]))
             );
         }
 
@@ -92,6 +93,8 @@ public class ParkourCategoryFacade {
                     parkourCategory.getCategoryMaterial().name()+
                     "`"+
                     parkourCategory.getBookPosition()+
+                    "`"+
+                    parkourCategory.getMinLevel()+
                     "\n");
         }
     }

@@ -64,11 +64,20 @@ public class TopLine implements Cloneable {
     public boolean isLagged(){
         return (startPing > 180 || endPing > 180);
     }
-    public String toScoreboardDisplay(){
-        String cheaterColor = "";
-        if(isPlayerCheater()) cheaterColor = ChatColor.RED + "";
+    public String toScoreboardDisplay(int topNumber, Player forPlayer){
+        String topColor = "";
+        if(isPlayerCheater()) topColor = ChatColor.RED + "";
+        if(player.equals(forPlayer)) topColor = ChatColor.GOLD + "";
+        if(topNumber == 0) topColor = ChatColor.GREEN + "";
+        if(topNumber == 1) topColor = ChatColor.BLUE + "";
+        if(topNumber == 2) topColor = ChatColor.DARK_BLUE + "";
+
+
+
         String timeToString = TopListDisplay.timeToString(playerTime);
-        return ChatColor.AQUA +cheaterColor + timeToString + ChatColor.DARK_GREEN + ", " + ChatColor.WHITE + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
+        return ChatColor.GRAY +  topColor + (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + timeToString
+                + ChatColor.WHITE + (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + " "
+                + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
     }
 
     /*private String getName(OfflinePlayer player){
@@ -79,6 +88,7 @@ public class TopLine implements Cloneable {
 
     @Override
     public String toString(){
+
         String color;
         if(hidden) color = "DARK_GRAY";
         else if(isPlayerCheater()) color = "DARK_RED";

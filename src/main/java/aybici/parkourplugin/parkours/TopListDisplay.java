@@ -149,12 +149,20 @@ public class TopListDisplay {
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         team.addEntry(player.getName());
 
-        if (topLinesToDisplay.size() >= 5) {
-            for (int i = 0; i < 5; i++)
-                objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay()).setScore(-i - 1);
+        if (topLinesToDisplay.size() >= 10) {
+            for (int i = 0; i < 10; i++)
+                objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay(i, player)).setScore(-i - 1);
         } else{
             for (int i = 0; i < topLinesToDisplay.size(); i++)
-                objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay()).setScore(-i - 1);
+                objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay(i, player)).setScore(-i - 1);
+        }
+
+        for(int i=0;i<topLinesToDisplay.size();i++){
+            if(topLinesToDisplay.get(i).player.equals(player)){
+                if(i<10) break;
+
+                objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay(i, player)).setScore(-i-1);
+            }
         }
 
         player.setScoreboard(scoreboard);

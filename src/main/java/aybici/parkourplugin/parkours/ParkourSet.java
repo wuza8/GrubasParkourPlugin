@@ -3,6 +3,7 @@ package aybici.parkourplugin.parkours;
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
+import aybici.parkourplugin.users.UserManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Instrument;
 import org.bukkit.Location;
@@ -206,6 +207,14 @@ public class ParkourSet {
                     return false;
                 }
                 else return true;
+            }
+
+            if(parkour.getCategory().getMinLevel() > UserManager.getUserByName(player.getName()).getLevel()
+            && !player.hasPermission("vipman")) {
+                player.sendMessage(ChatColor.RED + "Aby dołączyć do parkourów w tej kategorii musisz posiadać conajmniej "
+                        +ChatColor.YELLOW+parkour.getCategory().getMinLevel()+ChatColor.RED+" poziom!");
+                player.closeInventory();
+                return false;
             }
 
 

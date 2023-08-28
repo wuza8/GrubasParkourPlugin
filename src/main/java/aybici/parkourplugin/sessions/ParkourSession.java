@@ -65,19 +65,21 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             }
         return false;
     }
-    private boolean isMapLoaded(){
-        if(parkourPlayerOn.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
-            String directory = parkourPlayerOn.folderName + parkourPlayerOn.dataFileNameInsideFolder;
-            parkourPlayerOn.loadParkour(parkourPlayerOn.folderName, false);
-            if(parkourPlayerOn.getLocation().getWorld() == null){
-                player.sendMessage("Parkour "+ ChatColor.GRAY +parkourPlayerOn.getName() +ChatColor.WHITE+ " jest na niezaładowanym świecie," +ChatColor.GREEN + " Załadujemy świat automatycznie, spróbuj ponownie!");
-                String worldName = parkourPlayerOn.getWorldNameFromFile(directory);
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
-                ParkourPlugin.lobby.teleportPlayerToLobby(player);
+    private boolean isMapLoaded(Parkour parkour){
+        if(parkour.getLocation().getWorld() == null) { // do zrobienia - ladowanie topek dopiero przy wchodzeniu gracza na mape
+            parkour.loadParkour(parkour.folderName, false);
+            if(parkour.getLocation().getWorld() == null){
                 return false;
             }
         }
         return true;
+    }
+
+    private void loadWorld(Parkour parkour){
+        String directory = parkour.folderName + parkour.dataFileNameInsideFolder;
+        player.sendMessage("Parkour "+ ChatColor.GRAY +parkour.getName() +ChatColor.WHITE+ " jest na niezaładowanym świecie," +ChatColor.GREEN + " gdy świat się załaduje, automatycznie zostaniesz przeteleportowany na parkour!");
+        String worldName = parkour.getWorldNameFromFile(directory);
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),"mvload " + worldName);
     }
     public boolean teleportTo(Parkour parkour){
         PositionSaver.unsetPlayerWatching(player);
@@ -85,10 +87,21 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         boolean playerInJail = isPlayerJailed();
         if(playerInJail) return false;
 
-        parkourPlayerOn = parkour;
-        boolean mapIsLoaded = isMapLoaded();
-        if(!mapIsLoaded) return false;
+        boolean mapIsLoaded = isMapLoaded(parkour);
+        if(!mapIsLoaded) {
+            player.closeInventory();
+            loadWorld(parkour);
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ParkourPlugin.plugin, new Runnable() {
+                @Override
+                public void run() {
+                    teleportTo(parkour);
+                }
+            }, 20L);
 
+            return false;
+        }
+
+        parkourPlayerOn = parkour;
         player.teleport(parkour.getLocation());
         playerGameplayState = PlayerGameplayState.ON_PARKOUR;
         playerTimer.resetTimer();
@@ -152,7 +165,6 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             player.sendMessage(ChatColor.GREEN + "Your time: " +getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
-            ExpManager.levelUp(player);
             TabUtil.refreshTab(player);
 
             if(startPing <= 180 && player.getPing() <= 180) {

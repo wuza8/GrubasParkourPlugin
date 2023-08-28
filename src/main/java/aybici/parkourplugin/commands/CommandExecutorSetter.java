@@ -20,6 +20,7 @@ public class CommandExecutorSetter {
         plugin.getCommand("pk").setExecutor(new PkCommand());
         plugin.getCommand("fails").setExecutor(new FailsCommand());
         plugin.getCommand("hide").setExecutor(new HideCommand());
+        plugin.getCommand("flute").setExecutor(new FluteCommand());
         plugin.getCommand("ping").setExecutor(new PingCommand());
         plugin.getCommand("lobby").setExecutor(new LobbyCommand());
         plugin.getCommand("pkquit").setExecutor(new PkQuitCommand());
@@ -214,7 +215,7 @@ public class CommandExecutorSetter {
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand("addcategory"
-                , "<name> <display_name> <xp_multiplier> <material> <bookplace>"
+                , "<name> <display_name> <xp_multiplier> <material> <bookplace> <minLevel>"
                 , "adds new category",
                 new AddCategoryCommand()
         ));

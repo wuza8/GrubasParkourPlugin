@@ -33,7 +33,7 @@ public class ParkourPlugin extends JavaPlugin {
     public static ParkourSessionSet parkourSessionSet = new ParkourSessionSet(parkourSet);
     public static final UnderPlayerBlockWatcher underPlayerBlockWatcher = new UnderPlayerBlockWatcher();
     public static PositionSaver positionSaver = new PositionSaver();
-    private static ParkourPlugin plugin;
+    public static ParkourPlugin plugin;
     public static UUIDList uuidList = new UUIDList();
     public static PermissionSet permissionSet = new PermissionSet();
     public static Lobby lobby = new Lobby();

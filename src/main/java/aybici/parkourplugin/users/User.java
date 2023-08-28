@@ -2,7 +2,6 @@ package aybici.parkourplugin.users;
 
 public class User {
     private String nick;
-    private int level;
     private long exp;
     private boolean isCheater;
 
@@ -11,25 +10,15 @@ public class User {
     }
 
     public long getNeedExp(){
-        final int multiplier = 32;
-        int i = 1;
-        long need = 0;
-        long needexp = 0;
-        while(i <= this.level){
-            need = needexp;
-            needexp = (long) i * multiplier + need;
-            i++;
-        }
+        if(getLevel() == 30) return 0;
+        long needexp = (long) (UserManager.xpTable[getLevel()] * UserManager.multiplier);
         return needexp - this.exp;
     }
 
     public int getLevel(){
-        return this.level;
+        return UserManager.getLevelOfExp(getExp());
     }
 
-    public void setLevel(int level){
-        this.level = level;
-    }
     public void setCheater(boolean value){
         this.isCheater = value;
     }
@@ -51,7 +40,6 @@ public class User {
     }
     public void saveUser(){
         UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
-        UserFile.levelFile.getData().set("Users." + nick + ".Level", getLevel());
         UserFile.levelFile.getData().set("Users." + nick + ".Cheater", isCheater);
         UserFile.levelFile.saveData();
     }

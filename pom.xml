@@ -15,6 +15,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <!-- For Jfugue -->
+        <repository>
+            <id>sing-group</id>
+            <url>https://maven.sing-group.org/repository/maven/</url>
+        </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -75,6 +80,14 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.33</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/jfugue/jfugue -->
+        <dependency>
+            <groupId>jfugue</groupId>
+            <artifactId>jfugue</artifactId>
+            <version>5.0.9</version>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>org.junit.platform</groupId>-->
         <!--            <artifactId>junit-platform-launcher</artifactId>-->

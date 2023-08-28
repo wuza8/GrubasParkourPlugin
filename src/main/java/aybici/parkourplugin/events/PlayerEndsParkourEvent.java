@@ -5,6 +5,7 @@ import aybici.parkourplugin.parkours.FinishExpSource;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -43,8 +44,13 @@ public class PlayerEndsParkourEvent extends Event implements Cancellable {
             expMessage = ChatColor.GRAY + " dostaniesz, gdy jego ilość zostanie ustalona.";
         else expMessage =  ": "+ ChatColor.GREEN + parkourPlayerOn.getExp();
         player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp" + expMessage);
+        int levelBefore = user.getLevel();
         user.addExp(parkourPlayerOn.getExp());
-        // user.save jest wykonany później w parkourSession w metodzie levelUp, po przeteleportowaniu gracza na start
+        int levelAfter = user.getLevel();
+
+        if(levelBefore != levelAfter) ExpManager.levelUp(player);
+
+        user.saveUser();
     }
 
     @Override

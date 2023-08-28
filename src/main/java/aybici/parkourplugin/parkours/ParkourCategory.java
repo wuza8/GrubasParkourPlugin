@@ -11,6 +11,8 @@ public class ParkourCategory {
     private int bookPosition;
     private int xpMultiplier;
 
+    private int minLevel;
+
     public String getName(){
         return name;
     }
@@ -28,11 +30,14 @@ public class ParkourCategory {
         return bookPosition;
     }
 
-    public ParkourCategory(String name, String displayName, int xpMultiplier, Material categoryMaterial, int bookPosition){
+    public int getMinLevel(){ return minLevel;}
+
+    public ParkourCategory(String name, String displayName, int xpMultiplier, Material categoryMaterial, int bookPosition, int minLevel) {
         this.name = name;
         this.displayName = displayName;
         this.xpMultiplier = xpMultiplier;
         this.categoryMaterial = categoryMaterial;
         this.bookPosition = bookPosition;
+        this.minLevel = minLevel;
     }
 }

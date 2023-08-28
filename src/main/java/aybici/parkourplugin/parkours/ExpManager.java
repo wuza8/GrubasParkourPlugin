@@ -52,7 +52,6 @@ public class ExpManager {
                 int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList(false,true,true)).size();
                 user.addExp(- timesFinished * oldExp);
                 user.addExp(timesFinished * newExp);
-                UserManager.fixLevel(user);
                 UserFile.levelFile.getData().set("Users." + user.getNick() + ".Exp", user.getExp());
                 UserFile.levelFile.getData().set("Users." + user.getNick() + ".Level", user.getLevel());
             }
@@ -76,7 +75,6 @@ public class ExpManager {
             User user = UserManager.getUserByName(player.getName());
             int timesFinished = TopListDisplay.getAllTimesOfPlayer(player,parkour.getTopListObject().getTopList(false,true,true)).size();
             user.addExp(timesFinished * parkour.getExp());
-            UserManager.fixLevel(user);
             UserFile.levelFile.getData().set("Users." + user.getNick() + ".Exp", user.getExp());
             UserFile.levelFile.getData().set("Users." + user.getNick() + ".Level", user.getLevel());
         }
@@ -108,21 +106,15 @@ public class ExpManager {
 
     public static void levelUp(Player player){
         User user = UserManager.getUserByName(player.getName());
-
-        if(user.getNeedExp() < 1){ // player achieved new level
-            UserManager.fixLevel(user);
-            int level = user.getLevel();
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-            player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
-            String message = ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!");
-            //Bukkit.broadcastMessage(message); // wypis na konsolę i dla wszystkich graczy nie zawsze działa
-            for (Player player1 : Bukkit.getOnlinePlayers()){ // wypis dla innych graczy
-                if(!player1.getName().equals(player.getName()))
-                    player1.sendMessage(message);
-            }
-        } else UserManager.fixLevel(user);
-
-        user.saveUser();
+        int level = user.getLevel();
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+        player.sendMessage(ChatUtil.fixColor("&bAwansowałeś na " + level + " poziom!"));
+        String message = ChatUtil.fixColor("&bGracz " + player.getName() + " awansował na " + level + " poziom!");
+        //Bukkit.broadcastMessage(message); // wypis na konsolę i dla wszystkich graczy nie zawsze działa
+        for (Player player1 : Bukkit.getOnlinePlayers()){ // wypis dla innych graczy
+            if(!player1.getName().equals(player.getName()))
+                player1.sendMessage(message);
+        }
     }
 
 }
