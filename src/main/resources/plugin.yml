@@ -48,3 +48,4 @@ commands:
     usage: /pk <pkname> (WARNING! replace " " to "_"); /pk <category> <ID>; try also /pklist;
   pkat:
   level:
+  event:

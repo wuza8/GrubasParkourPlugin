@@ -19,6 +19,7 @@ public class CommandExecutorSetter {
         plugin.getCommand("pkcat").setExecutor(new PkCatCommand());
         plugin.getCommand("pk").setExecutor(new PkCommand());
         plugin.getCommand("fails").setExecutor(new FailsCommand());
+        plugin.getCommand("event").setExecutor(new EventCommand());
         plugin.getCommand("hide").setExecutor(new HideCommand());
         plugin.getCommand("flute").setExecutor(new FluteCommand());
         plugin.getCommand("ping").setExecutor(new PingCommand());

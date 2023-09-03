@@ -94,7 +94,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ParkourPlugin.plugin, new Runnable() {
                 @Override
                 public void run() {
-                    teleportTo(parkour);
+                    player.performCommand("pk "+parkour.getName());
                 }
             }, 20L);
 

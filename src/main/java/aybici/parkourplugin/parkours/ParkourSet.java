@@ -3,6 +3,7 @@ package aybici.parkourplugin.parkours;
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
+import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.users.UserManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Instrument;
@@ -228,6 +229,12 @@ public class ParkourSet {
                     }
                     return false;
                 }
+            }
+
+            if(parkour.getCategory().getName().equals("EVENT")
+                    && (ParkourEventsFacade.getEventParkour() != null && !ParkourEventsFacade.getEventParkour().equals(parkour))) {
+                player.sendMessage(ChatColor.RED+ "Ten event nie jest wystartowany!");
+                return false;
             }
         }
         return true;
