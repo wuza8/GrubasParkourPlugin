@@ -72,8 +72,8 @@ public class DeleteTopsCommand extends AdminParkourCommand implements CommandExe
             return false;
         }
         if(!safeDelete.getValue()){
-            if(!player.getName().equals("rycerz125")) {
-                player.sendMessage("tylko rycerz może trwale usuwać czasy, choć nie ma powodu, aby tak robić");
+            if(!player.getName().equals("ProKoksPL1")) {
+                player.sendMessage("tylko ProKoksPL1 może trwale usuwać czasy");
                 return false;
             }
         }

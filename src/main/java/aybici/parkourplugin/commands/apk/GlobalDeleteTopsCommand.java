@@ -13,7 +13,7 @@ public class GlobalDeleteTopsCommand extends AdminParkourCommand implements Comm
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
         if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.deletePermission)) return true;
-        if (!sender.getName().equals("rycerz125")){
+        if (!sender.getName().equals("ProKoksPL1")){
             sender.sendMessage("nie ma opcji");
             return false;
         }
