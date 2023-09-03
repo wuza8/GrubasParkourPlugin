@@ -65,18 +65,18 @@ public class TopLine implements Cloneable {
         return (startPing > 180 || endPing > 180);
     }
     public String toScoreboardDisplay(int topNumber, Player forPlayer){
-        String topColor = "";
-        if(isPlayerCheater()) topColor = ChatColor.of("#666999") + "";
-        if(player.equals(forPlayer)) topColor = ChatColor.GOLD + "";
-        if(topNumber == 0) topColor = ChatColor.of("#123321") + "";
-        if(topNumber == 1) topColor = ChatColor.of("#133721") + "";
-        if(topNumber == 2) topColor = ChatColor.of("#696969") + "";
+        String topColor =ChatColor.AQUA + "";
+        if(isPlayerCheater()) topColor = ChatColor.BLACK + "";
+        if(player.equals(forPlayer)) topColor = ChatColor.DARK_AQUA + "";
+        if(topNumber == 0) topColor = ChatColor.YELLOW + "";
+        if(topNumber == 1) topColor = ChatColor.GRAY + "";
+        if(topNumber == 2) topColor = ChatColor.RED + "";
 
 
 
         String timeToString = TopListDisplay.timeToString(playerTime);
-        return ChatColor.GRAY +  topColor + (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + timeToString
-                + ChatColor.WHITE + (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + " "
+        return    topColor + (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + timeToString
+                + ChatColor.WHITE+ (player.equals(forPlayer) ? ChatColor.BOLD + "" : "") + " "
                 + ParkourPlugin.uuidList.getNameFromUUID(player.getUniqueId());
     }
 

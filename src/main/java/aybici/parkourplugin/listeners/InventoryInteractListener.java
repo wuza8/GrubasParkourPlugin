@@ -60,7 +60,7 @@ public class InventoryInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD)){
             return;
         }
-        player.setCooldown(Material.BLAZE_ROD, 60);
+        player.setCooldown(Material.BLAZE_ROD, 30);
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         Parkour parkour2 = null;
         if (parkour == null) {

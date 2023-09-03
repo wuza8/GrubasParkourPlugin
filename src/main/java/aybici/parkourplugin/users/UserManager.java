@@ -4,6 +4,7 @@ import aybici.parkourplugin.LevelFile;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.UUIDList;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
@@ -52,36 +53,36 @@ public class UserManager {
     };
 
     public static String[] tiltes = {
-            "Nowy w miescie",
-            "Azbest na budowie",
-            "Pijany brygadzista",
-            "Zabkowy wlasciciel",
-            "Pierwszy domek",
-            "Zal zlotowy",
-            "Okulary Versacziego",
-            "Pierwszy Roli",
-            "Pieniadzoprad",
-            "Pulsonic",
-            "Potezny Portfel",
-            "Krol Kuponow",
-            "Rustler",
-            "Plynący w Gotowce",
-            "Platynowy Papier",
-            "Fortuna w Budowie",
+            ChatColor.WHITE + "Nowy w mieście",
+            ChatColor.YELLOW + "Azbest na budowie",
+            ChatColor.LIGHT_PURPLE + "Pijany brygadzista",
+            ChatColor.RED + "Żabkowy właściciel",
+            ChatColor.AQUA + "Pierwszy domek",
+            ChatColor.GREEN + "Żal złotówy",
+            ChatColor.BLUE + "Okulary Versacziego",
+            ChatColor.GRAY + "Pierwszy Roli",
+            ChatColor.GOLD + "Pieniądzoprąd",
+            ChatColor.DARK_AQUA + "Pulsonic",
+            ChatColor.DARK_GREEN + "Potężny Portfel",
+            ChatColor.DARK_GRAY + "Król Kuponów",
+            ChatColor.DARK_PURPLE + "Rustler",
+            ChatColor.DARK_BLUE + "Płynący w Gotówce",
+            ChatColor.DARK_RED + "Platynowy Papier",
+            ChatColor.BLACK + "Fortuna w Budowie",
             "Inwestycja w Budowie",
             "Srebrny Sztok",
             "Nowy Roli",
             "Pierwszy Sklep",
-            "Zloty Szef",
+            "Złoty Szef",
             "Monopolowy Mistrz",
             "Ryzykant Rynkowy",
             "Predator Alkoholowy",
-            "Marzowy Mistrz",
+            "Marżowy Mistrz",
             "Banknotowy Baron",
-            "Inwestycyjny Ideal",
-            "Pieniadzowy Profesor",
+            "Inwestycyjny Ideał",
+            "Pieniądzowy Profesor",
             "Gruby zwierz",
-            "Zawal miliardera"
+            "Zawał miliardera"
     };
 
     public static HashMap<String, User> playerUserHashMap = new HashMap<>();
