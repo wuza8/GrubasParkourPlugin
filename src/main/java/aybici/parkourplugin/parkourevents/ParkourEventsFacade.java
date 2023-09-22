@@ -125,11 +125,11 @@ public class ParkourEventsFacade {
                                 + minutes + ChatColor.AQUA + " minut!");
                     }
                     else if(minutes < 1){
-                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
+                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostały " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuty!");
                     }
                     else{
-                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
+                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu została " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuta!");
                     }
                 }, (endDuration+nextAutoEventDuration * 20) - minutes * 60 * 20));

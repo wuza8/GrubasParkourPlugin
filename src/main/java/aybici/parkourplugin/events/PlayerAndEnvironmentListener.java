@@ -182,6 +182,13 @@ public class PlayerAndEnvironmentListener implements Listener {
             event.getSender().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
         }
     }
+    @EventHandler
+    public void ongamemodechange(PlayerGameModeChangeEvent event){
+        if (!event.getPlayer().hasPermission(ParkourPlugin.permissionSet.buildPermission)){
+            event.setCancelled(true);
+            event.getPlayer().setGameMode(GameMode.ADVENTURE);
+        }
+    }
 //    @EventHandler
 //    public void onGenerateChunk(ChunkLoadEvent event){
 //        event.getChunk().

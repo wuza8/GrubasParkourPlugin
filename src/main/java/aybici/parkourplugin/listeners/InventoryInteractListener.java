@@ -40,7 +40,7 @@ public class InventoryInteractListener implements Listener {
             onDemoQuitItemClick(player);
         else if(materialInHand == Material.NETHER_STAR)
             onResetItemClick(player);
-        else if(materialInHand == Material.BLUE_BED)
+        else if(materialInHand == Material.ORANGE_BED)
             onBedClick(player);
         else if(materialInHand == Material.SLIME_BALL)
             onSlimeballClick((Event)event, player);
@@ -88,6 +88,10 @@ public class InventoryInteractListener implements Listener {
     }
 
     private void onBedClick(final Player player){
+        if (player.hasCooldown(Material.ORANGE_BED)){
+        return;
+    }
+        player.setCooldown(Material.ORANGE_BED, 30);
         player.chat("/cp");
     }
     private Inventory getMenuInventory(){
