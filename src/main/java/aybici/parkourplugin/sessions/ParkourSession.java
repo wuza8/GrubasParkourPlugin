@@ -7,6 +7,7 @@ import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.events.PlayerStartsParkourEvent;
 import aybici.parkourplugin.parkours.*;
 import aybici.parkourplugin.parkours.fails.Fail;
+import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.*;
@@ -160,6 +161,26 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         Bukkit.getServer().getPluginManager().callEvent(event);
 
         if(!event.isCancelled()) {
+            User user = UserManager.getUserByName(player.getName());
+            if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
+                ExpManager.calculateExpOfParkour(event.getParkour(), true);
+            String expMessage;
+            Long setxp = parkourPlayerOn.getExp();
+
+            if(player.hasPermission("vipman")) setxp*=2;
+
+            if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
+                expMessage = ChatColor.GRAY + " dostaniesz, gdy jego ilość zostanie ustalona.";
+            else expMessage =  ": "+ ChatColor.GREEN + setxp;
+            player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp" + expMessage);
+            int levelBefore = user.getLevel();
+            user.addExp(setxp);
+            int levelAfter = user.getLevel();
+
+            if(levelBefore != levelAfter) ExpManager.levelUp(player);
+
+            user.saveUser();
+
             playerTimer.resetTimer();
 
             player.sendMessage(ChatColor.GREEN + "Your time: " +getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));

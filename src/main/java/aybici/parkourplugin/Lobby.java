@@ -25,7 +25,7 @@ public class Lobby {
         if (!new File(directory).exists()) FileCreator.createFile(directory);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(directory, false));
-            writer.write(lobbyLocation.getWorld().getName()+"\n");
+            writer.write(lobbyLocation.getWorld().getName().toLowerCase()+"\n");
             writer.write(lobbyLocation.getX()+"\n");
             writer.write(lobbyLocation.getY()+"\n");
             writer.write(lobbyLocation.getZ()+"\n");

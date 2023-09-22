@@ -1,6 +1,7 @@
 package aybici.parkourplugin.parkours;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import org.bukkit.Bukkit;
@@ -128,6 +129,11 @@ public class TopListDisplay {
 
     public static void displayTimesOnScoreboard(Player player, DisplayingTimesState displayingTimesState, SortTimesType sortTimesType){
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
+        //If he's on event
+        if(ParkourEventsFacade.getEventParkour() != null && ParkourEventsFacade.getEventParkour().equals(parkour)){
+            ParkourEventsFacade.updateScoreboard();
+            return;
+        }
         /*Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST); //czyszczenie glownego scoreboarda
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
         Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);*/
@@ -135,7 +141,7 @@ public class TopListDisplay {
 
         List<TopLine> topList = parkour.getTopListObject().getTopList(false,true,false);
         topList = getNotCheatedTimesExcept(player,topList);
-        if (topList.size()==0) return;
+        //if (topList.size()==0) return;
         List<TopLine> topLinesToSort = getTopListToSort(topList, displayingTimesState, player);
         if (topLinesToSort.size()==0) return;
         List<TopLine> topLinesToDisplay = sortTopList(topLinesToSort, sortTimesType);
@@ -148,6 +154,11 @@ public class TopListDisplay {
         Team team = scoreboard.registerNewTeam("team");
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         team.addEntry(player.getName());
+
+        if(topLinesToDisplay.size() == 0) {
+            objective.getScore(ChatColor.DARK_GRAY+"Jeszcze nikt nie").setScore(-1);
+            objective.getScore(ChatColor.DARK_GRAY+"przeszedł tej mapy.").setScore(-2);
+        }
 
         if (topLinesToDisplay.size() >= 10) {
             for (int i = 0; i < 10; i++)
@@ -164,6 +175,8 @@ public class TopListDisplay {
                 objective.getScore(topLinesToDisplay.get(i).toScoreboardDisplay(i, player)).setScore(-i-1);
             }
         }
+
+
 
         player.setScoreboard(scoreboard);
     }

@@ -2,7 +2,7 @@ package aybici.parkourplugin.sessions;
 
 import aybici.parkourplugin.FileCreator;
 import aybici.parkourplugin.ParkourPlugin;
-import aybici.parkourplugin.itembuilder.ItemBuilder;
+import aybici.parkourplugin.builders.ItemBuilder;
 import aybici.parkourplugin.parkours.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;

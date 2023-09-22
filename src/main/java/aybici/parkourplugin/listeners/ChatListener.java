@@ -26,6 +26,8 @@ public class ChatListener implements Listener {
         User user = UserManager.getUserByName(player.getName());
         String cheaterPrefix = "";
         if(user.isCheater()) cheaterPrefix = " &4[Cheater]";
+
+        if(player.hasPermission("vipman")) cheaterPrefix += " &eViper";
         /*String format = event.getFormat();
 
         int number = 1;

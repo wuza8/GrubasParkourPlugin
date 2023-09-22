@@ -30,6 +30,7 @@ public class CommandExecutorSetter {
         plugin.getCommand("showlasttry").setExecutor(new ShowLastTryCommand());
         plugin.getCommand("playdemo").setExecutor(new PlayDemoCommand());
         plugin.getCommand("level").setExecutor(new LevelCommand());
+        plugin.getCommand("startevent").setExecutor(new StartEventCommand());
 
         SubcommandExecutor apkExecutor = new SubcommandExecutor("apk");
         SubcommandExecutor timesExecutor = new SubcommandExecutor("times");
@@ -146,6 +147,25 @@ public class CommandExecutorSetter {
                 "[append] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] []",
                 "sets or appends description of parkour",
                 new DescriptionCommand()
+        ));
+        apkExecutor.addCommandExecutor(new Subcommand(
+                "newtag",
+                "<tag_name> [description] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] []",
+                "adds new tag",
+                new AddNewTagCommand()
+        ));
+        apkExecutor.addCommandExecutor(new Subcommand(
+                "addtag",
+                "<tagname>",
+                "adds tag to parkour map",
+                new AddNewTagCommand()
+        ));
+
+        apkExecutor.addCommandExecutor(new Subcommand(
+                "tags",
+                "",
+                "adds tag to parkour map",
+                new ShowParkourTagsCommand()
         ));
 
         apkExecutor.addCommandExecutor(new Subcommand(
