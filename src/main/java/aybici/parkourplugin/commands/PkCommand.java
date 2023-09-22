@@ -23,6 +23,8 @@ public class PkCommand implements CommandExecutor {
         ParkourSet parkourSet = ParkourPlugin.parkourSet;
         if (args.length == 1) {
             try {
+                if(args[0].equals("none"))
+                    player.sendMessage("Nie odblokowałeś jeszcze tego parkoura!");
                 ParkourPlugin.parkourSessionSet.teleportToParkour(player, args[0]);
             } catch (IllegalStateException exception) {
                 player.sendMessage(exception.getMessage());

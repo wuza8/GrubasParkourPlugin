@@ -243,7 +243,6 @@ public class Parkour{
 
             String worldName;
 
-
             Double.parseDouble(reader.readLine()); //x
             Double.parseDouble(reader.readLine()); //y
             Double.parseDouble(reader.readLine()); //z

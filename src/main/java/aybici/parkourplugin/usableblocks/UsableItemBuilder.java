@@ -1,6 +1,6 @@
 package aybici.parkourplugin.usableblocks;
 
-import aybici.parkourplugin.itembuilder.ItemBuilder;
+import aybici.parkourplugin.builders.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

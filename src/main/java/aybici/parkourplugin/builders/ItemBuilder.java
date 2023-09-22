@@ -1,4 +1,4 @@
-package aybici.parkourplugin.itembuilder;
+package aybici.parkourplugin.builders;
 
 import org.bukkit.Color;
 import org.bukkit.Material;

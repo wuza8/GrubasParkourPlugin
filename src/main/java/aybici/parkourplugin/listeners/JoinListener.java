@@ -1,20 +1,15 @@
 package aybici.parkourplugin.listeners;
 
-import aybici.parkourplugin.ParkourPlugin;
-import aybici.parkourplugin.itembuilder.ItemBuilder;
+import aybici.parkourplugin.builders.ItemBuilder;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import aybici.parkourplugin.utils.TabUtil;
-import com.connorlinfoot.titleapi.TitleAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class JoinListener implements Listener {
 

@@ -219,7 +219,7 @@ public class ParkourSet {
             }
 
 
-            if (identifier != getLowestIdentifierOfCategory(category)) {
+            if (parkour.getCategory().getName().equals("KZ")) {
                 int previousIdentifier = getPreviousIdentifierOfCategory(category, identifier);
                 Parkour previousParkour = getParkourByCategoryAndID(category, previousIdentifier);
                 if (!previousParkour.didPlayerFinishParkour(player)) {

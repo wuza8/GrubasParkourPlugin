@@ -2,7 +2,7 @@ package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
-import aybici.parkourplugin.itembuilder.ItemBuilder;
+import aybici.parkourplugin.builders.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
@@ -11,6 +11,7 @@ import aybici.parkourplugin.sessions.ParkourSession;
 import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.usableblocks.UsableItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -18,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -140,16 +142,24 @@ public class InventoryInteractListener implements Listener {
             if(isHidden){
                 if(unlockedHiddenParkours.stream().anyMatch(s -> s.equals(parkour.getName())) ){
                     parkourMaterial = category.getCategoryMaterial();
+                    final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
+                            sendCommand("pk " + category.getName() + " "+parkourID).
+                            toItemBuilder().
+                            setName("§b" + parkour.getName()).
+                            addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
+                    inventory.setItem(i, item);
                 }
-                else parkourMaterial = Material.BARRIER;
-            }
+                else {
+                    parkourMaterial = Material.BARRIER;
 
-            final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
-                    sendCommand("pk " + category.getName() + " "+parkourID).
-                    toItemBuilder().
-                    setName("§b" + parkour.getName()).
-                    addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
-            inventory.setItem(i, item);
+                    final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
+                            sendCommand("pk none").
+                            toItemBuilder().
+                            setName("§b???")
+                            .toItemStack();
+                    inventory.setItem(i, item);
+                }
+            }
         }
         if (nextPageExists) {
             final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bKolejna strona").addLoreLine(category.getName() + "#" + (page+1)).toItemStack();
@@ -218,6 +228,14 @@ public class InventoryInteractListener implements Listener {
             if(player.getItemInHand().getType() == Material.SLIME_BALL){
                 player.chat("/hide off");
             }
+        }
+    }
+
+    @EventHandler
+    public void onUnpriviledgedPlayerGamemodeChange(PlayerGameModeChangeEvent event) {
+        if (!event.getPlayer().hasPermission(ParkourPlugin.permissionSet.buildPermission)) {
+            event.setCancelled(true);
+            event.getPlayer().setGameMode(GameMode.ADVENTURE);
         }
     }
 }

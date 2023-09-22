@@ -1,31 +1,34 @@
 package aybici.parkourplugin.parkourevents;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.parkours.Parkour;
-import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.sessions.ParkourSession;
-import aybici.parkourplugin.sessions.ParkourSessionSet;
+import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
-import org.checkerframework.checker.units.qual.A;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
-public class ParkourEventsFacade {
+public class ParkourEventsFacade implements Listener {
 
     private static int standardDuration = 10*60; // 10 minutes
-    private static int durationBetweenEvents = 30*60; // 30 minutes
+    private static int durationBetweenEvents = 10*60; // 10 minutes
     private static Parkour actualParkourInEvent = null;
 
+    private static ParkourEvent actualParkourEvent;
+
+    private static Long nextAutoEvent;
+
     private static String eventStartAnnouncement = ChatColor.AQUA + "Event na mapie"+ChatColor.GREEN+" %s "+
-            ChatColor.AQUA+"został wystartowany! Aby dołączyć użyj"+ChatColor.GREEN+" /event "+ChatColor.AQUA+
-            "lub użyj książki.";
+            ChatColor.AQUA+", typu " +ChatColor.GREEN+ "%s" + ChatColor.AQUA+ " został wystartowany! Aby dołączyć użyj"
+            +ChatColor.GREEN+" /event " + ChatColor.AQUA + "lub użyj książki.";
 
     private static String eventEnd = ChatColor.AQUA + "Event został zakończony!";
 
@@ -40,16 +43,33 @@ public class ParkourEventsFacade {
 
     private static List<BukkitTask> bukkitAnnouncementTasks = new ArrayList<>();
 
-    public void init(){
+    public static void init(){
         if(autoEventTurnedOn) {
             recreateEventTasks(0, durationBetweenEvents);
         }
+
+        Bukkit.getScheduler().runTaskTimer(ParkourPlugin.getInstance(), () -> {
+            updateScoreboard();
+            TabUtil.refreshAllPlayersTab();
+        },0, 20*20);
     }
 
     public static void startEvent(){
         List<Parkour> eventMaps = ParkourPlugin.parkourSet.getAllMapsOfCategory(ParkourCategoryFacade.get("EVENT"));
-        Parkour parkour = eventMaps.get(rand.nextInt() % eventMaps.size());
+        Parkour parkour = eventMaps.get(Math.abs(rand.nextInt()) % eventMaps.size());
         startEvent(parkour);
+    }
+
+    public static boolean isAutoEventOn(){
+        return autoEventTurnedOn;
+    }
+
+    public static Long getNextAutoEventTime(){
+        return nextAutoEvent;
+    }
+
+    public static Long getNextEventTimeInMinutes(){
+        return (ParkourEventsFacade.getNextAutoEventTime()-System.currentTimeMillis())/1000/60;
     }
 
     public static void startEvent(Parkour parkour){
@@ -58,8 +78,18 @@ public class ParkourEventsFacade {
 
     public static void startEvent(Parkour parkour, int durationInSeconds){
         actualParkourInEvent = parkour;
+
+        if(rand.nextBoolean())
+            actualParkourEvent = new BestTopEvent(parkour, System.currentTimeMillis() + durationInSeconds*1000);
+        else
+            actualParkourEvent = new WhoFirstIsWinner(parkour, System.currentTimeMillis() + durationInSeconds*1000);
+
         recreateEventTasks(durationInSeconds, durationBetweenEvents);
-        Bukkit.broadcastMessage(String.format(eventStartAnnouncement, parkour.getName()));
+        Bukkit.broadcastMessage(String.format(
+                eventStartAnnouncement,
+                parkour.getName(),
+                actualParkourEvent.getEventName()
+        ));
     }
 
     public static Parkour getEventParkour(){
@@ -87,7 +117,10 @@ public class ParkourEventsFacade {
         if(!byAdmin) Bukkit.broadcastMessage(eventEnd);
         else Bukkit.broadcastMessage(eventStoppedByAdmin);
 
+        actualParkourEvent.onEventEnd();
+
         actualParkourInEvent = null;
+        actualParkourEvent = null;
     }
 
     private static void recreateEventTasks(int endDuration, int nextAutoEventDuration){
@@ -95,6 +128,8 @@ public class ParkourEventsFacade {
             autoEventTask.cancel();
         if(eventStopTask != null && !eventStopTask.isCancelled())
             eventStopTask.cancel();
+
+        nextAutoEvent = System.currentTimeMillis() + ((endDuration + nextAutoEventDuration) * 1000);
 
         if(nextAutoEventDuration != 0 && autoEventTurnedOn)
             autoEventTask = createTaskForNextAutoEvent(endDuration + nextAutoEventDuration);
@@ -111,7 +146,7 @@ public class ParkourEventsFacade {
         //Announcement after map ends
         bukkitAnnouncementTasks.add(
                 Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    startEvent();
+                    Bukkit.broadcastMessage(ChatColor.AQUA+"Następny event za "+(getNextEventTimeInMinutes()+1)+" min");
                 }, endDuration * 20 + 20)
         );
 
@@ -120,11 +155,11 @@ public class ParkourEventsFacade {
         Stream.of(20, 10, 5, 3, 2, 1).forEach((minutes) -> {
                 if(nextAutoEventDuration > minutes*60)
                 bukkitAnnouncementTasks.add(Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    if(minutes < 3) {
+                    if(minutes > 3) {
                         Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minut!");
                     }
-                    else if(minutes < 1){
+                    else if(minutes > 1){
                         Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuty!");
                     }
@@ -132,7 +167,7 @@ public class ParkourEventsFacade {
                         Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuta!");
                     }
-                }, (endDuration+nextAutoEventDuration * 20) - minutes * 60 * 20));
+                }, ((endDuration+nextAutoEventDuration) * 20) - minutes * 60 * 20));
         });
     }
 
@@ -145,6 +180,19 @@ public class ParkourEventsFacade {
         return Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
             endEvent(false);
         }, eventEndingInSeconds * 20);
+    }
+
+    @EventHandler
+    public void handlePlayerEndsParkourEvent(PlayerEndsParkourEvent event){
+        if(event.getParkour().equals(actualParkourInEvent)) {
+            actualParkourEvent.whenPlayerMakesTimeOnEvent(event.getPlayer(), event.getPlayerTimeInMillis());
+        }
+    }
+
+    public static void updateScoreboard(){
+        if(actualParkourEvent != null){
+            actualParkourEvent.updateScoreboards();
+        }
     }
 
 }
