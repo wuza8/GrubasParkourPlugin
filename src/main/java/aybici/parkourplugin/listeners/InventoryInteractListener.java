@@ -169,7 +169,7 @@ public class InventoryInteractListener implements Listener {
                     parkourMaterial = Material.BARRIER;
 
                     final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
-                            sendCommand("pk ???").
+                            sendCommand("pk none").
                             toItemBuilder().
                             setName("§b???")
                             .toItemStack();
