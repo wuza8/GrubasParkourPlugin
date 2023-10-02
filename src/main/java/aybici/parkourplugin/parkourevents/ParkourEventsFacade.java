@@ -18,21 +18,21 @@ import java.util.stream.Stream;
 
 public class ParkourEventsFacade implements Listener {
 
-    private static int standardDuration = 10*60; // 10 minutes
-    private static int durationBetweenEvents = 10*60; // 10 minutes
+    private static int standardDuration = 30*60; // 30 minutes
+    private static int durationBetweenEvents = 30*60; // 30 minutes
     private static Parkour actualParkourInEvent = null;
 
     private static ParkourEvent actualParkourEvent;
 
     private static Long nextAutoEvent;
 
-    private static String eventStartAnnouncement = ChatColor.AQUA + "Event na mapie"+ChatColor.GREEN+" %s "+
+    private static String eventStartAnnouncement = ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Event na mapie"+ChatColor.GREEN+" %s"+
             ChatColor.AQUA+", typu " +ChatColor.GREEN+ "%s" + ChatColor.AQUA+ " został wystartowany! Aby dołączyć użyj"
             +ChatColor.GREEN+" /event " + ChatColor.AQUA + "lub użyj książki.";
 
-    private static String eventEnd = ChatColor.AQUA + "Event został zakończony!";
+    private static String eventEnd = ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Event został zakończony!";
 
-    private static String eventStoppedByAdmin = ChatColor.AQUA + "Event został zakończony przez administrację.";
+    private static String eventStoppedByAdmin = ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Event został zakończony przez administrację.";
 
     private static Random rand = new Random();
 
@@ -87,7 +87,7 @@ public class ParkourEventsFacade implements Listener {
         recreateEventTasks(durationInSeconds, durationBetweenEvents);
         Bukkit.broadcastMessage(String.format(
                 eventStartAnnouncement,
-                parkour.getName(),
+                parkour.getName().replace("_"," "),
                 actualParkourEvent.getEventName()
         ));
     }
@@ -146,8 +146,8 @@ public class ParkourEventsFacade implements Listener {
         //Announcement after map ends
         bukkitAnnouncementTasks.add(
                 Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    Bukkit.broadcastMessage(ChatColor.AQUA+"Następny event za "+(getNextEventTimeInMinutes()+1)+" min");
-                }, endDuration * 20 + 20)
+                    Bukkit.broadcastMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA+"Następny event za "+ ChatColor.GREEN+(getNextEventTimeInMinutes()+1)+" min");
+                }, endDuration * 30 + 30)
         );
 
         //Minutes to event tasks
@@ -156,15 +156,15 @@ public class ParkourEventsFacade implements Listener {
                 if(nextAutoEventDuration > minutes*60)
                 bukkitAnnouncementTasks.add(Bukkit.getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
                     if(minutes > 3) {
-                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
+                        Bukkit.broadcastMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minut!");
                     }
                     else if(minutes > 1){
-                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
+                        Bukkit.broadcastMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Do następnego eventu zostały " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuty!");
                     }
                     else{
-                        Bukkit.broadcastMessage(ChatColor.AQUA + "Do następnego eventu zostało " + ChatColor.GREEN
+                        Bukkit.broadcastMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Do następnego eventu została " + ChatColor.GREEN
                                 + minutes + ChatColor.AQUA + " minuta!");
                     }
                 }, ((endDuration+nextAutoEventDuration) * 20) - minutes * 60 * 20));

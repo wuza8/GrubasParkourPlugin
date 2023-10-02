@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,13 +17,13 @@ public class HideCommand implements CommandExecutor {
             for(Player otherPlayer : Bukkit.getServer().getOnlinePlayers()){
                 player.hidePlayer(ParkourPlugin.getInstance(),otherPlayer);
             }
-            player.sendMessage("Gracze zostali ukryci.");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Gracze zostali ukryci.");
             return true;
         } else if (args[0].equals("off")){
             for(Player otherPlayer : Bukkit.getServer().getOnlinePlayers()){
                 player.showPlayer(ParkourPlugin.getInstance(),otherPlayer);
             }
-            player.sendMessage("Gracze zostali pokazani.");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Gracze zostali pokazani.");
             return true;
         }
         return false;

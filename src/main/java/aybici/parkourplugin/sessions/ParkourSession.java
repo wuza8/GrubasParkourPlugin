@@ -172,7 +172,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             if(parkourPlayerOn.finishExpSource == FinishExpSource.DEFAULT)
                 expMessage = ChatColor.GRAY + " dostaniesz, gdy jego ilość zostanie ustalona.";
             else expMessage =  ": "+ ChatColor.GREEN + setxp;
-            player.sendMessage(ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp" + expMessage);
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.GREEN + "Zakończono parkour. "+ChatColor.DARK_GREEN + "Exp" + ChatColor.AQUA + expMessage);
             int levelBefore = user.getLevel();
             user.addExp(setxp);
             int levelAfter = user.getLevel();
@@ -183,7 +183,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
 
             playerTimer.resetTimer();
 
-            player.sendMessage(ChatColor.GREEN + "Your time: " +getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));
+            player.sendMessage( ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.GREEN + "Your time: " + getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));
 
             teleportTo(parkourPlayerOn);
             TabUtil.refreshTab(player);
@@ -239,20 +239,20 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
         if(!cheater) {
             for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                 if (!player.equals(bestPlayer)) {
-                    player.sendMessage("> " + ChatColor.AQUA + "Gracz " + bestPlayer.getName() + " ustanowił nowy rekord na mapie " +
+                    player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Gracz " + bestPlayer.getName() + " ustanowił nowy rekord na mapie " +
                             ChatColor.WHITE + parkourPlayerOn.getName());
-                    player.sendMessage("> " + ChatColor.AQUA + "Jego czas to: " + ChatColor.WHITE +
+                    player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.AQUA + "Jego czas to: " + ChatColor.WHITE +
                             TopListDisplay.timeToString(playerTime));
                 }
             }
         }
-        bestPlayer.sendMessage("> "+ChatColor.AQUA+"Ustanowiłeś nowy rekord na mapie!");
+        bestPlayer.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> "+ChatColor.AQUA+"Ustanowiłeś nowy rekord na mapie!");
         String timeDifferenceString;
         if (previousBestTop != null) {
             timeDifferenceString = TopListDisplay.timeToString(previousBestTop.playerTime - playerTime);
-            bestPlayer.sendMessage("> "+ChatColor.AQUA+"Pobiłeś swój rekord o: "+ ChatColor.WHITE + timeDifferenceString);
+            bestPlayer.sendMessage( ChatColor.AQUA + ">" + ChatColor.GREEN+ "> "+ChatColor.AQUA+"Pobiłeś swój rekord o: "+ ChatColor.WHITE + timeDifferenceString);
         }
-        if(cheater) bestPlayer.sendMessage(ChatColor.GRAY + "Niestety zostałeś uznany cheatera i twoje czasy nie wyświetlą się innym");
+        if(cheater) bestPlayer.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> "+ChatColor.RED + "Niestety zostałeś uznany cheatera i twoje czasy nie wyświetlą się innym");
     }
 
     @Override
@@ -284,8 +284,8 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
                 this.location = player.getLocation();
                 placed = true;
                 playerTimer.resetTimer();
-                player.sendMessage(ChatColor.GRAY + "Ustawiono checkpoint");
-            } else player.sendMessage(ChatColor.GRAY + "Musisz rozpocząć parkour!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Ustawiono checkpoint, twój czas nie zostanie zaliczony.");
+            } else player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Musisz najpierw rozpocząć parkour!");
         }
 
         public Location getLocation() {

@@ -53,7 +53,7 @@ public class InventoryInteractListener implements Listener {
             onDemoQuitItemClick(player);
         else if(materialInHand == Material.NETHER_STAR)
             onResetItemClick(player);
-        else if(materialInHand == Material.BLUE_BED)
+        else if(materialInHand == Material.ORANGE_BED)
             onBedClick(player);
         else if(materialInHand == Material.SLIME_BALL)
             onSlimeballClick((Event)event, player);
@@ -77,7 +77,7 @@ public class InventoryInteractListener implements Listener {
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         Parkour parkour2 = null;
         if (parkour == null) {
-            player.sendMessage("Musisz dołączyć do parkour!");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Musisz dołączyć na mapę, aby użyć tej funkcji.");
             return;
         }
         if(playerInteractEvent.getAction() == Action.LEFT_CLICK_AIR || playerInteractEvent.getAction() == Action.LEFT_CLICK_BLOCK){
@@ -100,14 +100,15 @@ public class InventoryInteractListener implements Listener {
         }
     }
 
-    Long lastCpUsed = 0L;
-
     private void onBedClick(final Player player){
-
+        if (player.hasCooldown(Material.ORANGE_BED)){
+           return;
+        }
+        player.setCooldown(Material.ORANGE_BED, 30);
 
         player.chat("/cp");
-        lastCpUsed = System.currentTimeMillis();
     }
+  
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 9*6);
         int i = 0;
@@ -124,7 +125,6 @@ public class InventoryInteractListener implements Listener {
         }
         return inventory;
     }
-
 
     public static Inventory getCategoryInventory(ParkourCategory category, Player player, int page){
         int SIZE = 54;
@@ -169,7 +169,7 @@ public class InventoryInteractListener implements Listener {
                     parkourMaterial = Material.BARRIER;
 
                     final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
-                            sendCommand("pk none").
+                            sendCommand("pk ???").
                             toItemBuilder().
                             setName("§b???")
                             .toItemStack();

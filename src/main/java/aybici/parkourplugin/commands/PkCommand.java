@@ -38,7 +38,7 @@ public class PkCommand implements CommandExecutor {
         if (args.length == 2) {
             if (ParkourCategoryFacade.get(args[0].toUpperCase()).getName().equals("UNKNOWN")
                     && !SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)){
-                player.sendMessage("Nie ma takiej kategorii!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Nie ma takiej kategorii!");
                 return true;
             }
 

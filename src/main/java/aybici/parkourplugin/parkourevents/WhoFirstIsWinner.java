@@ -59,11 +59,11 @@ class WhoFirstIsWinner implements ParkourEvent{
     public void onEventEnd(){
         Bukkit.broadcastMessage(ChatColor.GREEN+"Zwycięzcy eventu to: ");
 
-        int xp[] = {1000, 500, 200, 100, 50, 50, 50, 50, 50, 50 };
+        int xp[] = {1000, 800, 600, 400, 200, 150, 100, 100, 100, 100 };
 
         int i=0;
         for(EventTops t : topLines){
-            Bukkit.broadcastMessage(ChatColor.YELLOW+((i+1)+"")+ChatColor.GREEN+t.player.getName()
+            Bukkit.broadcastMessage(ChatColor.YELLOW+((i+1)+". ")+ChatColor.GREEN+t.player.getName()
                     + ": "+ChatColor.YELLOW+ TopListDisplay.timeToString(t.time)
                     +" - "+ChatColor.BOLD+ChatColor.GOLD + xp[i] +" xp");
             User user = UserManager.getUserByName(t.player.getName());
@@ -76,7 +76,7 @@ class WhoFirstIsWinner implements ParkourEvent{
     public void updateScoreboards(){
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Event",
-                "dummy", ChatColor.GREEN+parkour.getName(), RenderType.INTEGER);
+                "dummy", ChatColor.GREEN+parkour.getName().replace("_"," "), RenderType.INTEGER);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         if(topLines.size() == 0){
@@ -88,7 +88,7 @@ class WhoFirstIsWinner implements ParkourEvent{
             i++;
             if(i>10) break;
 
-            objective.getScore(ChatColor.GRAY+ t.player.getName() + ": "+ ChatColor.BOLD+TopListDisplay.timeToString(t.time)).setScore(-i);
+            objective.getScore(ChatColor.WHITE+ t.player.getName() + " "+ ChatColor.BOLD+ChatColor.YELLOW+TopListDisplay.timeToString(t.time)).setScore(-i);
         }
 
         Long mins = (eventEnds - System.currentTimeMillis()) / 1000 / 60;
@@ -99,7 +99,7 @@ class WhoFirstIsWinner implements ParkourEvent{
                         + mins + " min").setScore(-15);
         else
             objective.getScore(
-                    ChatColor.RED + "Koniec za jest bliski...").setScore(-15);
+                    ChatColor.RED + "Koniec jest bliski...").setScore(-15);
 
         //Meh
         Team team = scoreboard.registerNewTeam("team");

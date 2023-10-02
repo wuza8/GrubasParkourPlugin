@@ -10,7 +10,7 @@ public class PingCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.GREEN + "Twój ping to: " + player.getPing());
+        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.GREEN + "Twój " + ChatColor.RED + "ping " + ChatColor.GREEN + "to: " + ChatColor.AQUA + player.getPing());
         return true;
     }
 }

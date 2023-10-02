@@ -57,11 +57,13 @@ class BestTopEvent implements ParkourEvent{
         Bukkit.broadcastMessage(ChatColor.GREEN+"Zwycięzcy eventu to: ");
         topLines.sort(Comparator.comparingLong(o -> o.time));
 
-        int xp[] = {1000, 500, 200, 100, 50, 50, 50, 50, 50, 50 };
+        int xp[] = {1000, 800, 600, 400, 200, 150, 100, 100, 100, 100 };
 
         int i=0;
         for(EventTops t : topLines){
-            Bukkit.broadcastMessage(ChatColor.GREEN+t.player.getName() + ": "+ChatColor.YELLOW+ TopListDisplay.timeToString(t.time)+" - "+ChatColor.BOLD+ChatColor.GOLD + xp[i] +" xp");
+            Bukkit.broadcastMessage(ChatColor.YELLOW+((i+1)+". ")+ChatColor.GREEN+t.player.getName()
+                    + ": "+ChatColor.YELLOW+ TopListDisplay.timeToString(t.time)
+                    +" - "+ChatColor.BOLD+ChatColor.GOLD + xp[i] +" xp");
             User user = UserManager.getUserByName(t.player.getName());
             user.addExp(xp[i]);
             i++;
@@ -73,7 +75,7 @@ class BestTopEvent implements ParkourEvent{
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Event",
-                "dummy", ChatColor.GREEN+parkour.getName(), RenderType.INTEGER);
+                "dummy", ChatColor.GREEN+parkour.getName().replace("_"," "), RenderType.INTEGER);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         topLines.sort(Comparator.comparingLong(o -> o.time));

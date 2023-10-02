@@ -13,7 +13,7 @@ public class LobbyCommand implements CommandExecutor {
 
         if (args.length == 0) {
             ParkourPlugin.lobby.teleportPlayerToLobby((Player) sender);
-            sender.sendMessage(ChatColor.GOLD + "Przeteleportowano na lobby.");
+            sender.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.GOLD + "Przeteleportowano na lobby.");
             return true;
         }
         if (sender.hasPermission(ParkourPlugin.permissionSet.tpAllToLobbyPermission)) {
@@ -24,7 +24,7 @@ public class LobbyCommand implements CommandExecutor {
             }
             return false;
         }
-        sender.sendMessage(ChatColor.RED + "Nie masz permisji, żeby wykonywac inne komendy związane z lobby.");
+        sender.sendMessage(ChatColor.RED + "Nie masz permisji, żeby wykonywać inne komendy związane z lobby.");
         return true;
     }
 }
