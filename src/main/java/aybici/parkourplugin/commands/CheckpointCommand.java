@@ -1,11 +1,16 @@
 package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.blockabovereader.SpecialBlockFinder;
 import aybici.parkourplugin.sessions.ParkourSession;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Set;
 
 
 public class CheckpointCommand extends OnParkourCommand implements CommandExecutor {
@@ -14,6 +19,17 @@ public class CheckpointCommand extends OnParkourCommand implements CommandExecut
         Player player = (Player) sender;
         if (!isPlayerOnParkour(player)) return true;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
+        Set<Material> collidedBlocks = SpecialBlockFinder.getCollidingBlockMaterials(player.getLocation());
+
+        if(collidedBlocks.size() == 1 && collidedBlocks.contains(Material.AIR)) {
+            player.sendMessage(ChatColor.RED+"Musisz stać na bloku, aby ustawić checkpoint!");
+            return true;
+        }
+
+        if(session.getParkour().hasAnyBackBlock(collidedBlocks)){
+            return true;
+        }
+
         session.checkpoint.setCheckpoint();
         return true;
     }

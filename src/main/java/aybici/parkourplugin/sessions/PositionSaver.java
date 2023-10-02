@@ -110,6 +110,12 @@ public class PositionSaver implements Listener {
     }
     public void playDemo(Player player, List<LocationWithTime> locationList, int slowMotion){
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
+
+        if(locationList == null){
+            player.sendMessage(ChatColor.RED+"Jeszcze nie zaczales żadnego parkour'a!");
+            return;
+        }
+
         if (locationList.size() > 0)
             ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
 

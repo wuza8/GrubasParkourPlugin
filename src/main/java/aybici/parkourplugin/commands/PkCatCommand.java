@@ -24,8 +24,7 @@ public class PkCatCommand implements CommandExecutor {
         }
 
         ParkourCategory category = ParkourCategoryFacade.get(args[0]);
-
-
+      
         if(!category.getName().equals("UNKNOWN") || SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)){
             player.openInventory(InventoryInteractListener.getCategoryInventory(category, player , 1));
             return true;
