@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.sessions.PositionSaver;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,7 @@ public class ShowLastTryCommand extends OnParkourCommand implements CommandExecu
         if (args.length > 0){
             slowMotion = Integer.parseInt(args[0]);
             if (slowMotion > 5){
-                player.sendMessage("Za duże spowolnienie!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Za duże spowolnienie!");
                 return false;
             }
         }

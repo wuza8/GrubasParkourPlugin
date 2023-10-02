@@ -79,7 +79,7 @@ public class PositionSaver implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        player.sendMessage(ChatColor.YELLOW + "Zapisano najlepsze przejście na mapie! aby zobaczyć replay wpisz /playdemo " + player.getName() + " :)");
+        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.YELLOW + "Zapisano najlepsze przejście na mapie! Aby zobaczyć replay wpisz /playdemo " + player.getName() + " :)");
     }
 
     @EventHandler

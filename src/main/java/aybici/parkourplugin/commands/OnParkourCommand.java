@@ -9,7 +9,7 @@ public abstract class OnParkourCommand {
     protected boolean isPlayerOnParkour(Player player){
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         if(!session.isPlayerOnParkour()){
-            player.sendMessage(ChatColor.GRAY + "You need to join parkour to use this command!");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Musisz dołączyć na mapę, aby użyć tej funkcji.");
             return false;
         }
         return true;

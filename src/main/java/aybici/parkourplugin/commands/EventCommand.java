@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 
 public class EventCommand implements CommandExecutor {
     @Override
@@ -14,11 +15,11 @@ public class EventCommand implements CommandExecutor {
         if(ParkourEventsFacade.getEventParkour() != null){
             Player player = (Player) sender;
             player.performCommand("pk "+ParkourEventsFacade.getEventParkour().getName());
-            sender.sendMessage(ChatColor.GREEN+"Przeteleportowano na event!");
+            sender.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.GREEN+"Przeteleportowano na event!");
             return true;
         }
         else{
-            sender.sendMessage(ChatColor.RED+"Event jest nieaktywny!");
+            sender.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.RED+"Event jest nieaktywny!");
             return false;
         }
     }

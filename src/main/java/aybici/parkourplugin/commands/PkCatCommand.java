@@ -4,6 +4,7 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.listeners.InventoryInteractListener;
 import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,22 +19,19 @@ public class PkCatCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if(args.length < 1){
-            player.sendMessage("Uzycie: pkcat <nazwa_kategorii>");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Uźycie: pkcat <nazwa_kategorii>");
             return false;
         }
 
         ParkourCategory category = ParkourCategoryFacade.get(args[0]);
 
-        if(category.getName().equals("EVENT")){
-            player.performCommand("event");
-        }
 
         if(!category.getName().equals("UNKNOWN") || SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)){
             player.openInventory(InventoryInteractListener.getCategoryInventory(category, player , 1));
             return true;
         }
 
-        player.sendMessage("Kategoria o nazwie "+ args[0] + " nie istnieje!");
+        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Kategoria o nazwie "+ args[0] + " nie istnieje!");
         return false;
     }
 }

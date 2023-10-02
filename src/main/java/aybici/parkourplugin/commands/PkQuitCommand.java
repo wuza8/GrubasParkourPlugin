@@ -16,7 +16,7 @@ public class PkQuitCommand extends OnParkourCommand implements CommandExecutor {
             return true;
         }
         if (!isPlayerOnParkour(player)) return true;
-        player.sendMessage("Opuszczono parkour");
+        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Opuszczono parkour");
         ParkourPlugin.parkourSessionSet.deleteParkourSession(player);
         ParkourPlugin.positionSaver.stopSaving(player);
         return true;

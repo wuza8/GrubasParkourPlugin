@@ -27,7 +27,7 @@ public class PlayDemoCommand extends OnParkourCommand implements CommandExecutor
         if (args.length > 1){
             slowMotion = Integer.parseInt(args[1]);
             if (slowMotion > 5){
-                player.sendMessage("Za duże spowolnienie!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Za duże spowolnienie!");
                 return false;
             }
         }
@@ -36,11 +36,11 @@ public class PlayDemoCommand extends OnParkourCommand implements CommandExecutor
 
             OfflinePlayer demoPlayer = PositionSaver.getBestDemoPlayer(parkour);
             if (demoPlayer == null){
-                player.sendMessage("Brak żadnych demek graczy, bądź pierwszy!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Brak żadnych demek graczy, bądź pierwszy!");
                 return true;
             }
             bestPlayerName = demoPlayer.getName();
-            player.sendMessage(ChatColor.GRAY + "Autorem przejścia jest " + ChatColor.GOLD + bestPlayerName);
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.GRAY + "Autorem przejścia jest " + ChatColor.GOLD + bestPlayerName);
 
         } else if (!new File(parkour.folderName + File.separator + "demos"+File.separator + args[0] + ".txt").exists()) {
             player.sendMessage("Brak zapisanego przejścia tego gracza");

@@ -24,10 +24,10 @@ public class FailsCommand extends OnParkourCommand implements CommandExecutor {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            player.sendMessage("Trwa ładowanie Twoich faili lub nikt jeszcze nie spadł na tym parkourze..." + ChatColor.GREEN + " Spróbuj ponownie lub spadnij!");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Trwa ładowanie Twoich faili lub nikt jeszcze nie spadł na tym parkourze..." + ChatColor.GREEN + " Spróbuj ponownie lub spadnij!");
             return true;
         }
-        player.sendMessage("Ilość twoich faili na tym parkourze to: " + parkour.getFailSetObject().getNumberOfPlayerFails(player));
+        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "Ilość twoich faili na tym parkourze to: " + ChatColor.AQUA + parkour.getFailSetObject().getNumberOfPlayerFails(player));
         return true;
     }
 }

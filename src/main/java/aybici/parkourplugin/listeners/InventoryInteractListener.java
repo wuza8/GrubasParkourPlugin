@@ -11,6 +11,7 @@ import aybici.parkourplugin.sessions.ParkourSession;
 import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.usableblocks.UsableItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -66,7 +67,7 @@ public class InventoryInteractListener implements Listener {
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(player).getParkour();
         Parkour parkour2 = null;
         if (parkour == null) {
-            player.sendMessage("Musisz dołączyć do parkour!");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + ChatColor.WHITE+ "Musisz dołączyć na mapę, aby użyć tej funkcji.");
             return;
         }
         if(playerInteractEvent.getAction() == Action.LEFT_CLICK_AIR || playerInteractEvent.getAction() == Action.LEFT_CLICK_BLOCK){
@@ -157,12 +158,21 @@ public class InventoryInteractListener implements Listener {
                     parkourMaterial = Material.BARRIER;
 
                     final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
-                            sendCommand("pk none").
+                            sendCommand("pk ???").
                             toItemBuilder().
                             setName("§b???")
                             .toItemStack();
                     inventory.setItem(i, item);
                 }
+            }
+            else{
+                parkourMaterial = category.getCategoryMaterial();
+                final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
+                        sendCommand("pk " + category.getName() + " "+parkourID).
+                        toItemBuilder().
+                        setName("§b" + parkour.getName()).
+                        addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
+                inventory.setItem(i, item);
             }
         }
         if (nextPageExists) {

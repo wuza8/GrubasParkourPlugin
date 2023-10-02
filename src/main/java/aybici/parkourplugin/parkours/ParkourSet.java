@@ -74,7 +74,7 @@ public class ParkourSet {
     public void loadParkours(String directory){
         if (!new File(parkoursFolder).exists()) return;
         List<String> parkourNames = new ArrayList<>(getMapNamesFromDirectory(directory));
-        System.out.println("OTO TWOJE PARKOURY: " + parkourNames);
+        System.out.println(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> " + "OTO TWOJE PARKOURY: " + parkourNames);
         for (String name : parkourNames){
             Parkour parkour = new Parkour(name);
             parkour.loadParkour(directory + File.separator + "parkourMap_" + parkour.getName(), false);

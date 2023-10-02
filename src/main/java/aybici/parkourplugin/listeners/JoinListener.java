@@ -23,9 +23,9 @@ public class JoinListener implements Listener {
     }
 
     public static void setItems(Player player){
-        final ItemStack slimeball = new ItemBuilder(Material.SLIME_BALL, 1).setName(ChatUtil.fixColor("&fUkryj Graczy &c| &fPokaż Graczy")).addLoreLine(ChatUtil.fixColor("&2LPM &fPoprzednia mapa &c| &2PPM &fNastępna mapa")).toItemStack();
+        final ItemStack slimeball = new ItemBuilder(Material.SLIME_BALL, 1).setName(ChatUtil.fixColor("&cUkryj Graczy &4| &aPokaż Graczy")).addLoreLine(ChatUtil.fixColor("&2LPM &fUkrywanie graczy &4| &2PPM &fPokazanie graczy")).toItemStack();
         final ItemStack book = new ItemBuilder(Material.BOOK, 1).setName(ChatUtil.fixColor("&bMenu &aParkourów")).addLoreLine(ChatUtil.fixColor("&2PPM &fMenu Parkourów")).toItemStack();
-        final ItemStack blazeRod = new ItemBuilder(Material.BLAZE_ROD, 1).setName(ChatUtil.fixColor("&fPoprzednia mapa &c| &2PPM &fNastępna mapa")).addLoreLine(ChatUtil.fixColor("&2LPM &fPoprzednia mapa  &c|  &2PPM &fNastępna mapa")).toItemStack();
+        final ItemStack blazeRod = new ItemBuilder(Material.BLAZE_ROD, 1).setName(ChatUtil.fixColor("&bPoprzednia mapa &4| &aNastępna mapa")).addLoreLine(ChatUtil.fixColor("&2LPM &fPoprzednia mapa &4| &2PPM &fNastępna mapa")).toItemStack();
         final ItemStack resetItem = new ItemBuilder(Material.NETHER_STAR, 1).setName(ChatUtil.fixColor("&bZacznij &aod Początku")).addLoreLine(ChatUtil.fixColor("&2PPM &fRozpoczęcie mapy od nowa")).toItemStack();
         final ItemStack bedItem = new ItemBuilder(Material.ORANGE_BED, 1).setName(ChatUtil.fixColor("&bUstaw &aCheckpoint")).addLoreLine(ChatUtil.fixColor("&2PPM &fUstawienie checkpointa na mapie")).toItemStack();
         player.getInventory().setItem(0, slimeball);
