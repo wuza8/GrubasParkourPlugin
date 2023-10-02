@@ -219,7 +219,7 @@ public class ParkourSet {
             }
 
 
-            if (parkour.getCategory().getName().equals("KZ")) {
+            if (parkour.getCategory().getName().equals("KZ") && parkour.getIdentifier() != 1) {
                 int previousIdentifier = getPreviousIdentifierOfCategory(category, identifier);
                 Parkour previousParkour = getParkourByCategoryAndID(category, previousIdentifier);
                 if (!previousParkour.didPlayerFinishParkour(player)) {
@@ -232,8 +232,9 @@ public class ParkourSet {
             }
 
             if(parkour.getCategory().getName().equals("EVENT")
-                    && (ParkourEventsFacade.getEventParkour() != null && !ParkourEventsFacade.getEventParkour().equals(parkour))) {
+                    && (ParkourEventsFacade.getEventParkour() == null || !ParkourEventsFacade.getEventParkour().equals(parkour))) {
                 player.sendMessage(ChatColor.RED+ "Ten event nie jest wystartowany!");
+                player.closeInventory();
                 return false;
             }
         }

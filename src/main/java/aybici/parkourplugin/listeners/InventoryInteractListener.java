@@ -1,6 +1,7 @@
 package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.blockabovereader.SpecialBlockFinder;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
 import aybici.parkourplugin.builders.ItemBuilder;
 import aybici.parkourplugin.parkours.Parkour;
@@ -8,9 +9,11 @@ import aybici.parkourplugin.parkours.ParkourCategory;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
 import aybici.parkourplugin.sessions.ParkourSession;
+import aybici.parkourplugin.sessions.ParkourSessionSet;
 import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.usableblocks.UsableItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,6 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,6 +37,13 @@ public class InventoryInteractListener implements Listener {
     @EventHandler
     public void onInteract(final PlayerInteractEvent event){
         final Player player = event.getPlayer();
+
+        if(!event.getAction().equals(Action.LEFT_CLICK_AIR) &&
+                !event.getAction().equals(Action.RIGHT_CLICK_AIR)
+                && !event.getAction().equals(Action.LEFT_CLICK_BLOCK)
+                && !event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+            return;
+
         Material materialInHand = player.getInventory().getItemInMainHand().getType();
         if(materialInHand == Material.BOOK)
             onBookClick(player);
@@ -89,8 +100,13 @@ public class InventoryInteractListener implements Listener {
         }
     }
 
+    Long lastCpUsed = 0L;
+
     private void onBedClick(final Player player){
+
+
         player.chat("/cp");
+        lastCpUsed = System.currentTimeMillis();
     }
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 9*6);
@@ -160,6 +176,15 @@ public class InventoryInteractListener implements Listener {
                     inventory.setItem(i, item);
                 }
             }
+            else{
+                parkourMaterial = category.getCategoryMaterial();
+                final ItemStack item = new UsableItemBuilder(parkourMaterial, 1).
+                        sendCommand("pk " + category.getName() + " "+parkourID).
+                        toItemBuilder().
+                        setName("§b" + parkour.getName()).
+                        addLoreLine("§b" + parkour.getExp() + " Exp").toItemStack();
+                inventory.setItem(i, item);
+            }
         }
         if (nextPageExists) {
             final ItemStack arrow = new ItemBuilder(Material.ARROW, 1).setName("§bKolejna strona").addLoreLine(category.getName() + "#" + (page+1)).toItemStack();
@@ -221,12 +246,14 @@ public class InventoryInteractListener implements Listener {
                 player.chat("/hide off");
             }
         }
-        if(((PlayerInteractEvent)event).getAction() == Action.RIGHT_CLICK_BLOCK){
-            if(player.getItemInHand() == null){
-                return;
-            }
-            if(player.getItemInHand().getType() == Material.SLIME_BALL){
-                player.chat("/hide off");
+        else {
+            if (((PlayerInteractEvent) event).getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (player.getItemInHand() == null) {
+                    return;
+                }
+                if (player.getItemInHand().getType() == Material.SLIME_BALL) {
+                    player.chat("/hide off");
+                }
             }
         }
     }
