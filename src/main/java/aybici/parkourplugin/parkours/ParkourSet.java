@@ -194,7 +194,7 @@ public class ParkourSet {
 
         if (!player.hasPermission(ParkourPlugin.permissionSet.allParkoursPermission)) { // zrobic w permisjach inaczej
             if (parkour.getCategory().equals(ParkourCategoryFacade.get("UNKNOWN"))) {
-                if (sendMessages) player.sendMessage(ChatColor.RED + "Nie możesz dołączać do parkourów tej kategorii!");
+                if (sendMessages) player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Nie możesz dołączać do parkourów tej kategorii!");
                 return false;
             }
 
@@ -202,7 +202,7 @@ public class ParkourSet {
 
                 if(!HiddenParkourFacade.playerUnlockedHiddens(player).stream()
                     .anyMatch(s1 -> s1.equals(parkour.getName())) ) {
-                    if (sendMessages) player.sendMessage(ChatColor.RED + "Nie odblokowales tego hiddena!");
+                    if (sendMessages) player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Nie odblokowałeś tego hiddena!");
                     player.closeInventory();
                     player.playNote(player.getLocation(), Instrument.BELL, Note.flat(1, Note.Tone.A));
                     return false;
@@ -212,8 +212,8 @@ public class ParkourSet {
 
             if(parkour.getCategory().getMinLevel() > UserManager.getUserByName(player.getName()).getLevel()
             && !player.hasPermission("vipman")) {
-                player.sendMessage(ChatColor.RED + "Aby dołączyć do parkourów w tej kategorii musisz posiadać conajmniej "
-                        +ChatColor.YELLOW+parkour.getCategory().getMinLevel()+ChatColor.RED+" poziom!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Aby dołączyć do parkourów w tej kategorii musisz posiadać conajmniej "
+                        +ChatColor.YELLOW+parkour.getCategory().getMinLevel()+ChatColor.RED+" poziom!" + ChatColor.GREEN + " Lub kupić usługę VipMana na naszym sklepie.");
                 player.closeInventory();
                 return false;
             }
@@ -224,8 +224,20 @@ public class ParkourSet {
                 Parkour previousParkour = getParkourByCategoryAndID(category, previousIdentifier);
                 if (!previousParkour.didPlayerFinishParkour(player)) {
                     if (sendMessages) {
-                        player.sendMessage(ChatColor.RED + "Musisz ukończyć poprzedni parkour tej kategorii, żeby zagrać na tym parkourze!");
-                        player.sendMessage(ChatColor.GREEN + "/pk " + previousParkour.getName());
+                        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Musisz ukończyć poprzedni parkour z tej kategorii, żeby zagrać na tym parkourze!");
+                        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + "/pk " + previousParkour.getName());
+                    }
+                    return false;
+                }
+            }
+
+            if (parkour.getCategory().getName().equals("NEW_KZ") && parkour.getIdentifier() != 1) {
+                int previousIdentifier = getPreviousIdentifierOfCategory(category, identifier);
+                Parkour previousParkour = getParkourByCategoryAndID(category, previousIdentifier);
+                if (!previousParkour.didPlayerFinishParkour(player)) {
+                    if (sendMessages) {
+                        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Musisz ukończyć poprzedni parkour z tej kategorii, żeby zagrać na tym parkourze!");
+                        player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + "/pk " + previousParkour.getName());
                     }
                     return false;
                 }
@@ -233,7 +245,7 @@ public class ParkourSet {
 
             if(parkour.getCategory().getName().equals("EVENT")
                     && (ParkourEventsFacade.getEventParkour() == null || !ParkourEventsFacade.getEventParkour().equals(parkour))) {
-                player.sendMessage(ChatColor.RED+ "Ten event nie jest wystartowany!");
+                player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED+ "Ten event nie jest wystartowany!");
                 player.closeInventory();
                 return false;
             }

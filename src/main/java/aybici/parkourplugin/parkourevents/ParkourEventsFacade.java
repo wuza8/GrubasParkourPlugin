@@ -8,6 +8,7 @@ import aybici.parkourplugin.sessions.ParkourSession;
 import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -90,6 +91,8 @@ public class ParkourEventsFacade implements Listener {
                 parkour.getName().replace("_"," "),
                 actualParkourEvent.getEventName()
         ));
+        for(Player player:Bukkit.getOnlinePlayers())
+    player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL,1,1);
     }
 
     public static Parkour getEventParkour(){

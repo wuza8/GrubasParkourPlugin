@@ -28,11 +28,13 @@ public class JoinListener implements Listener {
         final ItemStack blazeRod = new ItemBuilder(Material.BLAZE_ROD, 1).setName(ChatUtil.fixColor("&bPoprzednia mapa &4| &aNastępna mapa")).addLoreLine(ChatUtil.fixColor("&2LPM &fPoprzednia mapa &4| &2PPM &fNastępna mapa")).toItemStack();
         final ItemStack resetItem = new ItemBuilder(Material.NETHER_STAR, 1).setName(ChatUtil.fixColor("&bZacznij &aod Początku")).addLoreLine(ChatUtil.fixColor("&2PPM &fRozpoczęcie mapy od nowa")).toItemStack();
         final ItemStack bedItem = new ItemBuilder(Material.ORANGE_BED, 1).setName(ChatUtil.fixColor("&bUstaw &aCheckpoint")).addLoreLine(ChatUtil.fixColor("&2PPM &fUstawienie checkpointa na mapie")).toItemStack();
+        final ItemStack clockItem = new ItemBuilder(Material.CLOCK, 1).setName(ChatUtil.fixColor("&bTeleportuj na &aEvent")).addLoreLine(ChatUtil.fixColor("&2PPM &fTeleportacja na aktywny Event")).toItemStack();
         player.getInventory().setItem(0, slimeball);
         player.getInventory().setItem(3, book);
         player.getInventory().setItem(2, blazeRod);
         player.getInventory().setItem(8, resetItem);
         player.getInventory().setItem(4, bedItem);
+        player.getInventory().setItem(7, clockItem);
         player.updateInventory();
     }
 

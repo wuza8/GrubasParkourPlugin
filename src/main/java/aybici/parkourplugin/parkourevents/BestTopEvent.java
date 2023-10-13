@@ -95,11 +95,11 @@ class BestTopEvent implements ParkourEvent{
 
         if(mins != 0)
             objective.getScore(
-                    ChatColor.BLUE + "Koniec za "+ ChatColor.BOLD
+                    ChatColor.BLUE + "Koniec za "+ ChatColor.GREEN
                             + mins + " min").setScore(-15);
         else
             objective.getScore(
-                    ChatColor.RED + "Koniec za jest bliski...").setScore(-15);
+                    ChatColor.RED + "Koniec jest bliski...").setScore(-15);
 
         //Meh
         Team team = scoreboard.registerNewTeam("team");

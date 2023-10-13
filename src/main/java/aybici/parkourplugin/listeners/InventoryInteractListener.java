@@ -57,6 +57,8 @@ public class InventoryInteractListener implements Listener {
             onBedClick(player);
         else if(materialInHand == Material.SLIME_BALL)
             onSlimeballClick((Event)event, player);
+        else if(materialInHand == Material.CLOCK)
+            onClockClick(player);
     }
     @EventHandler
     public void onInventoryClickItem(InventoryClickEvent event) {
@@ -108,7 +110,15 @@ public class InventoryInteractListener implements Listener {
 
         player.chat("/cp");
     }
-  
+
+    private void onClockClick(final Player player) {
+        if (player.hasCooldown(Material.CLOCK)) {
+            return;
+        }
+        player.setCooldown(Material.CLOCK, 30);
+
+        player.chat("/event");
+    }
     private Inventory getMenuInventory(){
         Inventory inventory = Bukkit.getServer().createInventory(null, 9*6);
         int i = 0;
