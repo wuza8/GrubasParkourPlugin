@@ -1,7 +1,9 @@
 package aybici.parkourplugin.hiddens;
 
 import aybici.parkourplugin.usableblocks.UsableBlockUsedEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,23 +27,28 @@ public class HiddenParkourFacade implements Listener {
     }
 
     @EventHandler
-    public void onSignStand(UsableBlockUsedEvent event){
-        if(event.command.startsWith("$unlockhidden")){
-            String pkname = event.command.substring( new String("$unlockhidden").length() ).replace(" ","");
+    public void onSignStand(UsableBlockUsedEvent event) {
+        if (event.command.startsWith("$unlockhidden")) {
+            String pkname = event.command.substring(new String("$unlockhidden").length()).replace(" ", "");
 
-            if(!playerUnlockedHiddens(event.player).stream().anyMatch(s1 -> s1.equals(pkname))) {
-                event.player.sendMessage(ChatColor.GREEN + "Odblokowano hidden "+ChatColor.BLUE + pkname + ChatColor.GREEN + "!");
+            if (!playerUnlockedHiddens(event.player).stream().anyMatch(s1 -> s1.equals(pkname))) {
+                event.player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + "Odblokowano hidden " + ChatColor.BLUE + pkname + ChatColor.GREEN + "!");
                 addUnlockedParkour(event.player, pkname);
             }
 
-            event.player.performCommand("pk "+pkname);
+            event.player.performCommand("pk " + pkname);
+
+
+            event.player.playSound(event.player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
         }
     }
 
     public static List<String> playerUnlockedHiddens(Player player) {
         List<String> unlocked = unlockedHiddens.get(player.getUniqueId().toString());
-        if(unlocked == null) return new ArrayList<>();
+        if (unlocked == null) return new ArrayList<>();
         return unlocked;
+
+
     }
 
     private static void loadUnlockedHiddensFromFile(){

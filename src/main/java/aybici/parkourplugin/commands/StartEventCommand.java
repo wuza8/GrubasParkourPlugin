@@ -13,7 +13,7 @@ public class StartEventCommand extends OnParkourCommand implements CommandExecut
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
         if (!player.hasPermission(ParkourPlugin.permissionSet.configureParkourPermission)){
-            player.sendMessage(ChatColor.RED + "Nie odpalisz eventu, bo nie masz permisji!");
+            player.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.RED + "Nie odpalisz eventu, bo nie masz permisji!");
             return true;
         }
         ParkourEventsFacade.startEvent();
