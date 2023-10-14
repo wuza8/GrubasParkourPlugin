@@ -73,6 +73,7 @@ public class ParkourPlugin extends JavaPlugin {
         this.setupChat();//to wyłączać do testów
         this.setupEconomy();//to wyłączać do testów
         this.setupPermissions();//to wyłączać do testów
+        Announcmenter.run();
     }
 
     public void onDisable(){
