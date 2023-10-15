@@ -4,10 +4,7 @@ import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
 import aybici.parkourplugin.commands.*;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
-import aybici.parkourplugin.listeners.ChatListener;
-import aybici.parkourplugin.listeners.InventoryInteractListener;
-import aybici.parkourplugin.listeners.JoinListener;
-import aybici.parkourplugin.listeners.ModifyInventory;
+import aybici.parkourplugin.listeners.*;
 import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.parkours.ParkourSet;
@@ -104,6 +101,7 @@ public class ParkourPlugin extends JavaPlugin {
         pluginManager.registerEvents(new UndergroundSignsFacade(), this);
         pluginManager.registerEvents(new HiddenParkourFacade(), this);
         pluginManager.registerEvents(new ParkourEventsFacade(), this);
+        pluginManager.registerEvents(new ChestListener(), this);
     }
 
 
