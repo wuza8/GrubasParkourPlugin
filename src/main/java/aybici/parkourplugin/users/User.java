@@ -4,6 +4,7 @@ public class User {
     private String nick;
     private long exp;
     private boolean isCheater;
+    private int keys;
 
     public User(final String name){
         this.nick = name;
@@ -38,9 +39,23 @@ public class User {
     public String getNick(){
         return this.nick;
     }
+
+    public int getKeys(){
+        return keys;
+    }
+
+    public void addKeys(int keys){
+        this.keys += keys;
+    }
+
+    public void removeKeys(int keys){
+        this.keys -= keys;
+    }
+
     public void saveUser(){
         UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
         UserFile.levelFile.getData().set("Users." + nick + ".Cheater", isCheater);
+        UserFile.levelFile.getData().set("Users." + nick + ".Keys", getKeys());
         UserFile.levelFile.saveData();
     }
 

@@ -3,6 +3,7 @@ package aybici.parkourplugin.sessions;
 import aybici.parkourplugin.Lobby;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.blockabovereader.OnNewBlockPlayerStandObserver;
+import aybici.parkourplugin.chests.ChestManager;
 import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.events.PlayerStartsParkourEvent;
 import aybici.parkourplugin.parkours.*;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -184,6 +186,13 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             playerTimer.resetTimer();
 
             player.sendMessage( ChatColor.AQUA + ">" + ChatColor.GREEN + "> " + ChatColor.GREEN + "Your time: " + getCheaterBasedRedColor()+ TopListDisplay.timeToString(playerTime));
+
+            Random random = new Random();
+            int chance = random.nextInt(100);
+
+            if(chance < 10){
+                ChestManager.addKeyAfterPlayerFinishedParkour(player, 1);
+            }
 
             teleportTo(parkourPlayerOn);
             TabUtil.refreshTab(player);

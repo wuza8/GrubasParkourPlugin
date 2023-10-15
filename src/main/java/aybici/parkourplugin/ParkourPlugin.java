@@ -21,6 +21,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -44,6 +45,9 @@ public class ParkourPlugin extends JavaPlugin {
     public Economy economy = null;
     public boolean placeholders = false;
     public Essentials essentials;
+
+    public File chestLocationFile;
+    public YamlConfiguration chestLocationConfig;
 
     @Override
     public void onEnable() {
@@ -73,6 +77,10 @@ public class ParkourPlugin extends JavaPlugin {
         this.setupChat();//to wyłączać do testów
         this.setupEconomy();//to wyłączać do testów
         this.setupPermissions();//to wyłączać do testów
+
+        chestLocationFile = new File(getDataFolder(), "chest-location.yml");
+        chestLocationConfig = YamlConfiguration.loadConfiguration(chestLocationFile);
+
         Announcmenter.run();
     }
 
