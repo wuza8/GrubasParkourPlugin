@@ -39,7 +39,7 @@ public class HiddenParkourFacade implements Listener {
             event.player.performCommand("pk " + pkname);
 
 
-            event.player.playSound(event.player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+            event.player.playSound(event.player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
         }
     }
 
