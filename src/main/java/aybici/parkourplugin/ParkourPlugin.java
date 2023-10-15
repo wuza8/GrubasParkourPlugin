@@ -46,6 +46,9 @@ public class ParkourPlugin extends JavaPlugin {
     public File chestLocationFile;
     public YamlConfiguration chestLocationConfig;
 
+    public File keysFile;
+    public YamlConfiguration keysConfig;
+
     @Override
     public void onEnable() {
         ParkourCategoryFacade.init();
@@ -79,6 +82,9 @@ public class ParkourPlugin extends JavaPlugin {
         chestLocationConfig = YamlConfiguration.loadConfiguration(chestLocationFile);
 
         Announcmenter.run();
+
+        this.getCommand("chest").setExecutor(new ChestCommand());
+        this.getCommand("dajklucz").setExecutor(new KeyCommand());
     }
 
     public void onDisable(){

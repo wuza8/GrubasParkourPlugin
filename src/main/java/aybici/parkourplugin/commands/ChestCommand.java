@@ -31,7 +31,7 @@ public class ChestCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage(ChatUtil.fixColor("&a>&b> &aUstawiono skrzynie na koordynatach: &a" + x + "&b,&a" + y + "&b,&a" + z));
+        player.sendMessage(ChatUtil.fixColor("&b>&a> &bUstawiono skrzynie na koordynatach: &a" + x + "&b,&a" + y + "&b,&a" + z));
         return true;
     }
 }

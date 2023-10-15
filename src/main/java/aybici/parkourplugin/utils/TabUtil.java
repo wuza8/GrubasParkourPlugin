@@ -25,7 +25,7 @@ public class TabUtil {
         }
 
 
-            TitleAPI.sendTabTitle(player,
+            player.setPlayerListHeaderFooter(
                     ChatUtil.hex("#ff0000G#ff420ar#ff8413u#ffc20ab#ffff00a#80ff00s#00ff00K#00ff80r#00ffffa#5c81fff#b803fft\n" +
                             "&7Graczy Online: &e" + onlinePlayersNumber + "&7/&e" + Bukkit.getMaxPlayers()),
                     ChatUtil.fixColor("&7Witaj, &e" + player.getName() +

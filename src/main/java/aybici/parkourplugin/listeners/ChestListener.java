@@ -5,7 +5,6 @@ import aybici.parkourplugin.chests.ChestManager;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
-import jdk.tools.jmod.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,10 +37,13 @@ public class ChestListener implements Listener {
         User user = UserManager.getUserByName(player.getName());
 
         if(user.getKeys() < 1){
-            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNie posiadasz kluczy!"));
+            player.sendMessage(ChatUtil.fixColor("&b>&a> &cNie posiadasz kluczy!"));
             event.setCancelled(true);
             return;
         }
+
+        user.removeKeys(1);
+        user.saveUser();
 
         event.setCancelled(true);
         ChestManager.openChest(player);

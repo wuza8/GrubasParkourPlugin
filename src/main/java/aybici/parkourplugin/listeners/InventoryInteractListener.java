@@ -232,6 +232,12 @@ public class InventoryInteractListener implements Listener {
     }
 
     private void onSlimeballClick(final Event event, final Player player){
+
+        if (player.hasCooldown(Material.SLIME_BALL)){
+            return;
+        }
+        player.setCooldown(Material.SLIME_BALL, 30);
+
         if(((PlayerInteractEvent)event).getAction() == Action.LEFT_CLICK_AIR){
             if(player.getItemInHand() == null){
                 return;
