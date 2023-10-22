@@ -12,17 +12,17 @@
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
-        <!-- For Jfugue -->
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
         <repository>
             <id>sing-group</id>
             <url>https://maven.sing-group.org/repository/maven/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>net.essentialsx</id>
@@ -31,6 +31,10 @@
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -46,12 +50,6 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/net.md-5/bungeecord-chat -->
         <dependency>
             <groupId>net.md-5</groupId>
@@ -63,11 +61,6 @@
             <artifactId>junit</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ConnorLinfoot</groupId>
-            <artifactId>TitleAPI</artifactId>
-            <version>1.8.1</version>
         </dependency>
         <dependency>
             <groupId>net.essentialsx</groupId>
@@ -92,6 +85,13 @@
             <groupId>jfugue</groupId>
             <artifactId>jfugue</artifactId>
             <version>5.0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.filoghost.holographicdisplays</groupId>
+            <artifactId>holographicdisplays-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--        <dependency>-->

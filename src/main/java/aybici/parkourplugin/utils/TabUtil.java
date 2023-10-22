@@ -2,7 +2,6 @@ package aybici.parkourplugin.utils;
 
 import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.users.UserManager;
-import com.connorlinfoot.titleapi.TitleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -31,6 +30,7 @@ public class TabUtil {
                     ChatUtil.fixColor("&7Witaj, &e" + player.getName() +
                             "\n&7Twój poziom &e" + UserManager.getUserByName(player.getName()).getLevel() +
                             "\n&7Exp do następnego poziomu: &e" + UserManager.getUserByName(player.getName()).getNeedExp() +
+                            "\n&7Twoje klucze: &e" + UserManager.getUserByName(player.getName()).getKeys() +
                             "\n&7Baw się dobrze :)"+
                             eventMessage));
     }

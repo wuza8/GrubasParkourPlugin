@@ -2,6 +2,10 @@ package aybici.parkourplugin;
 
 import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
 import aybici.parkourplugin.commands.*;
+import aybici.parkourplugin.commands.holo.HoloExp;
+import aybici.parkourplugin.commands.holo.HoloLevel;
+import aybici.parkourplugin.commands.holo.HoloWorldRecords;
+import aybici.parkourplugin.commands.holo.ParkourTopsCommand;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
 import aybici.parkourplugin.listeners.*;
@@ -13,10 +17,9 @@ import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.usableblocks.UndergroundSignsFacade;
 import aybici.parkourplugin.usableblocks.UsableBlocksFacade;
 import aybici.parkourplugin.users.UserFile;
+import aybici.parkourplugin.utils.ChatUtil;
 import com.earth2me.essentials.Essentials;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
+import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -37,14 +40,17 @@ public class ParkourPlugin extends JavaPlugin {
     public static PermissionSet permissionSet = new PermissionSet();
     public static Lobby lobby = new Lobby();
     public LevelFile levelFile = LevelFile.getInstance();
-    public Chat chat = null;
-    public Permission permission = null;
-    public Economy economy = null;
     public boolean placeholders = false;
     public Essentials essentials;
 
     public File chestLocationFile;
+    public File hologramsLocationFile;
     public YamlConfiguration chestLocationConfig;
+    public YamlConfiguration hologramsLocationConfig;
+
+    public static Hologram hologramLevel;
+    public static Hologram hologramExp;
+    public static Hologram hologramWorldRecords;
 
     public File keysFile;
     public YamlConfiguration keysConfig;
@@ -74,12 +80,39 @@ public class ParkourPlugin extends JavaPlugin {
         CommandExecutorSetter.setExecutors(this);
         registerListeners();
 
-        this.setupChat();//to wyłączać do testów
-        this.setupEconomy();//to wyłączać do testów
-        this.setupPermissions();//to wyłączać do testów
-
         chestLocationFile = new File(getDataFolder(), "chest-location.yml");
         chestLocationConfig = YamlConfiguration.loadConfiguration(chestLocationFile);
+
+        hologramsLocationFile = new File(getDataFolder(), "holograms-location.yml");
+        hologramsLocationConfig = YamlConfiguration.loadConfiguration(hologramsLocationFile);
+
+        saveDefaultConfig();
+
+        if(getConfig().getString("hologramLevel") == null || getConfig().getString("hologramExp") == null || getConfig().getString("hologramWorldRecords") == null) {
+            return;
+        } else{
+            Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+                @Override
+                public void run() {
+                    if(hologramLevel != null) hologramLevel.delete();
+                    HoloLevel.placeHoloExp(ParkourTopsCommand.stringToLocation(getConfig().getString("hologramLevel")));
+                }
+            }, 10 * 20, 10 * 20);
+            Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+                @Override
+                public void run() {
+                    if(hologramExp != null) hologramExp.delete();
+                    HoloExp.placeHoloExp(ParkourTopsCommand.stringToLocation(getConfig().getString("hologramExp")));
+                }
+            }, 10 * 20, 10 * 20);
+            Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+                @Override
+                public void run() {
+                    if(hologramWorldRecords != null) hologramWorldRecords.delete();
+                    HoloWorldRecords.placeHoloExp(ParkourTopsCommand.stringToLocation(getConfig().getString("hologramWorldRecords")));
+                }
+            }, 10 * 20, 10 * 20);
+        }
 
         Announcmenter.run();
 
@@ -88,9 +121,6 @@ public class ParkourPlugin extends JavaPlugin {
     }
 
     public void onDisable(){
-        this.chat = null;
-        this.permission = null;
-        this.economy = null;
         this.placeholders = false;
     }
 
@@ -119,28 +149,6 @@ public class ParkourPlugin extends JavaPlugin {
     protected ParkourPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
     {
         super(loader, description, dataFolder, file);
-    }
-
-    public boolean setupChat(){
-        RegisteredServiceProvider<Chat> rsp = this.getServer().getServicesManager().getRegistration(Chat.class);
-        this.chat = (Chat)rsp.getProvider();
-        return this.chat != null;
-    }
-
-    public boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = this.getServer().getServicesManager().getRegistration(Permission.class);
-        this.permission = (Permission) rsp.getProvider();
-        return this.permission != null;
-    }
-
-    public boolean setupEconomy(){
-        if(this.getServer().getPluginManager().getPlugin("Vault") == null)
-            return false;
-        RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
-        if(rsp == null)
-            return false;
-        this.economy = (Economy) rsp.getProvider();
-        return (this.economy != null);
     }
 
     public static ParkourPlugin getInstance(){

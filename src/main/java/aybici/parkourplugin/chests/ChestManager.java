@@ -168,7 +168,7 @@ public class ChestManager {
         if(player == null) return;
         user.addKeys(1);
         user.saveUser();
-        player.sendTitle("", ChatUtil.fixColor("&bZdobyłeś klucz!"));
+        player.sendMessage(ChatUtil.fixColor("&bZdobyłeś klucz!"));
     }
 }
 
