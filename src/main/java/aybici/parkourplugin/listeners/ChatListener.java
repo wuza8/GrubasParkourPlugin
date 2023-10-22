@@ -36,6 +36,6 @@ public class ChatListener implements Listener {
         formatPart1 += "[" + ChatColor.YELLOW + UserManager.getUserByName(player.getName()).getLevel() + ChatColor.WHITE + "]";
         format = formatPart1 + formatPart2;
         World world = Bukkit.getWorld("");*/
-        event.setFormat(ChatColor.YELLOW +ChatUtil.fixColor(UserManager.tiltes[user.getLevel() - 1] + "&8"+cheaterPrefix+"&8&f" + "&8 " + "%s&8: &f%s"));
+        event.setFormat(ChatColor.YELLOW +ChatUtil.fixColor(UserManager.tiltes[user.getLevel() - 1] + "&8"+cheaterPrefix+"&8&f" + "&8 "+ ChatColor.DARK_RED + "%s&8: &f%s"));
     }
 }

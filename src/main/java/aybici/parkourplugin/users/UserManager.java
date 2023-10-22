@@ -53,7 +53,7 @@ public class UserManager {
     };
 
     public static String[] tiltes = {
-            ChatColor.WHITE + "Nowy w mieście",
+            ChatColor.YELLOW + "Nowy w mieście",
             ChatColor.YELLOW + "Azbest na budowie",
             ChatColor.LIGHT_PURPLE + "Pijany brygadzista",
             ChatColor.RED + "Żabkowy właściciel",
@@ -68,21 +68,21 @@ public class UserManager {
             ChatColor.DARK_PURPLE + "Rustler",
             ChatColor.DARK_BLUE + "Płynący w Gotówce",
             ChatColor.DARK_RED + "Platynowy Papier",
-            ChatColor.BLACK + "Fortuna w Budowie",
-            "Inwestycja w Budowie",
-            "Srebrny Sztok",
-            "Nowy Roli",
-            "Pierwszy Sklep",
-            "Złoty Szef",
-            "Monopolowy Mistrz",
-            "Ryzykant Rynkowy",
-            "Predator Alkoholowy",
-            "Marżowy Mistrz",
-            "Banknotowy Baron",
-            "Inwestycyjny Ideał",
-            "Pieniądzowy Profesor",
-            "Gruby zwierz",
-            "Zawał miliardera"
+            ChatColor.DARK_RED + "Fortuna w Budowie",
+            ChatColor.DARK_RED +"Inwestycja w Budowie",
+            ChatColor.DARK_RED +"Srebrny Sztok",
+            ChatColor.DARK_RED +"Nowy Roli",
+            ChatColor.DARK_RED +"Pierwszy Sklep",
+            ChatColor.DARK_RED +"Złoty Szef",
+            ChatColor.DARK_RED +"Monopolowy Mistrz",
+            ChatColor.DARK_RED +"Ryzykant Rynkowy",
+            ChatColor.DARK_RED +"Predator Alkoholowy",
+            ChatColor.DARK_RED +"Marżowy Mistrz",
+            ChatColor.DARK_RED +"Banknotowy Baron",
+            ChatColor.DARK_RED +"Inwestycyjny Ideał",
+            ChatColor.DARK_RED +"Pieniądzowy Profesor",
+            ChatColor.DARK_RED +"Gruby zwierz",
+            ChatColor.DARK_RED +"Zawał miliardera"
     };
 
     public static HashMap<String, User> playerUserHashMap = new HashMap<>();
