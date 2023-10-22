@@ -17,7 +17,7 @@ public class TabUtil {
             eventMessage = "\n" + ChatColor.AQUA+"Event - "+ChatColor.GREEN+ChatColor.BOLD+"Trwa";
         else if(ParkourEventsFacade.isAutoEventOn()){
             if(ParkourEventsFacade.getNextEventTimeInMinutes() != 0)
-                eventMessage = "\n" + ChatColor.AQUA+"Event - "+ChatColor.AQUA+ChatColor.BOLD
+                eventMessage = "\n" + ChatColor.GREEN+"Event - "+ChatColor.AQUA
                         +ParkourEventsFacade.getNextEventTimeInMinutes()+"min";
             else
                 eventMessage = "\n" + ChatColor.AQUA+ChatColor.BOLD+"Event - Zaraz będzie!!!";

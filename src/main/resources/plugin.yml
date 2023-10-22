@@ -12,7 +12,6 @@ depend:
   - LuckPerms
 commands:
   pklist:
-  flute:
   pkcat:
   times:
   apk:
