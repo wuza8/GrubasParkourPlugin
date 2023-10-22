@@ -5,6 +5,7 @@ public class User {
     private long exp;
     private boolean isCheater;
     private int keys;
+    private int worldRecords;
 
     public User(final String name){
         this.nick = name;
@@ -52,10 +53,27 @@ public class User {
         this.keys -= keys;
     }
 
+    public int getWorldRecordsAmount(){
+        return worldRecords;
+    }
+
+    public void setWorldRecordsAmount(int worldRecords){
+        this.worldRecords = worldRecords;
+    }
+
+    public void addWorldRecordsAmount(int worldRecords){
+        this.worldRecords += worldRecords;
+    }
+
+    public void removeWorldRecordsAmount(int worldRecords){
+        this.worldRecords -= worldRecords;
+    }
+
     public void saveUser(){
         UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
         UserFile.levelFile.getData().set("Users." + nick + ".Cheater", isCheater);
         UserFile.levelFile.getData().set("Users." + nick + ".Keys", getKeys());
+        UserFile.levelFile.getData().set("Users." + nick + ".WorldRecords", getWorldRecordsAmount());
         UserFile.levelFile.saveData();
     }
 
