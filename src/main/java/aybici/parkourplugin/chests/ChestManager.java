@@ -14,30 +14,27 @@ public class ChestManager {
     public static void openChest(Player player){
         User user = UserManager.getUserByName(player.getName());
 
-        if(player == null) return;
-
         int chance = new Random().nextInt(100);
         Random randomBadExp = new Random();
         Random randomRareExp = new Random();
         Random randomLegendExp = new Random();
 
         int badExp = randomBadExp.nextInt(4);
-        int rareExp = randomRareExp.nextInt(6);
         int legendExp = randomLegendExp.nextInt(13);
 
-        player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b"), 30, 30, 30);
+        player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b"), 10, 20, 10);
         player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1.0f, 1.0f);
 
         ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-            player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b."), 30, 30, 30);
+            player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b."), 10, 20, 10);
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
             ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b.."), 30, 30, 30);
+                player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b.."), 10, 20, 10);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                 ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b..."), 30, 30, 30);
+                    player.sendTitle("", ChatUtil.fixColor("&aOtwieranie&b..."), 10, 20, 10);
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                     ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
@@ -74,142 +71,91 @@ public class ChestManager {
                         }
 
                         if(chance < 30){
-                            if(rareExp == 0){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a500 XP"));
-                                user.addExp(500);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(rareExp == 1){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a600 XP"));
-                                user.addExp(600);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(rareExp == 2){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a700 XP"));
-                                user.addExp(700);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(rareExp == 3){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a800 XP"));
-                                user.addExp(800);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(rareExp == 4){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a900 XP"));
-                                user.addExp(900);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(rareExp == 5){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1000 XP"));
-                                user.addExp(1000);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a500 XP"));
+                            user.addExp(500);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 29){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a600 XP"));
+                            user.addExp(600);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 28){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a700 XP"));
+                            user.addExp(700);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 27){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a800 XP"));
+                            user.addExp(800);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 26){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a900 XP"));
+                            user.addExp(900);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 25){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1000 XP"));
+                            user.addExp(1000);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
                         }
 
                         if(chance < 5){
-                            if(legendExp == 0){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1100 XP"));
-                                user.addExp(1100);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 1){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1200 XP"));
-                                user.addExp(1200);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 2){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1200 XP"));
-                                user.addExp(1200);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 3){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1300 XP"));
-                                user.addExp(1300);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 4){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1400 XP"));
-                                user.addExp(1400);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 5){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1500 XP"));
-                                user.addExp(1500);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 6){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1600 XP"));
-                                user.addExp(1100);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 7){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1700 XP"));
-                                user.addExp(1700);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 8){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1600 XP"));
-                                user.addExp(1600);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 9){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1700 XP"));
-                                user.addExp(1700);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 10){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1800 XP"));
-                                user.addExp(1800);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 11){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1900 XP"));
-                                user.addExp(1900);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
-                            if(legendExp == 12){
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a2000 XP"));
-                                user.addExp(2000);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                            }
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1600 XP"));
+                            user.addExp(1600);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 4){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1700 XP"));
+                            user.addExp(1700);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 3){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1800 XP"));
+                            user.addExp(1800);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 2){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1900 XP"));
+                            user.addExp(1900);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                        }
+
+                        if(chance < 1){
+                            player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
+                            player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a2000 XP"));
+                            user.addExp(2000);
+                            user.saveUser();
+                            player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
                         }
                     }, 20L);
                 }, 20L);
