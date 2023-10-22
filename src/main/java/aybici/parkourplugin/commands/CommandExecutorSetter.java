@@ -2,6 +2,7 @@ package aybici.parkourplugin.commands;
 
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.commands.apk.*;
+import aybici.parkourplugin.commands.holo.ParkourTopsCommand;
 import aybici.parkourplugin.commands.pklist.PrintAccessibleParkours;
 import aybici.parkourplugin.commands.pklist.PrintAllParkours;
 import aybici.parkourplugin.commands.pklist.PrintFinishedParkours;
@@ -30,6 +31,7 @@ public class CommandExecutorSetter {
         plugin.getCommand("playdemo").setExecutor(new PlayDemoCommand());
         plugin.getCommand("level").setExecutor(new LevelCommand());
         plugin.getCommand("startevent").setExecutor(new StartEventCommand());
+        plugin.getCommand("parkour-tops").setExecutor(new ParkourTopsCommand());
 
         SubcommandExecutor apkExecutor = new SubcommandExecutor("apk");
         SubcommandExecutor timesExecutor = new SubcommandExecutor("times");
