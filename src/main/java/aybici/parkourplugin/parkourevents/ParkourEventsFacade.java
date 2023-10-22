@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 public class ParkourEventsFacade implements Listener {
 
-    private static int standardDuration = 30*60; // 30 minutes
+    private static int standardDuration = 15*60; // 15 minutes
     private static int durationBetweenEvents = 30*60; // 30 minutes
     private static Parkour actualParkourInEvent = null;
 
