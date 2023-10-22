@@ -256,6 +256,9 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             }
         }
         bestPlayer.sendMessage(ChatColor.AQUA + ">" + ChatColor.GREEN+ "> "+ChatColor.AQUA+"Ustanowiłeś nowy rekord na mapie!");
+        User bestUser = UserManager.getUserByName(bestPlayer.getName());
+        bestUser.addWorldRecordsAmount(1);
+        bestUser.saveUser();
         String timeDifferenceString;
         if (previousBestTop != null) {
             timeDifferenceString = TopListDisplay.timeToString(previousBestTop.playerTime - playerTime);
