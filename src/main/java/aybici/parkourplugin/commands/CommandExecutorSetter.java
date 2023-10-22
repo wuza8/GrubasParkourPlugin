@@ -21,7 +21,6 @@ public class CommandExecutorSetter {
         plugin.getCommand("fails").setExecutor(new FailsCommand());
         plugin.getCommand("event").setExecutor(new EventCommand());
         plugin.getCommand("hide").setExecutor(new HideCommand());
-        plugin.getCommand("flute").setExecutor(new FluteCommand());
         plugin.getCommand("ping").setExecutor(new PingCommand());
         plugin.getCommand("lobby").setExecutor(new LobbyCommand());
         plugin.getCommand("pkquit").setExecutor(new PkQuitCommand());
