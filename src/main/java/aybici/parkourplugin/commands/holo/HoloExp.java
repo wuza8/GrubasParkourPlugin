@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 public class HoloExp {
 
-    public static void placeHoloExp(Location location){
+    public static void placeHoloExp(Location location) {
         Map<String, Integer> playersMap = new HashMap<>();
         FileConfiguration configFile = UserFile.levelFile.getData();
-        for(String line : configFile.getConfigurationSection("Users").getKeys(false)){
+        for (String line : configFile.getConfigurationSection("Users").getKeys(false)) {
             int number = configFile.getInt("Users." + line + ".Exp");
             playersMap.put(line, number);
         }
@@ -28,31 +28,35 @@ public class HoloExp {
                     }
                 })).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         Hologram hologram = HolographicDisplaysAPI.get(ParkourPlugin.getInstance()).createHologram(location);
-        hologram.getLines().appendText(ChatUtil.fixColor("&b=-= &a&lTop 10 EXP &b=-="));
+        hologram.getLines().appendText(ChatUtil.fixColor("&b=-= &a&lTop 10 XP &b=-="));
         List<String> listLine = new ArrayList<>();
         int index = 0;
-        try{
-            for(int i = 0; i < 11; i++){
+        try {
+            for (int i = 0; i < 11; i++) {
                 Integer punkty = (Integer) posortowanaMapaGraczy.values().toArray()[i];
                 String playerLine = (String) posortowanaMapaGraczy.keySet().toArray()[i];
-                if(index == 0){
-                    listLine.add(ChatUtil.fixColor("&f1. &a" + playerLine + " &f- &b" + punkty));
+                if (index == 0) {
+                    listLine.add("§b" + playerLine + " §f- §a" + punkty + "XP");
                     index++;
                     continue;
                 }
                 index++;
-                listLine.add(ChatUtil.fixColor("&f" + index + ". &a" + playerLine + " &f- &b" + punkty));
+                listLine.add("§b" + playerLine + " §f- §a" + punkty + "XP");
             }
-        } catch (Exception e){
+        } catch (Exception ex) {
             index++;
-            listLine.add(ChatUtil.fixColor("&f" + index + ". &aBrak danych"));
+            listLine.add(ChatUtil.fixColor("&cBrak danych"));
         } finally {
             int pozostalo = 11 - index;
             index++;
-            for(int i = 0; i < pozostalo - 1; ++i){
+            for (int i = 0; i < pozostalo - 1; i++) {
                 int to = index++;
-                listLine.add(ChatUtil.fixColor("&f" + to + ". &aBrak danych"));
+                listLine.add(ChatUtil.fixColor("&cBrak danych"));
             }
+        }
+
+        for (int i = 0; i < listLine.size(); i++) {
+            hologram.getLines().appendText(ChatUtil.fixColor(listLine.get(i)));
         }
 
         ParkourPlugin.hologramExp = hologram;
