@@ -59,6 +59,6 @@ public class HoloWorldRecords {
             hologram.getLines().appendText(ChatUtil.fixColor(listLine.get(i)));
         }
 
-        ParkourPlugin.hologramLevel = hologram;
+        ParkourPlugin.hologramWorldRecords = hologram;
     }
 }

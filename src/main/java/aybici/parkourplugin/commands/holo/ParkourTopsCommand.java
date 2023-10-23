@@ -13,7 +13,7 @@ public class ParkourTopsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender.hasPermission("parkour.holograms.setting"))
+        if(!sender.hasPermission("parkour.holograms.setting"))
             return true;
         if(args.length == 1){
             if(args[0].equalsIgnoreCase("1")){
