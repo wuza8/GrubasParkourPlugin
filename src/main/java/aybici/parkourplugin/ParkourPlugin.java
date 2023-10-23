@@ -83,9 +83,6 @@ public class ParkourPlugin extends JavaPlugin {
         chestLocationFile = new File(getDataFolder(), "chest-location.yml");
         chestLocationConfig = YamlConfiguration.loadConfiguration(chestLocationFile);
 
-        hologramsLocationFile = new File(getDataFolder(), "holograms-location.yml");
-        hologramsLocationConfig = YamlConfiguration.loadConfiguration(hologramsLocationFile);
-
         saveDefaultConfig();
 
         if(getConfig().getString("hologramLevel") == null || getConfig().getString("hologramExp") == null || getConfig().getString("hologramWorldRecords") == null) {
