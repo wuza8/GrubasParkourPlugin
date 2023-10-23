@@ -140,29 +140,7 @@ public class PlayerAndEnvironmentListener implements Listener {
             event.setCancelled(true);
         }
     }
-    @EventHandler
-    public void onBanningSomeone(PlayerCommandPreprocessEvent event){
-        if (event.getMessage().contains("ban ") || event.getMessage().contains("banip ") || event.getMessage().contains("ban-ip ")){
-            event.setCancelled(true);
-            event.getPlayer().sendMessage("Użyj /jail player wiezienie 10m");
-        }
 
-    }
-    @EventHandler
-    public void onBanningSomeoneConsole(ServerCommandEvent event){
-        if (event.getCommand().contains("ban ") || event.getCommand().contains("banip ") || event.getCommand().contains("ban-ip ")) {
-            event.setCancelled(true);
-            event.getSender().sendMessage("Użyj /jail player wiezienie 10m");
-        }
-    }
-    @EventHandler
-    public void onWhitelist(PlayerCommandPreprocessEvent event){
-        if (event.getMessage().contains("whitelist on")){
-            event.setCancelled(true);
-            event.getPlayer().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
-        }
-
-    }
     @EventHandler
     public void onMsgMuted(PlayerCommandPreprocessEvent event){
         String command = event.getMessage();
@@ -175,13 +153,7 @@ public class PlayerAndEnvironmentListener implements Listener {
             event.setCancelled(true);
         }
     }
-    @EventHandler
-    public void onWhitelistConsole(ServerCommandEvent event){
-        if (event.getCommand().contains("whitelist on")) {
-            event.setCancelled(true);
-            event.getSender().sendMessage("Kazdy ma prawo grac, wl musi byc wylaczona");
-        }
-    }
+
     @EventHandler
     public void ongamemodechange(PlayerGameModeChangeEvent event){
         if (!event.getPlayer().hasPermission(ParkourPlugin.permissionSet.buildPermission)){

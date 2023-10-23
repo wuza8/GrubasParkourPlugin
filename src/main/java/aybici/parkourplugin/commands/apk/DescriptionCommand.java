@@ -7,6 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class DescriptionCommand extends AdminParkourCommand implements CommandExecutor {
 
@@ -14,7 +16,8 @@ public class DescriptionCommand extends AdminParkourCommand implements CommandEx
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
-        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission)) return true;
+        if (!SenderHasPermission(sender, ParkourPlugin.permissionSet.configureParkourPermission) &&
+                !SenderHasPermission(sender, new Permission("apk_description", PermissionDefault.OP))) return true;
         if (!isPlayerOnParkour(player)) return true;
         ParkourSession session = ParkourPlugin.parkourSessionSet.getSession(player);
         Parkour parkour = session.getParkour();
