@@ -1,6 +1,7 @@
 package aybici.parkourplugin.listeners;
 
 import aybici.parkourplugin.builders.ItemBuilder;
+import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import aybici.parkourplugin.utils.TabUtil;
@@ -20,6 +21,8 @@ public class JoinListener implements Listener {
         if (!UserManager.containsUser(player.getName()))
             UserManager.createUser(player.getName());
         TabUtil.refreshAllPlayersTab();
+
+        ParkourEventsFacade.displayBossBarToPlayer(player);
     }
 
     public static void setItems(Player player){

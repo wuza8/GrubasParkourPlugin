@@ -113,6 +113,8 @@ public class ParkourPlugin extends JavaPlugin {
 
         Announcmenter.run();
 
+        ParkourEventsFacade.startBossBarTask();
+
         this.getCommand("chest").setExecutor(new ChestCommand());
         this.getCommand("dajklucz").setExecutor(new KeyCommand());
     }

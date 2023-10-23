@@ -5,10 +5,14 @@ import aybici.parkourplugin.events.PlayerEndsParkourEvent;
 import aybici.parkourplugin.parkours.Parkour;
 import aybici.parkourplugin.parkours.ParkourCategoryFacade;
 import aybici.parkourplugin.sessions.ParkourSession;
+import aybici.parkourplugin.utils.ChatUtil;
 import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,6 +46,9 @@ public class ParkourEventsFacade implements Listener {
     private static BukkitTask autoEventTask = null;
     private static BukkitTask eventStopTask = null;
 
+    public static BossBar activeEvent = Bukkit.createBossBar("", BarColor.GREEN, BarStyle.SOLID);
+    public static BossBar waitingForEvent = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
+
     private static List<BukkitTask> bukkitAnnouncementTasks = new ArrayList<>();
 
     public static void init(){
@@ -53,6 +60,34 @@ public class ParkourEventsFacade implements Listener {
             updateScoreboard();
             TabUtil.refreshAllPlayersTab();
         },0, 20*20);
+    }
+
+    public static void displayBossBarToPlayer(Player player){
+        if(isAutoEventOn()){
+            activeEvent.addPlayer(player);
+            waitingForEvent.removePlayer(player);
+        } else{
+            waitingForEvent.addPlayer(player);
+            activeEvent.removePlayer(player);
+        }
+    }
+
+    public static void updateBossBar(){
+        if(isAutoEventOn()){
+            activeEvent.setProgress(1.0);
+            activeEvent.setTitle(ChatUtil.fixColor("&bTrwa event na mapie: &a" + actualParkourEvent.getEventName()));
+        } else{
+            waitingForEvent.setProgress(1.0);
+            if(getNextEventTimeInMinutes() != 0){
+                waitingForEvent.setTitle(ChatUtil.fixColor("&bNastępny event za: &a" + getNextEventTimeInMinutes() + "min."));
+            } else{
+                waitingForEvent.setTitle(ChatUtil.fixColor("&bNastępny event za: &amniej niż minute!"));
+            }
+        }
+    }
+
+    public static void startBossBarTask(){
+        Bukkit.getScheduler().runTaskTimer(ParkourPlugin.getInstance(), () -> updateBossBar(), 20L, 20L);
     }
 
     public static void startEvent(){
