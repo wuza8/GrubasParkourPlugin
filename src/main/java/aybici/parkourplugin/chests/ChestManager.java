@@ -4,8 +4,12 @@ import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Sound;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.Random;
 
@@ -169,6 +173,19 @@ public class ChestManager {
         user.addKeys(1);
         user.saveUser();
         player.sendMessage(ChatUtil.fixColor("&bZdobyłeś klucz!"));
+
+        Firework f = (Firework) player.getWorld().spawn(player.getLocation(), Firework.class);
+        FireworkMeta fm = f.getFireworkMeta();
+        fm.addEffect(FireworkEffect
+                .builder()
+                .flicker(true)
+                .trail(false)
+                .with(FireworkEffect.Type.STAR)
+                .withColor(Color.AQUA)
+                .withFade(Color.GREEN)
+                .build());
+        fm.setPower(0);
+        f.setFireworkMeta(fm);
     }
 }
 
