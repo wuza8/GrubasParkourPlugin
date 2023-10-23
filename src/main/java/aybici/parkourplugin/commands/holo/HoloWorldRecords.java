@@ -11,13 +11,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HoloLevel {
+public class HoloWorldRecords {
 
     public static void placeHoloExp(Location location){
         Map<String, Integer> playersMap = new HashMap<>();
         FileConfiguration configFile = UserFile.levelFile.getData();
         for(String line : configFile.getConfigurationSection("Users").getKeys(false)){
-            int number = configFile.getInt("Users." + line + ".Level");
+            int number = configFile.getInt("Users." + line + ".WorldRecords");
             playersMap.put(line, number);
         }
         Map<String, Integer> posortowanaMapaGraczy = playersMap.entrySet().stream()
@@ -28,12 +28,12 @@ public class HoloLevel {
                     }
                 })).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         Hologram hologram = HolographicDisplaysAPI.get(ParkourPlugin.getInstance()).createHologram(location);
-        hologram.getLines().appendText(ChatUtil.fixColor("&b=-= &a&lTop 10 Poziomów &b=-="));
+        hologram.getLines().appendText(ChatUtil.fixColor("&b=-= &a&lTop 10 World Recordów (Łącznie) &b=-="));
         List<String> listLine = new ArrayList<>();
         int index = 0;
         try{
             for(int i = 0; i < 11; i++){
-                int punkty = (int) posortowanaMapaGraczy.values().toArray()[i];
+                Integer punkty = (Integer) posortowanaMapaGraczy.values().toArray()[i];
                 String playerLine = (String) posortowanaMapaGraczy.keySet().toArray()[i];
                 if(index == 0){
                     listLine.add(ChatUtil.fixColor("&f1. &a" + playerLine + " &f- &b" + punkty));
