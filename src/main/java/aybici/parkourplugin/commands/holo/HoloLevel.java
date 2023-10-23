@@ -33,7 +33,7 @@ public class HoloLevel {
         int index = 0;
         try{
             for(int i = 0; i < 11; i++){
-                int punkty = (int) posortowanaMapaGraczy.values().toArray()[i];
+                Integer punkty = (Integer) posortowanaMapaGraczy.values().toArray()[i];
                 String playerLine = (String) posortowanaMapaGraczy.keySet().toArray()[i];
                 if(index == 0){
                     listLine.add(ChatUtil.fixColor("&f1. &a" + playerLine + " &f- &b" + punkty));
