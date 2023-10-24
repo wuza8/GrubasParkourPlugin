@@ -14,14 +14,17 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class ChestManager {
 
+    public static HashMap<Player, Long> cooldown = new HashMap<>();
+
     public static void openChest(Player player){
         User user = UserManager.getUserByName(player.getName());
 
-        int chance = new Random().nextInt(15);
+        int chance = new Random().nextInt(10);
 
         Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botwiera skrzynię!"));
 
@@ -85,7 +88,7 @@ public class ChestManager {
                                 user.addExp(500);
                                 user.saveUser();
                                 player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&>b&a> &bGracz &a" + player.getName() + " &botrzymał: &a500 XP"));
+                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a500 XP"));
                                 break;
 
                             case 5:
@@ -131,51 +134,6 @@ public class ChestManager {
                                 user.saveUser();
                                 player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
                                 Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a1000 XP"));
-                                break;
-
-                            case 10:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1600 XP"));
-                                user.addExp(1600);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a1600 XP"));
-                                break;
-
-                            case 11:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1700 XP"));
-                                user.addExp(1700);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a1700 XP"));
-                                break;
-
-                            case 12:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1800 XP"));
-                                user.addExp(1800);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a1800 XP"));
-                                break;
-
-                            case 13:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1900 XP"));
-                                user.addExp(1900);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a1900 XP"));
-                                break;
-
-                            case 14:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &6legendarna"));
-                                player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a2000 XP"));
-                                user.addExp(2000);
-                                user.saveUser();
-                                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                                Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botrzymał: &a2000 XP"));
                                 break;
                         }
                     }, 20L);

@@ -14,7 +14,10 @@ public class UserFile {
                 return;
             User user = UserManager.createUser(string);
             user.setExp(levelFile.getData().getInt("Users." + string + ".Exp"));
+            user.setLevel(UserManager.getLevelOfExp(user.getExp()));
             user.setCheater(levelFile.getData().getBoolean("Users." + string + ".Cheater"));
+            user.setKeys(levelFile.getData().getInt("Users." + string + ".Keys"));
+            user.setWorldRecordsAmount(levelFile.getData().getInt("Users." + string + ".WorldRecords"));
         }
     }
 }

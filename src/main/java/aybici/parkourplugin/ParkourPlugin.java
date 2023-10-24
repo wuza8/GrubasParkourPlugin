@@ -4,7 +4,6 @@ import aybici.parkourplugin.blockabovereader.UnderPlayerBlockWatcher;
 import aybici.parkourplugin.commands.*;
 import aybici.parkourplugin.commands.holo.HoloExp;
 import aybici.parkourplugin.commands.holo.HoloLevel;
-import aybici.parkourplugin.commands.holo.HoloWorldRecords;
 import aybici.parkourplugin.commands.holo.ParkourTopsCommand;
 import aybici.parkourplugin.events.PlayerAndEnvironmentListener;
 import aybici.parkourplugin.hiddens.HiddenParkourFacade;
@@ -17,14 +16,12 @@ import aybici.parkourplugin.sessions.PositionSaver;
 import aybici.parkourplugin.usableblocks.UndergroundSignsFacade;
 import aybici.parkourplugin.usableblocks.UsableBlocksFacade;
 import aybici.parkourplugin.users.UserFile;
-import aybici.parkourplugin.utils.ChatUtil;
 import com.earth2me.essentials.Essentials;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
@@ -78,14 +75,19 @@ public class ParkourPlugin extends JavaPlugin {
         lobby.loadLobbyLocation(lobby.directory);
         lobby.runTeleportToLobbyAllTask();
         CommandExecutorSetter.setExecutors(this);
+
+        this.getCommand("chest").setExecutor(new ChestCommand());
+        this.getCommand("dajklucz").setExecutor(new KeyCommand());
+        this.getCommand("parkour-tops").setExecutor(new ParkourTopsCommand());
         registerListeners();
 
         chestLocationFile = new File(getDataFolder(), "chest-location.yml");
         chestLocationConfig = YamlConfiguration.loadConfiguration(chestLocationFile);
 
+
         saveDefaultConfig();
 
-        if(getConfig().getString("hologramLevel") == null || getConfig().getString("hologramExp") == null || getConfig().getString("hologramWorldRecords") == null) {
+        if(getConfig().getString("hologramLevel") == null || getConfig().getString("hologramExp") == null) {
             return;
         } else{
             Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
@@ -102,18 +104,11 @@ public class ParkourPlugin extends JavaPlugin {
                     HoloExp.placeHoloExp(ParkourTopsCommand.stringToLocation(getConfig().getString("hologramExp")));
                 }
             }, 10 * 20, 10 * 20);
-            Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
-                @Override
-                public void run() {
-                    if(hologramWorldRecords != null) hologramWorldRecords.delete();
-                    HoloWorldRecords.placeHoloExp(ParkourTopsCommand.stringToLocation(getConfig().getString("hologramWorldRecords")));
-                }
-            }, 10 * 20, 10 * 20);
         }
 
         Announcmenter.run(this);
 
-        ParkourEventsFacade.startBossBarTask();
+        //ParkourEventsFacade.startBossBarTask();
     }
 
     public void onDisable(){

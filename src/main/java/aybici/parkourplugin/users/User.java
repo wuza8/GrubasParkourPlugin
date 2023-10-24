@@ -6,6 +6,7 @@ public class User {
     private boolean isCheater;
     private int keys;
     private int worldRecords;
+    private int level;
 
     public User(final String name){
         this.nick = name;
@@ -19,6 +20,10 @@ public class User {
 
     public int getLevel(){
         return UserManager.getLevelOfExp(getExp());
+    }
+
+    public void setLevel(int level){
+        UserManager.getLevelOfExp(getExp());
     }
 
     public void setCheater(boolean value){
@@ -44,6 +49,8 @@ public class User {
     public int getKeys(){
         return keys;
     }
+
+    public void setKeys(int keys ) { this.keys = keys;}
 
     public void addKeys(int keys){
         this.keys += keys;
@@ -71,6 +78,7 @@ public class User {
 
     public void saveUser(){
         UserFile.levelFile.getData().set("Users." + nick + ".Exp", getExp());
+        UserFile.levelFile.getData().set("Users." + nick + ".Level", getLevel());
         UserFile.levelFile.getData().set("Users." + nick + ".Cheater", isCheater);
         UserFile.levelFile.getData().set("Users." + nick + ".Keys", getKeys());
         UserFile.levelFile.getData().set("Users." + nick + ".WorldRecords", getWorldRecordsAmount());

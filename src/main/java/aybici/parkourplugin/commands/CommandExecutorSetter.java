@@ -31,9 +31,6 @@ public class CommandExecutorSetter {
         plugin.getCommand("playdemo").setExecutor(new PlayDemoCommand());
         plugin.getCommand("level").setExecutor(new LevelCommand());
         plugin.getCommand("startevent").setExecutor(new StartEventCommand());
-        plugin.getCommand("parkour-tops").setExecutor(new ParkourTopsCommand());
-        plugin.getCommand("chest").setExecutor(new ChestCommand());
-        plugin.getCommand("dajklucz").setExecutor(new KeyCommand());
 
         SubcommandExecutor apkExecutor = new SubcommandExecutor("apk");
         SubcommandExecutor timesExecutor = new SubcommandExecutor("times");

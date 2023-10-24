@@ -23,8 +23,6 @@ public class KeyCommand implements CommandExecutor {
             Player argPlayer = Bukkit.getPlayer(args[0]);
             User argUser = UserManager.getUserByName(argPlayer.getName());
 
-            if(argPlayer == null) return true;
-
             argUser.addKeys(1);
             argUser.saveUser();
 

@@ -28,18 +28,12 @@ public class ParkourTopsCommand implements CommandExecutor {
                 player.sendMessage(ChatUtil.fixColor("&b>&a> &bUstawiono hologram"));
                 ParkourPlugin.getInstance().getConfig().set("hologramLevel", locationToString(whereToPut));
                 ParkourPlugin.getInstance().saveConfig();
-            } else if(args[0].equalsIgnoreCase("3")){
-                Player player = (Player) sender;
-                Location whereToPut = player.getLocation().add(0.0, 1.0, 0.0);
-                player.sendMessage(ChatUtil.fixColor("&b>&a> &bUstawiono hologram"));
-                ParkourPlugin.getInstance().getConfig().set("hologramWorldRecords", locationToString(whereToPut));
-                ParkourPlugin.getInstance().saveConfig();
             } else {
-                sender.sendMessage(ChatUtil.fixColor("&b>&a> &bPoprawne użycie: &a/hologram &b(&a1&b/&a2&b/&a3&b)"));
+                sender.sendMessage(ChatUtil.fixColor("&b>&a> &bPoprawne użycie: &a/hologram &b(&a1&b/&a2&b)"));
                 return true;
             }
         } else if(args.length > 1) {
-            sender.sendMessage(ChatUtil.fixColor("&b>&a> &bPoprawne użycie: &a/hologram &b(&a1&b/&a2&b/&a3&b)"));
+            sender.sendMessage(ChatUtil.fixColor("&b>&a> &bPoprawne użycie: &a/hologram &b(&a1&b/&a2&b)"));
             return true;
         }
         return false;

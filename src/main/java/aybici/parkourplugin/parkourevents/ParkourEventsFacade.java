@@ -62,7 +62,7 @@ public class ParkourEventsFacade implements Listener {
         },0, 20*20);
     }
 
-    public static void displayBossBarToPlayer(Player player){
+    /*public static void displayBossBarToPlayer(Player player){
         if(isAutoEventOn()){
             activeEvent.addPlayer(player);
             waitingForEvent.removePlayer(player);
@@ -88,7 +88,7 @@ public class ParkourEventsFacade implements Listener {
 
     public static void startBossBarTask(){
         Bukkit.getScheduler().runTaskTimer(ParkourPlugin.getInstance(), () -> updateBossBar(), 20L, 20L);
-    }
+    }*/
 
     public static void startEvent(){
         List<Parkour> eventMaps = ParkourPlugin.parkourSet.getAllMapsOfCategory(ParkourCategoryFacade.get("EVENT"));

@@ -1,7 +1,9 @@
 package aybici.parkourplugin.commands.holo;
 
 import aybici.parkourplugin.ParkourPlugin;
+import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserFile;
+import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import me.filoghost.holographicdisplays.api.HolographicDisplaysAPI;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
@@ -17,7 +19,8 @@ public class HoloLevel {
         Map<String, Integer> playersMap = new HashMap<>();
         FileConfiguration configFile = UserFile.levelFile.getData();
         for (String line : configFile.getConfigurationSection("Users").getKeys(false)) {
-            int number = configFile.getInt("Users." + line + ".Level");
+            User user = UserManager.getUserByName(line);
+            int number = user.getLevel();
             playersMap.put(line, number);
         }
         Map<String, Integer> posortowanaMapaGraczy = playersMap.entrySet().stream()

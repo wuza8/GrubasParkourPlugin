@@ -16,9 +16,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class ChestListener implements Listener {
+
+    public static HashMap<Player, Long> cooldown = new HashMap<>();
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent event){
@@ -48,11 +51,27 @@ public class ChestListener implements Listener {
             return;
         }
 
-        user.removeKeys(1);
-        user.saveUser();
+        if(cooldown.containsKey(player)){
+            if(cooldown.get(player) > System.currentTimeMillis()){
+                player.sendMessage(ChatUtil.fixColor("&b>&a> &bMusisz poczekać &a5 &bsekund, aby otworzyć następną skrzynie"));
+                event.setCancelled(true);
+            } else{
+                user.removeKeys(1);
+                user.saveUser();
 
-        event.setCancelled(true);
+                event.setCancelled(true);
 
-        ChestManager.openChest(player);
+                ChestManager.openChest(player);
+                cooldown.put(player, System.currentTimeMillis() + 5000);
+            }
+        } else{
+            user.removeKeys(1);
+            user.saveUser();
+
+            event.setCancelled(true);
+
+            ChestManager.openChest(player);
+            cooldown.put(player, System.currentTimeMillis() + 5000);
+        }
     }
 }

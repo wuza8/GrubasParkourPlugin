@@ -190,7 +190,7 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             Random random = new Random();
             int chance = random.nextInt(100);
 
-            if(chance < 10){
+            if(chance < 4){
                 ChestManager.addKeyAfterPlayerFinishedParkour(player, 1);
             }
 

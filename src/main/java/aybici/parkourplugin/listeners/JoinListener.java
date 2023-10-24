@@ -22,7 +22,7 @@ public class JoinListener implements Listener {
             UserManager.createUser(player.getName());
         TabUtil.refreshAllPlayersTab();
 
-        ParkourEventsFacade.displayBossBarToPlayer(player);
+        //ParkourEventsFacade.displayBossBarToPlayer(player);
     }
 
     public static void setItems(Player player){
