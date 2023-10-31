@@ -40,7 +40,7 @@ public class ChestManager {
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                 ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    player.sendTitle("", ChatUtil.fixColor("&bOtwieranie&a.."), 5, 30, 30);
+                    player.sendTitle("", ChatUtil.fixColor("&bOtwieranie&a..."), 5, 30, 30);
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                     ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
