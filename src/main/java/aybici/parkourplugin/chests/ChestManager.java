@@ -28,26 +28,26 @@ public class ChestManager {
 
         Bukkit.broadcastMessage(ChatUtil.fixColor("&b>&a> &bGracz &a" + player.getName() + " &botwiera skrzynię!"));
 
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatUtil.fixColor("&aOtwieranie&b")));
+        player.sendTitle("", ChatUtil.fixColor("&bOtwieranie"), 5, 30, 30);
         player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1.0f, 1.0f);
 
         ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatUtil.fixColor("&aOtwieranie&b.")));
+            player.sendTitle("", ChatUtil.fixColor("&bOtwieranie&a."), 5, 30, 30);
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
             ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatUtil.fixColor("&aOtwieranie&b.")));
+                player.sendTitle("", ChatUtil.fixColor("&bOtwieranie&a.."), 5, 30, 30);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                 ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatUtil.fixColor("&aOtwieranie&b.")));
+                    player.sendTitle("", ChatUtil.fixColor("&bOtwieranie&a.."), 5, 30, 30);
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
                     ParkourPlugin.getInstance().getServer().getScheduler().runTaskLater(ParkourPlugin.getInstance(), () -> {
 
                         switch(chance){
                             case 0:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a100 XP"));
                                 user.addExp(100);
                                 user.saveUser();
@@ -56,7 +56,7 @@ public class ChestManager {
                                 break;
 
                             case 1:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a200 XP"));
                                 user.addExp(200);
                                 user.saveUser();
@@ -65,7 +65,7 @@ public class ChestManager {
                                 break;
 
                             case 2:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a300 XP"));
                                 user.addExp(300);
                                 user.saveUser();
@@ -74,7 +74,7 @@ public class ChestManager {
                                 break;
 
                             case 3:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &7zwykła"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a400 XP"));
                                 user.addExp(400);
                                 user.saveUser();
@@ -83,7 +83,7 @@ public class ChestManager {
                                 break;
 
                             case 4:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a500 XP"));
                                 user.addExp(500);
                                 user.saveUser();
@@ -92,7 +92,7 @@ public class ChestManager {
                                 break;
 
                             case 5:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a600 XP"));
                                 user.addExp(600);
                                 user.saveUser();
@@ -101,7 +101,7 @@ public class ChestManager {
                                 break;
 
                             case 6:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a700 XP"));
                                 user.addExp(700);
                                 user.saveUser();
@@ -110,7 +110,7 @@ public class ChestManager {
                                 break;
 
                             case 7:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a800 XP"));
                                 user.addExp(800);
                                 user.saveUser();
@@ -119,7 +119,7 @@ public class ChestManager {
                                 break;
 
                             case 8:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a900 XP"));
                                 user.addExp(900);
                                 user.saveUser();
@@ -128,7 +128,7 @@ public class ChestManager {
                                 break;
 
                             case 9:
-                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 30, 30, 30);
+                                player.sendTitle("", ChatUtil.fixColor("&bNagroda: &9rzadka"), 5, 30, 30);
                                 player.sendMessage(ChatUtil.fixColor("&b>&a> &aNagroda: &a1000 XP"));
                                 user.addExp(1000);
                                 user.saveUser();

@@ -41,19 +41,6 @@ public class PkatCommand implements CommandExecutor {
 
         Parkour parkour = ParkourPlugin.parkourSessionSet.getSession(searchedPlayer).getParkour();
 
-        if(parkour == null){
-            if(PositionSaver.isPlayerWatching(searchedPlayer)){
-                parkour = PositionSaver.getWatchingParkour(player);
-                if(parkour == null) {
-                    player.sendMessage("This player is watching unknown parkour");
-                    return true;
-                }
-            }else {
-                player.sendMessage("This player doesn't play any parkour!");
-                return true;
-            }
-        }
-
         ParkourPlugin.parkourSessionSet.teleportToParkour(player, parkour.getName());
         return true;
     }

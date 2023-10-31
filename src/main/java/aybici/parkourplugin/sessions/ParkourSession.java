@@ -10,6 +10,7 @@ import aybici.parkourplugin.parkours.*;
 import aybici.parkourplugin.parkours.fails.Fail;
 import aybici.parkourplugin.users.User;
 import aybici.parkourplugin.users.UserManager;
+import aybici.parkourplugin.utils.ChatUtil;
 import aybici.parkourplugin.utils.TabUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -190,8 +191,12 @@ public class ParkourSession implements OnNewBlockPlayerStandObserver {
             Random random = new Random();
             int chance = random.nextInt(100);
 
-            if(chance < 4){
-                ChestManager.addKeyAfterPlayerFinishedParkour(player, 1);
+            if (!parkourPlayerOn.getCategory().getName().equals("COMMUNITY")) {
+                if(chance < 1){
+                    ChestManager.addKeyAfterPlayerFinishedParkour(player, 1);
+                }
+            } else{
+                player.sendMessage(ChatUtil.fixColor("&b>&a> &bNie da rady na community ;)"));
             }
 
             teleportTo(parkourPlayerOn);

@@ -84,7 +84,7 @@ class WhoFirstIsWinner implements ParkourEvent{
             objective.getScore(ChatColor.GRAY+ "udało się przejść.").setScore(-2);
         }
         int i=0;
-        for(EventTops t : topLines){
+        for (EventTops t : topLines) {
             i++;
             if(i>10) break;
 
