@@ -3,6 +3,7 @@ package aybici.parkourplugin.commands;
 import aybici.parkourplugin.ParkourPlugin;
 import aybici.parkourplugin.blockabovereader.SpecialBlockFinder;
 import aybici.parkourplugin.sessions.ParkourSession;
+import aybici.parkourplugin.utils.ChatUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -22,7 +23,7 @@ public class CheckpointCommand extends OnParkourCommand implements CommandExecut
         Set<Material> collidedBlocks = SpecialBlockFinder.getCollidingBlockMaterials(player.getLocation());
 
         if(collidedBlocks.size() == 1 && collidedBlocks.contains(Material.AIR)) {
-            player.sendMessage(ChatColor.RED+"Musisz stać na bloku, aby ustawić checkpoint!");
+            player.sendMessage(ChatUtil.fixColor("&b>&a> &bMusisz stać na bloku, aby ustawić checkpoint!"));
             return true;
         }
 

@@ -18,7 +18,7 @@ public class Announcmenter {
 
     public static void run(ParkourPlugin plugin){
         TextComponent message1 = new TextComponent(ChatColor.AQUA+ ">"+ ChatColor.GREEN + "> "+ ChatColor.WHITE + "Zakup usługę "+ ChatColor.YELLOW + "VipMan "+ ChatColor.WHITE + "na naszym sklepie już teraz! Wszystkie dodatkowe przywileje możesz sprawdzić na naszej stronie: "+ ChatColor.YELLOW + ChatColor.UNDERLINE + "http://itemshop.pl/842866.html");
-        message1.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "http://itemshop.pl/842866.html" ) );
+        message1.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "http://itemshop.pl/898934.html" ) );
 
         TextComponent message2 = new TextComponent(ChatColor.AQUA+ ">"+ ChatColor.GREEN + "> "+ ChatColor.WHITE + "Wejdź na naszego "+ ChatColor.BLUE + "discorda"+ ChatColor.WHITE + ", aby być na bieżąco - "+ ChatColor.BLUE + ChatColor.UNDERLINE + "https://discord.gg/AAAkcX3zae");
         message2.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://discord.gg/AAAkcX3zae" ) );

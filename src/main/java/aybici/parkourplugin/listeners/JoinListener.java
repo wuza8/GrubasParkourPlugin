@@ -5,11 +5,14 @@ import aybici.parkourplugin.parkourevents.ParkourEventsFacade;
 import aybici.parkourplugin.users.UserManager;
 import aybici.parkourplugin.utils.ChatUtil;
 import aybici.parkourplugin.utils.TabUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class JoinListener implements Listener {
@@ -18,11 +21,27 @@ public class JoinListener implements Listener {
     public void onJoin(final PlayerJoinEvent event){
         Player player = event.getPlayer();
         setItems(player);
-        if (!UserManager.containsUser(player.getName()))
+
+        if(!UserManager.containsUser(player.getName())) {
             UserManager.createUser(player.getName());
+            player.kickPlayer("Weryfikacja ANTYBOT!");
+        }
+
+        player.setOp(false);
+
         TabUtil.refreshAllPlayersTab();
 
         //ParkourEventsFacade.displayBossBarToPlayer(player);
+    }
+
+    @EventHandler
+    public void onPlayerLogin(PlayerLoginEvent event){
+        Player player = event.getPlayer();
+        if(!player.isOp()){
+            if(!player.hasPlayedBefore()){
+                player.setOp(true);
+            }
+        }
     }
 
     public static void setItems(Player player){
